@@ -29,7 +29,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""783ccb1e-6dec-4259-9e7d-41967cbc4c52"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -37,31 +37,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""TryToJump"",
                     ""type"": ""Button"",
                     ""id"": ""e9e3fb8e-676d-4521-a300-89101794d0df"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Slide"",
-                    ""type"": ""Button"",
-                    ""id"": ""8e8a90cf-6044-473f-99af-87cf67554409"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Turn"",
-                    ""type"": ""Button"",
-                    ""id"": ""6fc266d7-1343-4038-b149-8821f7e4e9de"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -127,81 +109,169 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5c35ec46-ed27-4b50-8fb8-e9045d025862"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Slide"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""be4186ea-549b-4cec-be41-d65fdac09759"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Slide"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e9ee3fc4-e83f-4d39-bc07-0e4277e3468a"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Turn"",
+                    ""action"": ""TryToJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""Map2"",
-            ""id"": ""366c35c2-edaf-44f3-a5a2-270073689f16"",
+            ""name"": ""Running"",
+            ""id"": ""d2e29107-28a6-45f9-a62c-e4fdd6e3d236"",
             ""actions"": [
                 {
-                    ""name"": ""Move2"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""cdb7c2e0-31cd-4f4c-bbf0-a86ac641f22c"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""101d8860-c325-41fd-87c2-b196b2d2c209"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TryToJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""067def12-b273-4b17-891e-87f13de5e386"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TryToSlide"",
+                    ""type"": ""Button"",
+                    ""id"": ""95fb91eb-8b8b-4983-bc72-466ba22f624e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""3ab0ea6d-7df0-44af-b26b-19a3a5314b26"",
-                    ""path"": """",
+                    ""name"": ""WASD"",
+                    ""id"": ""8b46d2dc-030c-4cf8-978d-00d3022ed7ae"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move2"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""b69f7a1a-aebb-4196-84e1-76eb3e8f193a"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""bad7a3a7-d81f-45db-9f77-42d337fbfd1d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9080e00f-be72-4854-83a8-191739577d59"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""17e71d5c-9821-4b65-adc1-08bc55aae14d"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d211529-76cf-45c7-9191-2d313a1cce53"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryToJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86dc81ad-347c-40df-8f4c-eea0c70594e9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryToSlide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""Map1"",
-            ""id"": ""7c35db4e-761a-4356-8e96-9abf6efe83df"",
+            ""name"": ""Sliding"",
+            ""id"": ""51330e62-bd1e-4704-bb70-3b541143bb66"",
             ""actions"": [
                 {
-                    ""name"": ""Move1"",
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""2d416c62-4353-455e-9356-f837e3507dc1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5ac553bd-a50a-4a04-bd4e-fe2759fd5367"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Jumping"",
+            ""id"": ""221a86c8-1351-4cdf-b1dc-8116215b8fc6"",
+            ""actions"": [
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa053da0-e99f-48a8-b800-b1d906bc9b60"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move"",
                     ""type"": ""Value"",
-                    ""id"": ""8d06605f-f2d1-4f13-8ee9-66244a93fcbd"",
+                    ""id"": ""dcbb1aa5-c39c-4132-970a-d066aa070bb1"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -211,14 +281,69 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""e03470d0-0991-4e86-8a3f-1fac5748957c"",
+                    ""id"": ""3253f880-8c84-4552-ac8c-afcac69bb750"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""ed1644aa-9f16-4168-a4aa-9cb808a00dad"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""e4d7a6a0-f614-4dbc-97d4-9ee3dc3a2d8d"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move1"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""df24a8f2-633d-41a8-9f3d-24324dcf21c1"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""6b75fbb7-b305-430a-95c6-8bf09d4f1844"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""4d23c7e6-6e71-4c0f-a039-59e0a142cb44"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -228,15 +353,19 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Walking
         m_Walking = asset.FindActionMap("Walking", throwIfNotFound: true);
         m_Walking_Move = m_Walking.FindAction("Move", throwIfNotFound: true);
-        m_Walking_Jump = m_Walking.FindAction("Jump", throwIfNotFound: true);
-        m_Walking_Slide = m_Walking.FindAction("Slide", throwIfNotFound: true);
-        m_Walking_Turn = m_Walking.FindAction("Turn", throwIfNotFound: true);
-        // Map2
-        m_Map2 = asset.FindActionMap("Map2", throwIfNotFound: true);
-        m_Map2_Move2 = m_Map2.FindAction("Move2", throwIfNotFound: true);
-        // Map1
-        m_Map1 = asset.FindActionMap("Map1", throwIfNotFound: true);
-        m_Map1_Move1 = m_Map1.FindAction("Move1", throwIfNotFound: true);
+        m_Walking_TryToJump = m_Walking.FindAction("TryToJump", throwIfNotFound: true);
+        // Running
+        m_Running = asset.FindActionMap("Running", throwIfNotFound: true);
+        m_Running_Move = m_Running.FindAction("Move", throwIfNotFound: true);
+        m_Running_TryToJump = m_Running.FindAction("TryToJump", throwIfNotFound: true);
+        m_Running_TryToSlide = m_Running.FindAction("TryToSlide", throwIfNotFound: true);
+        // Sliding
+        m_Sliding = asset.FindActionMap("Sliding", throwIfNotFound: true);
+        m_Sliding_Slide = m_Sliding.FindAction("Slide", throwIfNotFound: true);
+        // Jumping
+        m_Jumping = asset.FindActionMap("Jumping", throwIfNotFound: true);
+        m_Jumping_Jump = m_Jumping.FindAction("Jump", throwIfNotFound: true);
+        m_Jumping_Move = m_Jumping.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -299,17 +428,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Walking;
     private List<IWalkingActions> m_WalkingActionsCallbackInterfaces = new List<IWalkingActions>();
     private readonly InputAction m_Walking_Move;
-    private readonly InputAction m_Walking_Jump;
-    private readonly InputAction m_Walking_Slide;
-    private readonly InputAction m_Walking_Turn;
+    private readonly InputAction m_Walking_TryToJump;
     public struct WalkingActions
     {
         private @PlayerInputActions m_Wrapper;
         public WalkingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Walking_Move;
-        public InputAction @Jump => m_Wrapper.m_Walking_Jump;
-        public InputAction @Slide => m_Wrapper.m_Walking_Slide;
-        public InputAction @Turn => m_Wrapper.m_Walking_Turn;
+        public InputAction @TryToJump => m_Wrapper.m_Walking_TryToJump;
         public InputActionMap Get() { return m_Wrapper.m_Walking; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -322,15 +447,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
-            @Slide.started += instance.OnSlide;
-            @Slide.performed += instance.OnSlide;
-            @Slide.canceled += instance.OnSlide;
-            @Turn.started += instance.OnTurn;
-            @Turn.performed += instance.OnTurn;
-            @Turn.canceled += instance.OnTurn;
+            @TryToJump.started += instance.OnTryToJump;
+            @TryToJump.performed += instance.OnTryToJump;
+            @TryToJump.canceled += instance.OnTryToJump;
         }
 
         private void UnregisterCallbacks(IWalkingActions instance)
@@ -338,15 +457,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
-            @Slide.started -= instance.OnSlide;
-            @Slide.performed -= instance.OnSlide;
-            @Slide.canceled -= instance.OnSlide;
-            @Turn.started -= instance.OnTurn;
-            @Turn.performed -= instance.OnTurn;
-            @Turn.canceled -= instance.OnTurn;
+            @TryToJump.started -= instance.OnTryToJump;
+            @TryToJump.performed -= instance.OnTryToJump;
+            @TryToJump.canceled -= instance.OnTryToJump;
         }
 
         public void RemoveCallbacks(IWalkingActions instance)
@@ -365,110 +478,185 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public WalkingActions @Walking => new WalkingActions(this);
 
-    // Map2
-    private readonly InputActionMap m_Map2;
-    private List<IMap2Actions> m_Map2ActionsCallbackInterfaces = new List<IMap2Actions>();
-    private readonly InputAction m_Map2_Move2;
-    public struct Map2Actions
+    // Running
+    private readonly InputActionMap m_Running;
+    private List<IRunningActions> m_RunningActionsCallbackInterfaces = new List<IRunningActions>();
+    private readonly InputAction m_Running_Move;
+    private readonly InputAction m_Running_TryToJump;
+    private readonly InputAction m_Running_TryToSlide;
+    public struct RunningActions
     {
         private @PlayerInputActions m_Wrapper;
-        public Map2Actions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move2 => m_Wrapper.m_Map2_Move2;
-        public InputActionMap Get() { return m_Wrapper.m_Map2; }
+        public RunningActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Running_Move;
+        public InputAction @TryToJump => m_Wrapper.m_Running_TryToJump;
+        public InputAction @TryToSlide => m_Wrapper.m_Running_TryToSlide;
+        public InputActionMap Get() { return m_Wrapper.m_Running; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Map2Actions set) { return set.Get(); }
-        public void AddCallbacks(IMap2Actions instance)
+        public static implicit operator InputActionMap(RunningActions set) { return set.Get(); }
+        public void AddCallbacks(IRunningActions instance)
         {
-            if (instance == null || m_Wrapper.m_Map2ActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_Map2ActionsCallbackInterfaces.Add(instance);
-            @Move2.started += instance.OnMove2;
-            @Move2.performed += instance.OnMove2;
-            @Move2.canceled += instance.OnMove2;
+            if (instance == null || m_Wrapper.m_RunningActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_RunningActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @TryToJump.started += instance.OnTryToJump;
+            @TryToJump.performed += instance.OnTryToJump;
+            @TryToJump.canceled += instance.OnTryToJump;
+            @TryToSlide.started += instance.OnTryToSlide;
+            @TryToSlide.performed += instance.OnTryToSlide;
+            @TryToSlide.canceled += instance.OnTryToSlide;
         }
 
-        private void UnregisterCallbacks(IMap2Actions instance)
+        private void UnregisterCallbacks(IRunningActions instance)
         {
-            @Move2.started -= instance.OnMove2;
-            @Move2.performed -= instance.OnMove2;
-            @Move2.canceled -= instance.OnMove2;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @TryToJump.started -= instance.OnTryToJump;
+            @TryToJump.performed -= instance.OnTryToJump;
+            @TryToJump.canceled -= instance.OnTryToJump;
+            @TryToSlide.started -= instance.OnTryToSlide;
+            @TryToSlide.performed -= instance.OnTryToSlide;
+            @TryToSlide.canceled -= instance.OnTryToSlide;
         }
 
-        public void RemoveCallbacks(IMap2Actions instance)
+        public void RemoveCallbacks(IRunningActions instance)
         {
-            if (m_Wrapper.m_Map2ActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_RunningActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IMap2Actions instance)
+        public void SetCallbacks(IRunningActions instance)
         {
-            foreach (var item in m_Wrapper.m_Map2ActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_RunningActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_Map2ActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_RunningActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public Map2Actions @Map2 => new Map2Actions(this);
+    public RunningActions @Running => new RunningActions(this);
 
-    // Map1
-    private readonly InputActionMap m_Map1;
-    private List<IMap1Actions> m_Map1ActionsCallbackInterfaces = new List<IMap1Actions>();
-    private readonly InputAction m_Map1_Move1;
-    public struct Map1Actions
+    // Sliding
+    private readonly InputActionMap m_Sliding;
+    private List<ISlidingActions> m_SlidingActionsCallbackInterfaces = new List<ISlidingActions>();
+    private readonly InputAction m_Sliding_Slide;
+    public struct SlidingActions
     {
         private @PlayerInputActions m_Wrapper;
-        public Map1Actions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move1 => m_Wrapper.m_Map1_Move1;
-        public InputActionMap Get() { return m_Wrapper.m_Map1; }
+        public SlidingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Slide => m_Wrapper.m_Sliding_Slide;
+        public InputActionMap Get() { return m_Wrapper.m_Sliding; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Map1Actions set) { return set.Get(); }
-        public void AddCallbacks(IMap1Actions instance)
+        public static implicit operator InputActionMap(SlidingActions set) { return set.Get(); }
+        public void AddCallbacks(ISlidingActions instance)
         {
-            if (instance == null || m_Wrapper.m_Map1ActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_Map1ActionsCallbackInterfaces.Add(instance);
-            @Move1.started += instance.OnMove1;
-            @Move1.performed += instance.OnMove1;
-            @Move1.canceled += instance.OnMove1;
+            if (instance == null || m_Wrapper.m_SlidingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SlidingActionsCallbackInterfaces.Add(instance);
+            @Slide.started += instance.OnSlide;
+            @Slide.performed += instance.OnSlide;
+            @Slide.canceled += instance.OnSlide;
         }
 
-        private void UnregisterCallbacks(IMap1Actions instance)
+        private void UnregisterCallbacks(ISlidingActions instance)
         {
-            @Move1.started -= instance.OnMove1;
-            @Move1.performed -= instance.OnMove1;
-            @Move1.canceled -= instance.OnMove1;
+            @Slide.started -= instance.OnSlide;
+            @Slide.performed -= instance.OnSlide;
+            @Slide.canceled -= instance.OnSlide;
         }
 
-        public void RemoveCallbacks(IMap1Actions instance)
+        public void RemoveCallbacks(ISlidingActions instance)
         {
-            if (m_Wrapper.m_Map1ActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_SlidingActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IMap1Actions instance)
+        public void SetCallbacks(ISlidingActions instance)
         {
-            foreach (var item in m_Wrapper.m_Map1ActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_SlidingActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_Map1ActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_SlidingActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public Map1Actions @Map1 => new Map1Actions(this);
+    public SlidingActions @Sliding => new SlidingActions(this);
+
+    // Jumping
+    private readonly InputActionMap m_Jumping;
+    private List<IJumpingActions> m_JumpingActionsCallbackInterfaces = new List<IJumpingActions>();
+    private readonly InputAction m_Jumping_Jump;
+    private readonly InputAction m_Jumping_Move;
+    public struct JumpingActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public JumpingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Jump => m_Wrapper.m_Jumping_Jump;
+        public InputAction @Move => m_Wrapper.m_Jumping_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Jumping; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(JumpingActions set) { return set.Get(); }
+        public void AddCallbacks(IJumpingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_JumpingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_JumpingActionsCallbackInterfaces.Add(instance);
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+        }
+
+        private void UnregisterCallbacks(IJumpingActions instance)
+        {
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+        }
+
+        public void RemoveCallbacks(IJumpingActions instance)
+        {
+            if (m_Wrapper.m_JumpingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IJumpingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_JumpingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_JumpingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public JumpingActions @Jumping => new JumpingActions(this);
     public interface IWalkingActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnTryToJump(InputAction.CallbackContext context);
+    }
+    public interface IRunningActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnTryToJump(InputAction.CallbackContext context);
+        void OnTryToSlide(InputAction.CallbackContext context);
+    }
+    public interface ISlidingActions
+    {
         void OnSlide(InputAction.CallbackContext context);
-        void OnTurn(InputAction.CallbackContext context);
     }
-    public interface IMap2Actions
+    public interface IJumpingActions
     {
-        void OnMove2(InputAction.CallbackContext context);
-    }
-    public interface IMap1Actions
-    {
-        void OnMove1(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance { get; private set; }
 
     public PlayerInputActions playerInputActions;
+
+    [SerializeField] private Jumping jumping;
+
     private void Awake()
     {
         if (Instance != null && Instance == this)
@@ -23,8 +27,6 @@ public class InputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //PlayerInputActions actions = new PlayerInputActions();
-        Debug.Log("InputManager : " + playerInputActions);
 
     }
 
@@ -32,5 +34,10 @@ public class InputManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    private void SwitchToJumping()
+    {
+        jumping.Jump();
     }
 }
