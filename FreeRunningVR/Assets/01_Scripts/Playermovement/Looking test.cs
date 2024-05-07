@@ -39,4 +39,6 @@ public class Lookingtest : MonoBehaviour
         // Rotate towards the target rotation
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
+
+   
 }

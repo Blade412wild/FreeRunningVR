@@ -84,6 +84,7 @@ public class Walking1 : MonoBehaviour
     {
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
 
         if (grounded)
             rb.AddForce(moveDirection * moveSpeed * 10.0f, ForceMode.Force);
