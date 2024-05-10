@@ -33,8 +33,6 @@ public class PhysicsRig : MonoBehaviour
         rightHandJoint.targetRotation = rightController.localRotation;
 
         headJoint.targetPosition = playerHead.localPosition;
-        headJoint.targetRotation = playerHead.localRotation;
-
     }
 
 

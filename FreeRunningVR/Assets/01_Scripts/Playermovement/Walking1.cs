@@ -18,13 +18,14 @@ public class Walking1 : MonoBehaviour
 
     [Header("KeyBinds")]
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+    [SerializeField] private InputActionProperty JumpInputSource;
 
 
 
     [Header("GroundCheck")]
     [SerializeField] private float playerHeight;
     [SerializeField] private LayerMask whatIsGround;
-    private bool grounded;
+    public bool grounded;
 
 
     [SerializeField] private Transform orientation;
@@ -39,6 +40,8 @@ public class Walking1 : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        InputManager.Instance.playerInputActions.Walking.Enable();
+        //InputManager.Instance.playerInputActions.Walking.TryToJump.canceled += TryToJump;
     }
 
     // Update is called once per frame
@@ -65,9 +68,11 @@ public class Walking1 : MonoBehaviour
 
     private void MyInput()
     {
-
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        Vector2 stickInput = InputManager.Instance.playerInputActions.Walking.MoveVR.ReadValue<Vector2>();
+        horizontalInput = stickInput.x;
+        verticalInput = stickInput.y;
+        //horizontalInput = Input.GetAxisRaw("Horizontal");
+        //verticalInput = Input.GetAxisRaw("Vertical");
 
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
@@ -121,5 +126,25 @@ public class Walking1 : MonoBehaviour
     private void resetJump()
     {
         readyToJump = true;
+    }
+
+    private void TryToJump(InputAction.CallbackContext context)
+    {
+        //rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        float input = context.ReadValue<float>();
+        Debug.Log(input);
+        if (readyToJump && grounded)
+        {
+            readyToJump = false;
+            Jump();
+
+            Invoke(nameof(resetJump), jumpCooldown);
+        }
+    }
+
+    Vector2 ReadJoystickInput(InputAction.CallbackContext context)
+    {
+        Vector2 stickInput = context.ReadValue<Vector2>();
+        return stickInput;
     }
 }

@@ -38,9 +38,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""TryToJump"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""e9e3fb8e-676d-4521-a300-89101794d0df"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveVR"",
+                    ""type"": ""Value"",
+                    ""id"": ""ef05af7f-29e9-42cc-861f-960f2bdee59a"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -105,11 +114,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6fe9da6a-4eab-4e53-9784-b54ae6f0843c"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<OculusTouchController>/primaryButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TryToJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3d7d9e0-5c06-46df-bd44-1041459e5d68"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/thumbstick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveVR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -354,6 +374,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Walking = asset.FindActionMap("Walking", throwIfNotFound: true);
         m_Walking_Move = m_Walking.FindAction("Move", throwIfNotFound: true);
         m_Walking_TryToJump = m_Walking.FindAction("TryToJump", throwIfNotFound: true);
+        m_Walking_MoveVR = m_Walking.FindAction("MoveVR", throwIfNotFound: true);
         // Running
         m_Running = asset.FindActionMap("Running", throwIfNotFound: true);
         m_Running_Move = m_Running.FindAction("Move", throwIfNotFound: true);
@@ -429,12 +450,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IWalkingActions> m_WalkingActionsCallbackInterfaces = new List<IWalkingActions>();
     private readonly InputAction m_Walking_Move;
     private readonly InputAction m_Walking_TryToJump;
+    private readonly InputAction m_Walking_MoveVR;
     public struct WalkingActions
     {
         private @PlayerInputActions m_Wrapper;
         public WalkingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Walking_Move;
         public InputAction @TryToJump => m_Wrapper.m_Walking_TryToJump;
+        public InputAction @MoveVR => m_Wrapper.m_Walking_MoveVR;
         public InputActionMap Get() { return m_Wrapper.m_Walking; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -450,6 +473,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @TryToJump.started += instance.OnTryToJump;
             @TryToJump.performed += instance.OnTryToJump;
             @TryToJump.canceled += instance.OnTryToJump;
+            @MoveVR.started += instance.OnMoveVR;
+            @MoveVR.performed += instance.OnMoveVR;
+            @MoveVR.canceled += instance.OnMoveVR;
         }
 
         private void UnregisterCallbacks(IWalkingActions instance)
@@ -460,6 +486,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @TryToJump.started -= instance.OnTryToJump;
             @TryToJump.performed -= instance.OnTryToJump;
             @TryToJump.canceled -= instance.OnTryToJump;
+            @MoveVR.started -= instance.OnMoveVR;
+            @MoveVR.performed -= instance.OnMoveVR;
+            @MoveVR.canceled -= instance.OnMoveVR;
         }
 
         public void RemoveCallbacks(IWalkingActions instance)
@@ -643,6 +672,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnTryToJump(InputAction.CallbackContext context);
+        void OnMoveVR(InputAction.CallbackContext context);
     }
     public interface IRunningActions
     {

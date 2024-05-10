@@ -16,9 +16,18 @@
                 },
                 {
                     "name": "TryToJump",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "e9e3fb8e-676d-4521-a300-89101794d0df",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MoveVR",
+                    "type": "Value",
+                    "id": "ef05af7f-29e9-42cc-861f-960f2bdee59a",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -83,11 +92,22 @@
                 {
                     "name": "",
                     "id": "6fe9da6a-4eab-4e53-9784-b54ae6f0843c",
-                    "path": "<Keyboard>/space",
+                    "path": "<OculusTouchController>/primaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "TryToJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b3d7d9e0-5c06-46df-bd44-1041459e5d68",
+                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveVR",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

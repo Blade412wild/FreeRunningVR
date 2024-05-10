@@ -2888,6 +2888,18 @@ MonoBehaviour:
   jumpCooldown: 0.25
   airMultiplier: 0.4
   jumpKey: 32
+  JumpInputSource:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 83111aae-5fd5-40c8-a304-7f1dc344181a
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
@@ -5640,6 +5652,19 @@ MonoBehaviour:
   jumpCooldown: 0.25
   airMultiplier: 0.4
   jumpKey: 32
+  JumpInputSource:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Jump Input Source
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 2489b4fe-422f-4b21-9619-78dabbf6a285
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 2234330540020971407, guid: 42cad15eef7cddb4cba77354291e8ffc,
+      type: 3}
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
