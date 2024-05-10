@@ -635,7 +635,7 @@ Transform:
   m_GameObject: {fileID: 99243825}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.615, z: 0}
+  m_LocalPosition: {x: 0, y: 0.615, z: -11.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4980,8 +4980,9 @@ GameObject:
   - component: {fileID: 1367382861}
   - component: {fileID: 1367382860}
   - component: {fileID: 1367382859}
-  - component: {fileID: 1367382863}
   - component: {fileID: 1367382862}
+  - component: {fileID: 1367382865}
+  - component: {fileID: 1367382864}
   m_Layer: 7
   m_Name: XR Origin (XR Rig)
   m_TagString: Untagged
@@ -5064,7 +5065,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!114 &1367382863
+--- !u!114 &1367382864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5073,35 +5074,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1367382858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5164a29e343167e418504b2c57567529, type: 3}
+  m_Script: {fileID: 11500000, guid: 54489a2fa12ee7e4f86f08d1ea0759a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
-  groundDrag: 5
   smallJumnpForce: 12
   bigJumnpForce: 30
   jumpCooldown: 0.25
   airMultiplier: 0.4
-  jumpKey: 32
-  JumpInputSource:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Jump Input Source
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 2489b4fe-422f-4b21-9619-78dabbf6a285
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 2234330540020971407, guid: 42cad15eef7cddb4cba77354291e8ffc,
-      type: 3}
+  JumpVelocityMin: 2
+  JumpTravelDistanceMin: 0.2
+  grounded: 0
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  JumpVelocityMin: 2
-  JumpTravelDistanceMin: 0.2
+  leftHandRB: {fileID: 1887810862}
+  rightHandRB: {fileID: 1660555946}
+  leftHandTransform: {fileID: 1887810863}
+  rightHandTransform: {fileID: 1660555947}
+  orientation: {fileID: 1352354945}
+--- !u!114 &1367382865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367382858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6498f6dea97622b4abe3d789292332d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 7
+  groundDrag: 4
+  airMultiplier: 0.24
+  playerHeight: 2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
   grounded: 0
   leftHandRB: {fileID: 1887810862}
   rightHandRB: {fileID: 1660555946}

@@ -7,82 +7,115 @@ using UnityEngine.InputSystem;
 
 public class Walking : MonoBehaviour
 {
-    public event Action OnJumpPressed;
-    public Transform headTransform;
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float groundDrag;
+    [SerializeField] private float airMultiplier;
 
-    [SerializeField] private float groeiFactor = 1.5f;
-    private float beginvalue = 1;
+    [Header("GroundCheck")]
+    [SerializeField] private float playerHeight;
+    [SerializeField] private LayerMask whatIsGround;
+    public bool grounded;
 
+    [Header("GameObjects")]
+    [SerializeField] private Rigidbody leftHandRB;
+    [SerializeField] private Rigidbody rightHandRB;
+    [SerializeField] private Transform leftHandTransform;
+    [SerializeField] private Transform rightHandTransform;
+    [SerializeField] private Transform orientation;
+
+    private List<float> leftHandRecordings = new List<float>();
+    private List<float> rightHandRecordings = new List<float>();
+
+    private Vector3 leftHandInitialPos;
+    private Vector3 rightHandInitialPos;
+    private float horizontalInput;
+    private float verticalInput;
+
+    private Vector3 moveDirection;
     private Rigidbody rb;
-    private Vector2 input = new Vector2(0,0);
-    private Vector3 direction = new Vector3(0,0,0);
-    public float speed;
-    private bool MayMove = false;
-
-
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
+        rb.freezeRotation = true;
         InputManager.Instance.playerInputActions.Walking.Enable();
-        InputManager.Instance.playerInputActions.Walking.TryToJump.performed += TryToJump;
-        InputManager.Instance.playerInputActions.Walking.Move.performed += ReadInput;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Walk();
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            MayMove = true;
-        }
-        
-        if(Input.GetKeyUp(KeyCode.W))
-        {
-            MayMove = false;
-        }
+        MyInput();
+        SpeedControl();
 
+        if (grounded)
+        {
+            rb.drag = groundDrag;
+        }
+        else
+        {
+            rb.drag = 0;
+        }
     }
 
     private void FixedUpdate()
     {
-        WalkRigidbody();
-    }
-    
-
-    private void TryToJump(InputAction.CallbackContext context)
-    {
-        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        Walk();
+        CheckGround();
     }
 
-    private void ReadInput(InputAction.CallbackContext context)
+    private void MyInput()
     {
-        input = context.ReadValue<Vector2>();
+        Vector2 stickInput = InputManager.Instance.playerInputActions.Walking.MoveVR.ReadValue<Vector2>();
+        horizontalInput = stickInput.x;
+        verticalInput = stickInput.y;
     }
+
 
     private void Walk()
     {
-        // n = g*B^t
-        speed = groeiFactor * Mathf.Pow(1, Time.deltaTime); 
+        // calculate movement direction
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
 
-        direction = new Vector3(input.x, 0, input.y);
-       
-        
-        transform.position += direction * Time.deltaTime;
+        if (grounded)
+            rb.AddForce(moveDirection * moveSpeed * 10.0f, ForceMode.Force);
+
+        else if (!grounded)
+            rb.AddForce(moveDirection * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
+
     }
 
-    private void WalkRigidbody()
+    // jummping & Walking 
+    private void CheckGround()
     {
-        if (!MayMove) return;
-        //speed = 5;
-        direction = headTransform.forward;
-        //direction = headTransform.forward + headTransform.right;
-        Debug.Log(direction);
-
-        rb.AddForce(direction.normalized * speed * 10f, ForceMode.Force) ;
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
     }
+    private void SpeedControl()
+    {
+        Vector3 flatVelocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
+
+
+        if (flatVelocity.magnitude > moveSpeed)
+        {
+            Vector3 limitedVelocity = flatVelocity.normalized * moveSpeed;
+            rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+        }
+    }
+
+    private float calculateAvarage(List<float> list)
+    {
+        float allNumbers = 0;
+
+        foreach (var number in list)
+        {
+            allNumbers += number;
+        }
+
+        float average = allNumbers / list.Count;
+        return average;
+    }
+
 
 }
