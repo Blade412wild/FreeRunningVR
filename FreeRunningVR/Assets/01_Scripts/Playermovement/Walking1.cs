@@ -55,8 +55,8 @@ public class Walking1 : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         InputManager.Instance.playerInputActions.Walking.Enable();
-        InputManager.Instance.playerInputActions.Walking.TryToJump.canceled += DicideHowToJump;
-        InputManager.Instance.playerInputActions.Walking.TryToJump.started += SetJumpData;
+        //InputManager.Instance.playerInputActions.Walking.TryToJump.canceled += DicideHowToJump;
+        //InputManager.Instance.playerInputActions.Walking.TryToJump.started += SetJumpData;
 
     }
 
@@ -87,18 +87,7 @@ public class Walking1 : MonoBehaviour
         Vector2 stickInput = InputManager.Instance.playerInputActions.Walking.MoveVR.ReadValue<Vector2>();
         horizontalInput = stickInput.x;
         verticalInput = stickInput.y;
-        //horizontalInput = Input.GetAxisRaw("Horizontal");
-        //verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (Input.GetKey(jumpKey) && readyToJump && grounded)
-        {
-            readyToJump = false;
-            SmallJump();
-
-            Invoke(nameof(resetJump), jumpCooldown);
-        }
     }
-
 
 
     private void Walk()
@@ -115,10 +104,13 @@ public class Walking1 : MonoBehaviour
 
     }
 
+    // jummping & Walking 
     private void CheckGround()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
     }
+
+    // walking 
     private void SpeedControl()
     {
         Vector3 flatVelocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
@@ -131,73 +123,77 @@ public class Walking1 : MonoBehaviour
         }
     }
 
-    private void SmallJump()
-    {
-        Debug.Log("SmallJump");
-        // reset y Velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+    //// jumping 
+    //private void SmallJump()
+    //{
+    //    Debug.Log("SmallJump");
+    //    // reset y Velocity
+    //    rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
-        rb.AddForce(transform.up * smallJumnpForce, ForceMode.Impulse);
-    }
+    //    rb.AddForce(transform.up * smallJumnpForce, ForceMode.Impulse);
+    //}
 
-    private void BigJump()
-    {
-        Debug.Log("biggJump");
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+    ////jumping
+    //private void BigJump()
+    //{
+    //    Debug.Log("biggJump");
+    //    rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
-        rb.AddForce(transform.up * bigJumnpForce, ForceMode.Impulse);
-    }
+    //    rb.AddForce(transform.up * bigJumnpForce, ForceMode.Impulse);
+    //}
 
-    private void resetJump()
-    {
-        readyToJump = true;
-    }
+    //// jumping 
+    //private void resetJump()
+    //{
+    //    readyToJump = true;
+    //}
 
-    private void SetJumpData(InputAction.CallbackContext context)
-    {
-        leftHandInitialPos = leftHandTransform.position;
-        rightHandInitialPos = rightHandTransform.position;
-    }
+    ////jumping
+    //private void SetJumpData(InputAction.CallbackContext context)
+    //{
+    //    leftHandInitialPos = leftHandTransform.position;
+    //    rightHandInitialPos = rightHandTransform.position;
+    //}
 
+    ////jumping
+    //private void DicideHowToJump(InputAction.CallbackContext context)
+    //{
+    //    if (!readyToJump && !grounded) return;
 
-    private void DicideHowToJump(InputAction.CallbackContext context)
-    {
-        if (!readyToJump && !grounded) return;
+    //    Vector3 leftHandEndPos = leftHandTransform.position;
+    //    Vector3 rightHandEndPos = rightHandTransform.position;
 
-        Vector3 leftHandEndPos = leftHandTransform.position;
-        Vector3 rightHandEndPos = rightHandTransform.position;
+    //    if (leftHandEndPos.y < leftHandInitialPos.y || rightHandEndPos.y < rightHandInitialPos.y)
+    //    {
+    //        SmallJump();
+    //        readyToJump = false;
+    //        Invoke(nameof(resetJump), jumpCooldown);
+    //    }
 
-        if (leftHandEndPos.y < leftHandInitialPos.y || rightHandEndPos.y < rightHandInitialPos.y)
-        {
-            SmallJump();
-            readyToJump = false;
-            Invoke(nameof(resetJump), jumpCooldown);
-        }
+    //    float leftHandDistanceTraveled = leftHandEndPos.y - leftHandInitialPos.y;
+    //    float rightHandDistaneTraveled = rightHandEndPos.y - rightHandInitialPos.y;
 
-        float leftHandDistanceTraveled = leftHandEndPos.y - leftHandInitialPos.y;
-        float rightHandDistaneTraveled = rightHandEndPos.y - rightHandInitialPos.y;
+    //    //leftHandRecordings.Add(leftHandDistanceTraveled);
+    //    //rightHandRecordings.Add(rightHandDistaneTraveled);
+    //    //Debug.Log("lefthand Avarage : " + calculateAvarage(leftHandRecordings));
+    //    //Debug.Log("righthand Avarage : " + calculateAvarage(rightHandRecordings));
 
-        //leftHandRecordings.Add(leftHandDistanceTraveled);
-        //rightHandRecordings.Add(rightHandDistaneTraveled);
-        //Debug.Log("lefthand Avarage : " + calculateAvarage(leftHandRecordings));
-        //Debug.Log("righthand Avarage : " + calculateAvarage(rightHandRecordings));
+    //    if (leftHandDistanceTraveled < 0.2f && rightHandDistaneTraveled < 0.2f) return;
 
-        if (leftHandDistanceTraveled < 0.2f && rightHandDistaneTraveled < 0.2f) return;
+    //    Vector3 leftHandEndVel = leftHandRB.velocity;
+    //    Vector3 rightHandEndVel = rightHandRB.velocity;
 
-        Vector3 leftHandEndVel = leftHandRB.velocity;
-        Vector3 rightHandEndVel = rightHandRB.velocity;
+    //    if (leftHandEndVel.y < 2.0f && rightHandEndVel.y < 3.0f) return;
 
-        if (leftHandEndVel.y < 2.0f && rightHandEndVel.y < 3.0f) return;
+    //    //leftHandRecordings.Add(lefthandEndVel.y);
+    //    //rightHandRecordings.Add(rightHandEndVel.y);
+    //    //Debug.Log("lefthand Avarage : " + calculateAvarage(leftHandRecordings));
+    //    //Debug.Log("righthand Avarage : " + calculateAvarage(rightHandRecordings));
 
-        //leftHandRecordings.Add(lefthandEndVel.y);
-        //rightHandRecordings.Add(rightHandEndVel.y);
-        //Debug.Log("lefthand Avarage : " + calculateAvarage(leftHandRecordings));
-        //Debug.Log("righthand Avarage : " + calculateAvarage(rightHandRecordings));
-
-        BigJump();
-        readyToJump = false;
-        Invoke(nameof(resetJump), jumpCooldown);
-    }
+    //    BigJump();
+    //    readyToJump = false;
+    //    Invoke(nameof(resetJump), jumpCooldown);
+    //}
 
     private float calculateAvarage(List<float> list)
     {
@@ -210,11 +206,5 @@ public class Walking1 : MonoBehaviour
 
         float average = allNumbers / list.Count;
         return average;
-    }
-
-    Vector2 ReadJoystickInput(InputAction.CallbackContext context)
-    {
-        Vector2 stickInput = context.ReadValue<Vector2>();
-        return stickInput;
     }
 }
