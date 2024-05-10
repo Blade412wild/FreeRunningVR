@@ -92,11 +92,13 @@ public class Jumping : MonoBehaviour
     //jumping
     private void DicideHowToJump(InputAction.CallbackContext context)
     {
+        
         if (!readyToJump && !grounded) return;
 
         Vector3 leftHandEndPos = leftHandTransform.position;
         Vector3 rightHandEndPos = rightHandTransform.position;
 
+        // check if hands are movedup
         if (leftHandEndPos.y < leftHandInitialPos.y || rightHandEndPos.y < rightHandInitialPos.y)
         {
             SmallJump();
@@ -107,11 +109,13 @@ public class Jumping : MonoBehaviour
         float leftHandDistanceTraveled = leftHandEndPos.y - leftHandInitialPos.y;
         float rightHandDistaneTraveled = rightHandEndPos.y - rightHandInitialPos.y;
 
+        // check if if hands have travelded Enough
         if (leftHandDistanceTraveled < 0.2f && rightHandDistaneTraveled < 0.2f) return;
 
         Vector3 leftHandEndVel = leftHandRB.velocity;
         Vector3 rightHandEndVel = rightHandRB.velocity;
 
+        // check if velocity is enough
         if (leftHandEndVel.y < 2.0f && rightHandEndVel.y < 3.0f) return;
 
         BigJump();
