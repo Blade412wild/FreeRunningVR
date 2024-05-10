@@ -4226,7 +4226,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.100474894, y: 0.102002144, z: 0.18658762}
-  m_Center: {x: 0.00025629997, y: 0.0012939572, z: 0.0004627928}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1261960002
 GameObject:
   m_ObjectHideFlags: 0
@@ -4866,7 +4866,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   groundDrag: 5
-  jumnpForce: 12
+  smallJumnpForce: 12
+  bigJumnpForce: 30
   jumpCooldown: 0.25
   airMultiplier: 0.4
   jumpKey: 32
@@ -4887,7 +4888,13 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  JumpVelocityMin: 2
+  JumpTravelDistanceMin: 0.2
   grounded: 0
+  leftHandRB: {fileID: 1887810862}
+  rightHandRB: {fileID: 1660555946}
+  leftHandTransform: {fileID: 1887810863}
+  rightHandTransform: {fileID: 1660555947}
   orientation: {fileID: 1352354945}
 --- !u!1 &1447275009
 GameObject:
@@ -5681,7 +5688,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660555944}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -6270,7 +6277,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887810860}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -6777,7 +6784,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.100474894, y: 0.102002144, z: 0.18658762}
-  m_Center: {x: 0.00025629997, y: 0.0012939572, z: 0.0004627928}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2092560874
 GameObject:
   m_ObjectHideFlags: 0
