@@ -41,7 +41,7 @@ public class Walking1 : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         InputManager.Instance.playerInputActions.Walking.Enable();
-        //InputManager.Instance.playerInputActions.Walking.TryToJump.canceled += TryToJump;
+        InputManager.Instance.playerInputActions.Walking.TryToJump.canceled += TryToJump;
     }
 
     // Update is called once per frame
