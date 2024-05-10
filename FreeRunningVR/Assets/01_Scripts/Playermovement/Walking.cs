@@ -15,6 +15,7 @@ public class Walking : MonoBehaviour
     [Header("GroundCheck")]
     [SerializeField] private float playerHeight;
     [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private LayerMask Body;
     public bool grounded;
 
     [Header("GameObjects")]
@@ -23,6 +24,7 @@ public class Walking : MonoBehaviour
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private Transform rightHandTransform;
     [SerializeField] private Transform orientation;
+    [SerializeField] private CapsuleCollider bodyCollider;
 
     private List<float> leftHandRecordings = new List<float>();
     private List<float> rightHandRecordings = new List<float>();
@@ -61,8 +63,8 @@ public class Walking : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Walk();
         CheckGround();
+        Walk();
     }
 
     private void MyInput()
@@ -76,21 +78,22 @@ public class Walking : MonoBehaviour
     private void Walk()
     {
         // calculate movement direction
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
 
         if (grounded)
-            rb.AddForce(moveDirection * moveSpeed * 10.0f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f, ForceMode.Force);
 
         else if (!grounded)
-            rb.AddForce(moveDirection * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
 
     }
 
     // jummping & Walking 
     private void CheckGround()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        //grounded = Physics.Raycast(transform.position, Vector3.down, rayLenght, whatIsGround);
+        grounded = checkGround2();
     }
     private void SpeedControl()
     {
@@ -116,6 +119,15 @@ public class Walking : MonoBehaviour
         float average = allNumbers / list.Count;
         return average;
     }
+
+    private bool checkGround2()
+    {
+        Vector3 start = bodyCollider.transform.TransformPoint(bodyCollider.center);
+        float rayLenght = bodyCollider.height / 2 - bodyCollider.radius + 0.5f;
+
+        bool hasHit = Physics.SphereCast(start, bodyCollider.radius, Vector3.down, out RaycastHit hitInfo, rayLenght, whatIsGround);
+        return hasHit;
+   }
 
 
 }
