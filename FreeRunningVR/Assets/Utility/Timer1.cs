@@ -14,7 +14,7 @@ public class Timer1
 
     // timer 
     private float startTime = 0;
-    private float currentTime;
+    public float currentTime;
     private int endTime;
     private bool repeat = false;
     private int repeatAmount = 0;
@@ -65,6 +65,7 @@ public class Timer1
             }
             else
             {
+                OnTimerIsDone?.Invoke();
                 //OnRemoveTimer?.Invoke(this);
             }
         }
