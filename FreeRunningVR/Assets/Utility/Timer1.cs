@@ -52,7 +52,7 @@ public class Timer1
     {
         if(currentTime >= endTime)
         {
-            Debug.Log(" Timer is finished, [" + endTime + "] have past");
+            //Debug.Log(" Timer is finished, [" + endTime + "] have past");
             if (repeat == true && currentAmount < repeatAmount)
             {
                 Debug.Log(" repeat amount = " + currentAmount);

@@ -6,6 +6,8 @@ using UnityEngine;
 public class Running : MonoBehaviour
 {
     public enum Fases { Walking, Running };
+    [Header("Scritps")]
+    public Walking walking;
 
     [Header("GameObjects")]
     [SerializeField] private Rigidbody leftHandRB;
@@ -16,16 +18,25 @@ public class Running : MonoBehaviour
     [SerializeField] private Transform orientation;
     [SerializeField] private CapsuleCollider bodyCollider;
 
+    [SerializeField] private Transform frontTrans;
+    [SerializeField] private Transform backTrans;
+
     [SerializeField] private Transform handsMiddleTrans;
-    [SerializeField] private Transform CenterBodyPrefabTrans;
+    [SerializeField] private Transform centerBodyPrefabTrans;
 
     [Header("Running")]
     public Fases PlayerFase;
-    [SerializeField] private float HandsSameSiteThreshold = 0.1f;
-    [SerializeField] private float VelocityThreshold = 1.5f;
-    [SerializeField] private float SpeedThreshold = 1.5f;
-    [SerializeField] private float Time;
+    [SerializeField] private float maxRunningSpeed = 10.0f;
+    [SerializeField] private float handsSameSiteThreshold = 0.1f;
+    [SerializeField] private float velocityThreshold = 1.5f;
+    [SerializeField] private float speedThreshold = 1.5f;
+    [SerializeField] private float maxDistance = 0.3f;
+    [SerializeField] private float time;
 
+    private int tick = 0;
+    private int currentLeftHandSide;
+    private int previousLeftHandSide;
+    private bool firstTick = true;
 
     [SerializeField] private int RunningTimerDuration = 1;
 
@@ -45,11 +56,20 @@ public class Running : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(RunningTimer != null)
+        //Debug.Log("CurrentSide : " + currentLeftHandSide + " | PreviousSide : " +  previousLeftHandSide);
+        if (RunningTimer != null)
         {
             RunningTimer.OnUpdate();
-            Time = RunningTimer.currentTime;
+            time = RunningTimer.currentTime;
+        }
+
+        if (PlayerFase == Fases.Running)
+        {
+            walking.moveSpeed = maxRunningSpeed;
+        }
+        else if (PlayerFase == Fases.Walking)
+        {
+            walking.moveSpeed = walking.StartMoveSpeed;
         }
 
 
@@ -72,17 +92,61 @@ public class Running : MonoBehaviour
         float newLHSpeed = LHSpeed - BodySpeed;
         float newRHSpeed = RHSpeed - BodySpeed;
 
-        if (newLHSpeed < SpeedThreshold || newRHSpeed < SpeedThreshold) return;
+        if (newLHSpeed < speedThreshold || newRHSpeed < speedThreshold) return;
 
-        if (RunningTimer == null)
+        // creating Timer
+        CreateTimer();
+
+        float RHFrontDistance = Vector3.Distance(frontTrans.position, rightHandTransform.position);
+        float RHBackDistance = Vector3.Distance(backTrans.position, rightHandTransform.position);
+
+        if (RHFrontDistance > RHBackDistance)
         {
-            RunningTimer = new Timer1(RunningTimerDuration);
-            RunningTimer.OnTimerIsDone += TimerIsDone;
+            //Debug.Log("LeftHandBack");
+            currentLeftHandSide = 0;
+
+            if(firstTick == true)
+            {
+                previousLeftHandSide = currentLeftHandSide;
+                firstTick = false;
+            }
         }
 
-        RunningTimer.ResetTimer();
-        PlayerFase = Fases.Running;
-        Debug.Log("IsRunning");
+        if (RHFrontDistance < RHBackDistance)
+        {
+            //Debug.Log("LeftHandFront");
+            currentLeftHandSide = 1;
+
+            if (firstTick == true)
+            {
+                previousLeftHandSide = currentLeftHandSide;
+                firstTick = false;
+            }
+        }
+
+       
+
+
+
+
+        // if the hand hasn;t changed side it won't reset te timer;
+        if (currentLeftHandSide != previousLeftHandSide)
+        {
+            Debug.Log("tick");
+            tick++;
+            RunningTimer.ResetTimer();
+            PlayerFase = Fases.Running;
+            previousLeftHandSide = currentLeftHandSide;
+        }
+
+
+
+
+
+
+
+        //RunningTimer.ResetTimer();
+        //Debug.Log("IsRunning");
 
 
 
@@ -99,6 +163,27 @@ public class Running : MonoBehaviour
         //float avarageRH = calculateAvarage(rightHandRecordings);
 
         //Debug.Log("LH : " + avarageLH + " | RH : " + avarageRH);
+    }
+    public Vector2 FindHighestAndLowest(List<float> floatList)
+    {
+
+        float highest = floatList[0];
+        float lowest = floatList[0];
+
+        foreach (float num in floatList)
+        {
+            if (num > highest)
+            {
+                highest = num;
+            }
+            else if (num < lowest)
+            {
+                lowest = num;
+            }
+        }
+
+        Vector2 HighandLow = new Vector2(highest, lowest);
+        return HighandLow;
     }
 
     private bool CalculateHandsSpeeds()
@@ -141,8 +226,8 @@ public class Running : MonoBehaviour
         Centerbody = bodyCollider.transform.TransformPoint(bodyCollider.center);
 
         // calulating Body Pos & Rot
-        CenterBodyPrefabTrans.position = Centerbody;
-        CenterBodyPrefabTrans.rotation = Quaternion.Euler(CenterBodyPrefabTrans.rotation.eulerAngles.x, orientation.rotation.eulerAngles.y, CenterBodyPrefabTrans.rotation.eulerAngles.z);
+        centerBodyPrefabTrans.position = Centerbody;
+        centerBodyPrefabTrans.rotation = Quaternion.Euler(centerBodyPrefabTrans.rotation.eulerAngles.x, orientation.rotation.eulerAngles.y, centerBodyPrefabTrans.rotation.eulerAngles.z);
 
         // calculating Hands MiddlePoint
         Vector3 NewPos = (leftHandTransform.position + rightHandTransform.position) / 2;
@@ -161,6 +246,14 @@ public class Running : MonoBehaviour
 
         float average = allNumbers / list.Count;
         return average;
+    }
+    private void CreateTimer()
+    {
+        if (RunningTimer == null)
+        {
+            RunningTimer = new Timer1(RunningTimerDuration);
+            RunningTimer.OnTimerIsDone += TimerIsDone;
+        }
     }
 
     private void TimerIsDone()
@@ -218,4 +311,6 @@ public class Running : MonoBehaviour
         //RunningTimer.ResetTimer();
         //Debug.Log("Running");
     }
+
+    
 }

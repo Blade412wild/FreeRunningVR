@@ -8,9 +8,10 @@ using UnityEngine.InputSystem;
 public class Walking : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed;
+    [SerializeField] public float moveSpeed;
     [SerializeField] private float groundDrag;
     [SerializeField] private float airMultiplier;
+    public float StartMoveSpeed; 
 
     [Header("GroundCheck")]
     [SerializeField] private float playerHeight;
@@ -43,6 +44,7 @@ public class Walking : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         InputManager.Instance.playerInputActions.Walking.Enable();
+        StartMoveSpeed = moveSpeed;
     }
 
     // Update is called once per frame
