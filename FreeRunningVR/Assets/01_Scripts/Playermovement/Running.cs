@@ -26,7 +26,7 @@ public class Running : MonoBehaviour
 
     [Header("Running")]
     public Fases PlayerFase;
-    [SerializeField] private float maxRunningSpeed = 10.0f;
+    [SerializeField] private float maxRunningSpeed = 15.0f;
     [SerializeField] private float handsSameSiteThreshold = 0.1f;
     [SerializeField] private float velocityThreshold = 1.5f;
     [SerializeField] private float speedThreshold = 1.5f;
@@ -38,7 +38,7 @@ public class Running : MonoBehaviour
     private int previousLeftHandSide;
     private bool firstTick = true;
 
-    [SerializeField] private int RunningTimerDuration = 1;
+    [SerializeField] private float RunningTimerDuration = 1.5f;
 
 
     private List<float> leftHandRecordings = new List<float>();
@@ -258,6 +258,7 @@ public class Running : MonoBehaviour
 
     private void TimerIsDone()
     {
+        if (PlayerFase == Fases.Walking) return;
         Debug.Log("Timer Is Done");
         PlayerFase = Fases.Walking;
     }

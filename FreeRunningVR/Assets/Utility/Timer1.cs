@@ -15,12 +15,12 @@ public class Timer1
     // timer 
     private float startTime = 0;
     public float currentTime;
-    private int endTime;
+    private float endTime;
     private bool repeat = false;
     private int repeatAmount = 0;
     private int currentAmount = 1;
 
-    public Timer1(int _seconds)
+    public Timer1(float _seconds)
     {
         endTime = _seconds;
     }

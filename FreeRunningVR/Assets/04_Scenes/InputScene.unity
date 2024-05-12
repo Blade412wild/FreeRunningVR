@@ -5401,13 +5401,13 @@ MonoBehaviour:
   handsMiddleTrans: {fileID: 1218120519}
   centerBodyPrefabTrans: {fileID: 1310336030}
   PlayerFase: 0
-  maxRunningSpeed: 10
+  maxRunningSpeed: 30
   handsSameSiteThreshold: 0.1
   velocityThreshold: 1.5
-  speedThreshold: 1.1
+  speedThreshold: 0.5
   maxDistance: 0.3
   time: 0
-  RunningTimerDuration: 1
+  RunningTimerDuration: 2
 --- !u!1 &1447275009
 GameObject:
   m_ObjectHideFlags: 0
