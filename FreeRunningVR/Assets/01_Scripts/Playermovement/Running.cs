@@ -117,10 +117,12 @@ public class Running : MonoBehaviour
     {
         RHFrontDistance = Vector3.Distance(frontTrans.position, rightHandTransform.position);
         RHBackDistance = Vector3.Distance(backTrans.position, rightHandTransform.position);
+
         float yAngle = CalculateAngle(RHBackDistance, RHFrontDistance, distanceFrontBack);
 
-        //Debug.DrawLine(frontTrans.position, rightHandTransform.position, Color.white);
-        //Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
+        Debug.DrawLine(frontTrans.position, rightHandTransform.position, Color.white);
+        Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
+        //Debug.Log("yAngle : " + yAngle);
 
         if (PlayerFase == Fases.Running)
         {
@@ -150,9 +152,13 @@ public class Running : MonoBehaviour
     private void CheckIfRunning()
     {
 
-        
+        // getting Body and Hand speeds
+        float LHSpeed = leftHandRB.velocity.magnitude;
         RHSpeed = rightHandRB.velocity.magnitude;
         BodySpeed = bodyRB.velocity.magnitude;
+
+        // normalizing HandSpeeds
+        float newLHSpeed = LHSpeed - BodySpeed;
         newRHSpeed = RHSpeed - BodySpeed;
 
         //if (newLHSpeed < speedThreshold || newRHSpeed < speedThreshold) return;
@@ -179,6 +185,7 @@ public class Running : MonoBehaviour
             currentLeftHandSide = 1;
             handFase = HandFases.Front;
 
+
             if (firstTick == true)
             {
                 previousLeftHandSide = currentLeftHandSide;
@@ -186,11 +193,11 @@ public class Running : MonoBehaviour
             }
         }
 
-
+         
         // if the hand hasn;t changed side it won't reset te timer;
         if (currentLeftHandSide != previousLeftHandSide)
         {
-            //Debug.Log("tick");
+            Debug.Log("tick");
             tick++;
             RunningTimer.ResetTimer();
             PlayerFase = Fases.Running;
