@@ -80,19 +80,15 @@ public class Running : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("CurrentSide : " + currentLeftHandSide + " | PreviousSide : " +  previousLeftHandSide);
-        if (RunningTimer != null)
-        {
-            RunningTimer.OnUpdate();
-            time = RunningTimer.currentTime;
-        }
+        UpdatingTimers();
+        UpdatingMovementSpeed();
+        CalculatingBodyparts();
+        CheckIfRunning();
+        CalculateHandDistance();
+    }
 
-        if(handsBesideBodyTimer != null)
-        {
-            handsBesideBodyTimer.OnUpdate();
-            //time = RunningTimer.currentTime;
-        }
-
+    private void UpdatingMovementSpeed()
+    {
         if (PlayerFase == Fases.Running)
         {
             walking.moveSpeed = maxRunningSpeed;
@@ -101,34 +97,30 @@ public class Running : MonoBehaviour
         {
             walking.moveSpeed = walking.StartMoveSpeed;
         }
+    }
 
-        //if (HandSpeedTest > -handNextToBodySpeedBuffer && HandSpeedTest < handNextToBodySpeedBuffer)
-        //{
-        //    Debug.Log("NextToBody");
-        //    //Debug.Log("Body : " + BodySpeed + " | Hand : " + RHSpeed + " | Hand normalized : " + newRHSpeed)
-        //}
-        //else
-        //{
-        //    Debug.Log("running");
-        //}
+    private void UpdatingTimers()
+    {
+        if (RunningTimer != null)
+        {
+            RunningTimer.OnUpdate();
+            time = RunningTimer.currentTime;
+        }
 
-        CalculatingBodyparts();
-        CheckIfRunning3();
-        CalculateHandDistance();
-        //CheckIfRunningVelocity();
-
+        if (handsBesideBodyTimer != null)
+        {
+            handsBesideBodyTimer.OnUpdate();
+        }
     }
 
     private void CalculateHandDistance()
     {
         RHFrontDistance = Vector3.Distance(frontTrans.position, rightHandTransform.position);
         RHBackDistance = Vector3.Distance(backTrans.position, rightHandTransform.position);
-
         float yAngle = CalculateAngle(RHBackDistance, RHFrontDistance, distanceFrontBack);
 
-        Debug.DrawLine(frontTrans.position, rightHandTransform.position, Color.white);
-        Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
-        //Debug.Log("yAngle : " + yAngle);
+        //Debug.DrawLine(frontTrans.position, rightHandTransform.position, Color.white);
+        //Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
 
         if (PlayerFase == Fases.Running)
         {
@@ -136,7 +128,7 @@ public class Running : MonoBehaviour
             {
                 if (newRHSpeed > -handNextToBodySpeedBuffer && newRHSpeed < handNextToBodySpeedBuffer)
                 {
-                    if(handsBesideBodyTimer == null)
+                    if (handsBesideBodyTimer == null)
                     {
                         handsBesideBodyTimer = new Timer1(handNextToBodyTime);
                         handsBesideBodyTimer.OnTimerIsDone += SetPlayerFaseToWalking2;
@@ -150,42 +142,41 @@ public class Running : MonoBehaviour
             {
                 if (handsBesideBodyTimer == null) return;
                 handsBesideBodyTimer.ResetTimer();
-                Debug.Log("resetTimer");
+                //Debug.Log("resetTimer");
             }
         }
     }
 
-    private void CheckIfRunning3()
+    private void CheckIfRunning()
     {
 
-        // getting Body and Hand speeds
-        float LHSpeed = leftHandRB.velocity.magnitude;
+        
         RHSpeed = rightHandRB.velocity.magnitude;
         BodySpeed = bodyRB.velocity.magnitude;
-
-        // normalizing HandSpeeds
-        float newLHSpeed = LHSpeed - BodySpeed;
         newRHSpeed = RHSpeed - BodySpeed;
 
-
-        //Debug.Log("FrontDistance : " + RHFrontDistance + " | BackDistance : " + RHBackDistance + " | differnce : " + deltaDistance);
-        if (newLHSpeed < speedThreshold || newRHSpeed < speedThreshold) return;
+        //if (newLHSpeed < speedThreshold || newRHSpeed < speedThreshold) return;
 
         // creating Timer
         CreateTimer();
-
-        //float RHFrontDistance = Vector3.Distance(frontTrans.position, rightHandTransform.position);
-        //float RHBackDistance = Vector3.Distance(backTrans.position, rightHandTransform.position);
-
-        //float deltaDistance = RHFrontDistance - RHBackDistance;
-
-        //Debug.Log("FrontDistance : " + RHFrontDistance + " | BackDistance : " + RHBackDistance + " | differnce : " + deltaDistance);
-
 
         if (RHFrontDistance > RHBackDistance)
         {
             //Debug.Log("LeftHandBack");
             currentLeftHandSide = 0;
+            handFase = HandFases.Back;
+
+            if (firstTick == true)
+            {
+                previousLeftHandSide = currentLeftHandSide;
+                firstTick = false;
+            }
+
+        }
+        if (RHFrontDistance < RHBackDistance)
+        {
+            //Debug.Log("LeftHandFront");
+            currentLeftHandSide = 1;
             handFase = HandFases.Front;
 
             if (firstTick == true)
@@ -195,186 +186,15 @@ public class Running : MonoBehaviour
             }
         }
 
-        if (RHFrontDistance < RHBackDistance)
-        {
-            //Debug.Log("LeftHandFront");
-            currentLeftHandSide = 1;
-            handFase = HandFases.Back;
-
-
-            if (firstTick == true)
-            {
-                previousLeftHandSide = currentLeftHandSide;
-                firstTick = false;
-            }
-        }
-
 
         // if the hand hasn;t changed side it won't reset te timer;
         if (currentLeftHandSide != previousLeftHandSide)
         {
-            Debug.Log("tick");
+            //Debug.Log("tick");
             tick++;
             RunningTimer.ResetTimer();
             PlayerFase = Fases.Running;
             previousLeftHandSide = currentLeftHandSide;
-        }
-    }
-
-    // based on the middle point of my hands and the speed of the controllers
-    private void CheckIfRunning2()
-    {
-
-        // getting Body and Hand speeds
-        float LHSpeed = leftHandRB.velocity.magnitude;
-        float RHSpeed = rightHandRB.velocity.magnitude;
-        float BodySpeed = bodyRB.velocity.magnitude;
-
-        // normalizing HandSpeeds
-        float newLHSpeed = LHSpeed - BodySpeed;
-        float newRHSpeed = RHSpeed - BodySpeed;
-
-        // just for a shot moment
-        float RHFrontDistance = Vector3.Distance(frontTrans.position, rightHandTransform.position);
-        float RHBackDistance = Vector3.Distance(backTrans.position, rightHandTransform.position);
-
-        float yAngle = CalculateAngle(RHBackDistance, RHFrontDistance, distanceFrontBack);
-
-        Debug.DrawLine(frontTrans.position, rightHandTransform.position, Color.white);
-        Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
-        Debug.Log("yAngle : " + yAngle);
-        //Debug.Log("FrontDistance : " + RHFrontDistance + " | BackDistance : " + RHBackDistance + " | differnce : " + deltaDistance);
-        if (newLHSpeed < speedThreshold || newRHSpeed < speedThreshold) return;
-
-        // creating Timer
-        CreateTimer();
-
-        //float RHFrontDistance = Vector3.Distance(frontTrans.position, rightHandTransform.position);
-        //float RHBackDistance = Vector3.Distance(backTrans.position, rightHandTransform.position);
-
-        //float deltaDistance = RHFrontDistance - RHBackDistance;
-
-        //Debug.Log("FrontDistance : " + RHFrontDistance + " | BackDistance : " + RHBackDistance + " | differnce : " + deltaDistance);
-
-
-        if (RHFrontDistance > RHBackDistance)
-        {
-            //Debug.Log("LeftHandBack");
-            currentLeftHandSide = 0;
-
-            if (firstTick == true)
-            {
-                previousLeftHandSide = currentLeftHandSide;
-                firstTick = false;
-            }
-        }
-
-        if (RHFrontDistance < RHBackDistance)
-        {
-            //Debug.Log("LeftHandFront");
-            currentLeftHandSide = 1;
-
-            if (firstTick == true)
-            {
-                previousLeftHandSide = currentLeftHandSide;
-                firstTick = false;
-            }
-        }
-
-
-
-
-
-
-        // if the hand hasn;t changed side it won't reset te timer;
-        if (currentLeftHandSide != previousLeftHandSide)
-        {
-            Debug.Log("tick");
-            tick++;
-            RunningTimer.ResetTimer();
-            PlayerFase = Fases.Running;
-            previousLeftHandSide = currentLeftHandSide;
-        }
-
-
-
-
-
-
-
-        //RunningTimer.ResetTimer();
-        //Debug.Log("IsRunning");
-
-
-
-
-
-        //calculate the coeffient
-        //float LHCoeffient = LHVelocity.y / LHVelocity.z;
-        //float RHCoeffient = RHVelocity.y / RHVelocity.z;
-
-        //leftHandRecordings.Add(LHSpeed);
-        //rightHandRecordings.Add(RHSpeed);
-
-        //float avarageLH = calculateAvarage(leftHandRecordings);
-        //float avarageRH = calculateAvarage(rightHandRecordings);
-
-        //Debug.Log("LH : " + avarageLH + " | RH : " + avarageRH);
-    }
-    public Vector2 FindHighestAndLowest(List<float> floatList)
-    {
-
-        float highest = floatList[0];
-        float lowest = floatList[0];
-
-        foreach (float num in floatList)
-        {
-            if (num > highest)
-            {
-                highest = num;
-            }
-            else if (num < lowest)
-            {
-                lowest = num;
-            }
-        }
-
-        Vector2 HighandLow = new Vector2(lowest, highest);
-        return HighandLow;
-    }
-
-    private bool CalculateHandsSpeeds()
-    {
-        bool enoughSpeed = false;
-
-        return enoughSpeed;
-
-    }
-    private void CheckIfRunningVelocity()
-    {
-
-        // Calculate handsPos Based on Center of Body
-        // LH = Left Hand RH = Right Hand
-        float deltaCenterLHPosZ = Centerbody.z - leftHandTransform.position.z;
-        float deltaCenterRHPosZ = Centerbody.z - rightHandTransform.position.z;
-
-
-        // check if both hands are at the front or at the back
-        //if (deltaLeftHandPosZ > HandsSameSiteTreshold && deltaRightHandPosZ > HandsSameSiteTreshold || deltaLeftHandPosZ < -HandsSameSiteTreshold  && deltaRightHandPosZ < -HandsSameSiteTreshold)
-        //{
-        //    Debug.Log("in front");
-        //}
-        //else
-        //{
-        //    Debug.Log("in back");
-        //}
-        //if (deltaCenterLHPosZ > HandsSameSiteTreshold && deltaCenterRHPosZ > HandsSameSiteTreshold) return;
-
-        if (deltaCenterLHPosZ > 0 && deltaCenterRHPosZ < 0 || deltaCenterLHPosZ < 0 && deltaCenterRHPosZ > 0)
-        {
-            CalulateVelocity();
-
-
         }
     }
 
@@ -412,7 +232,6 @@ public class Running : MonoBehaviour
             RunningTimer.OnTimerIsDone += SetPlayerFaseToWalking;
         }
     }
-
     private void SetPlayerFaseToWalking()
     {
         if (PlayerFase == Fases.Walking) return;
@@ -422,60 +241,9 @@ public class Running : MonoBehaviour
     private void SetPlayerFaseToWalking2()
     {
         if (PlayerFase == Fases.Walking) return;
-        Debug.Log("Timer Hands Is Done");
+        //Debug.Log("Timer Hands Is Done");
         PlayerFase = Fases.Walking;
     }
-
-    private void CalulateVelocity()
-    {
-        Vector3 LHVelocity = leftHandRB.velocity;
-        Vector3 RHVelocity = rightHandRB.velocity;
-
-        //Vector3 minVelocity = new Vector3(1, 1, 1);
-
-        //calculate the coeffient
-        float LHCoeffient = LHVelocity.y / LHVelocity.z;
-        float RHCoeffient = RHVelocity.y / RHVelocity.z;
-
-        leftHandRecordings.Add(LHCoeffient);
-        rightHandRecordings.Add(RHCoeffient);
-
-        float avarageLH = calculateAvarage(leftHandRecordings);
-        float avarageRH = calculateAvarage(rightHandRecordings);
-        if (avarageLH < -1 && avarageRH > 1 || avarageLH > 1 && avarageRH < -1)
-        {
-            //Debug.Log("LH : " + avarageLH + " | RH : " + avarageRH);
-        }
-        //if (LHVelocity.z < 0.5f && RHVelocity.z < 0.5f) return;
-        //RunningTimer.ResetTimer();
-        //Debug.Log("Running");
-    }
-
-    private void CalulateSpeed()
-    {
-        float LHSpeed = leftHandRB.velocity.magnitude;
-        float RHSpeed = rightHandRB.velocity.magnitude;
-
-        //Vector3 minVelocity = new Vector3(1, 1, 1);
-
-
-
-        leftHandRecordings.Add(LHSpeed);
-        rightHandRecordings.Add(RHSpeed);
-
-        float avarageLH = calculateAvarage(leftHandRecordings);
-        float avarageRH = calculateAvarage(rightHandRecordings);
-        Debug.Log("LH : " + avarageLH + " | RH : " + avarageRH);
-
-        //if (avarageLH < -1 && avarageRH > 1 || avarageLH > 1 && avarageRH < -1)
-        //{
-        //    Debug.Log("LH : " + avarageLH + " | RH : " + avarageRH);
-        //}
-        //if (LHVelocity.z < 0.5f && RHVelocity.z < 0.5f) return;
-        //RunningTimer.ResetTimer();
-        //Debug.Log("Running");
-    }
-
     private float CalculateAngle(float a, float b, float c)
     {
         // c2 = a2 + b2 -2ab * cos(y)
@@ -496,6 +264,4 @@ public class Running : MonoBehaviour
 
         return yAngle;
     }
-
-
 }
