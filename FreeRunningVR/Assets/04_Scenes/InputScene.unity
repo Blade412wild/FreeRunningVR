@@ -5401,12 +5401,18 @@ MonoBehaviour:
   handsMiddleTrans: {fileID: 1218120519}
   centerBodyPrefabTrans: {fileID: 1310336030}
   PlayerFase: 0
-  maxRunningSpeed: 30
+  handFase: 0
+  maxRunningSpeed: 20
   handsSameSiteThreshold: 0.1
   velocityThreshold: 1.5
-  speedThreshold: 0.5
+  speedThreshold: 0.8
   maxDistance: 0.3
   time: 0
+  handsNexToBodyAngleMin: 0.15
+  handsNexToBodyAngleMax: 0.25
+  handNextToBodyTime: 0.3
+  handNextToBodySpeedBuffer: 0.7
+  HandSpeedTest: 3.3
   RunningTimerDuration: 2
 --- !u!1 &1447275009
 GameObject:
