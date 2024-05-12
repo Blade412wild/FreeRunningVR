@@ -124,29 +124,27 @@ public class Running : MonoBehaviour
         Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
         //Debug.Log("yAngle : " + yAngle);
 
-        if (PlayerFase == Fases.Running)
-        {
-            if (yAngle > handsNexToBodyAngleMin && yAngle < handsNexToBodyAngleMax)
-            {
-                if (newRHSpeed > -handNextToBodySpeedBuffer && newRHSpeed < handNextToBodySpeedBuffer)
-                {
-                    if (handsBesideBodyTimer == null)
-                    {
-                        handsBesideBodyTimer = new Timer1(handNextToBodyTime);
-                        handsBesideBodyTimer.OnTimerIsDone += SetPlayerFaseToWalking2;
-                    }
+        if (PlayerFase != Fases.Running) return;
 
-                    //Debug.Log("NextToBody");
-                    handFase = HandFases.NextToBody;
-                }
-            }
-            else
+        if (yAngle > handsNexToBodyAngleMin && yAngle < handsNexToBodyAngleMax)
+        {
+            if (newRHSpeed > -handNextToBodySpeedBuffer && newRHSpeed < handNextToBodySpeedBuffer)
             {
-                if (handsBesideBodyTimer == null) return;
-                handsBesideBodyTimer.ResetTimer();
-                //Debug.Log("resetTimer");
+                if (handsBesideBodyTimer == null)
+                {
+                    handsBesideBodyTimer = new Timer1(handNextToBodyTime);
+                    handsBesideBodyTimer.OnTimerIsDone += SetPlayerFaseToWalking2;
+                }
+
+                handFase = HandFases.NextToBody;
             }
         }
+        else
+        {
+            if (handsBesideBodyTimer == null) return;
+            handsBesideBodyTimer.ResetTimer();
+        }
+
     }
 
     private void CheckIfRunning()
@@ -161,9 +159,6 @@ public class Running : MonoBehaviour
         float newLHSpeed = LHSpeed - BodySpeed;
         newRHSpeed = RHSpeed - BodySpeed;
 
-        //if (newLHSpeed < speedThreshold || newRHSpeed < speedThreshold) return;
-
-        // creating Timer
         CreateTimer();
 
         if (RHFrontDistance > RHBackDistance)
@@ -193,11 +188,11 @@ public class Running : MonoBehaviour
             }
         }
 
-         
+
         // if the hand hasn;t changed side it won't reset te timer;
         if (currentLeftHandSide != previousLeftHandSide)
         {
-            Debug.Log("tick");
+            //Debug.Log("tick");
             tick++;
             RunningTimer.ResetTimer();
             PlayerFase = Fases.Running;

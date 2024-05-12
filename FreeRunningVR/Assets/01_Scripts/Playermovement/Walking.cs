@@ -11,13 +11,13 @@ public class Walking : MonoBehaviour
     [SerializeField] public float moveSpeed;
     [SerializeField] private float groundDrag;
     [SerializeField] private float airMultiplier;
-    public float StartMoveSpeed; 
+    public float StartMoveSpeed;
 
     [Header("GroundCheck")]
     [SerializeField] private float playerHeight;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask Body;
-    public bool grounded;
+    public bool grounded { get; private set; }
 
     [Header("GameObjects")]
     [SerializeField] private Rigidbody leftHandRB;
@@ -35,7 +35,7 @@ public class Walking : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
-    private Vector3 moveDirection;
+    public Vector3 moveDirection { get; private set; }
     private Rigidbody rb;
 
     // Start is called before the first frame update
@@ -129,7 +129,7 @@ public class Walking : MonoBehaviour
 
         bool hasHit = Physics.SphereCast(start, bodyCollider.radius, Vector3.down, out RaycastHit hitInfo, rayLenght, whatIsGround);
         return hasHit;
-   }
+    }
 
 
 }
