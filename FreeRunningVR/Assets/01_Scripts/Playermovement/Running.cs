@@ -10,7 +10,7 @@ public class Running : MonoBehaviour
     [Header("Scritps")]
     public Walking walking;
 
-    [Header("GameObjects")]
+    [Header("GameObjects")] 
     [SerializeField] private Rigidbody leftHandRB;
     [SerializeField] private Rigidbody rightHandRB;
     [SerializeField] private Rigidbody bodyRB;
@@ -29,8 +29,8 @@ public class Running : MonoBehaviour
     public Fases PlayerFase;
     public HandFases handFase;
     [SerializeField] private float maxRunningSpeed = 15.0f;
-    [SerializeField] private float handsSameSiteThreshold = 0.1f;
-    [SerializeField] private float velocityThreshold = 1.5f;
+    //[SerializeField] private float handsSameSiteThreshold = 0.1f;
+    //[SerializeField] private float velocityThreshold = 1.5f;
     [SerializeField] private float speedThreshold = 1.5f;
     [SerializeField] private float maxDistance = 0.3f;
     [SerializeField] private float time;
@@ -39,9 +39,6 @@ public class Running : MonoBehaviour
     [SerializeField] private float handNextToBodyTime = 0.3f;
     [SerializeField] private float handNextToBodySpeedBuffer = 0.6f;
     [SerializeField] private float HandSpeedTest = 3f;
-
-
-
 
     Timer1 RunningTimer;
     Timer1 handsBesideBodyTimer;

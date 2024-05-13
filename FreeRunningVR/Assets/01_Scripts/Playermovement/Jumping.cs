@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Jumping : MonoBehaviour
 {
+    [SerializeField] private Walking walking;
 
     [Header("Jump")]
     [SerializeField] private float smallJumnpForce;
@@ -80,6 +82,7 @@ public class Jumping : MonoBehaviour
     private void resetJump()
     {
         readyToJump = true;
+        walking.exitingSlope = false;
     }
 
     //jumping
@@ -101,9 +104,11 @@ public class Jumping : MonoBehaviour
         // check if hands are movedup
         if (leftHandEndPos.y < leftHandInitialPos.y || rightHandEndPos.y < rightHandInitialPos.y)
         {
+            walking.exitingSlope = true;
             SmallJump();
             readyToJump = false;
             Invoke(nameof(resetJump), jumpCooldown);
+            
         }
 
         float leftHandDistanceTraveled = leftHandEndPos.y - leftHandInitialPos.y;
@@ -117,7 +122,7 @@ public class Jumping : MonoBehaviour
 
         // check if velocity is enough
         if (leftHandEndVel.y < 2.0f && rightHandEndVel.y < 3.0f) return;
-
+        walking.exitingSlope = true;
         BigJump();
         readyToJump = false;
         Invoke(nameof(resetJump), jumpCooldown);

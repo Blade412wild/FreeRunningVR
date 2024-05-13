@@ -38,6 +38,7 @@ public class Walking : MonoBehaviour
     private Vector3 rightHandInitialPos;
     private float horizontalInput;
     private float verticalInput;
+    public bool exitingSlope;
 
     public Vector3 moveDirection { get; private set; }
     private Rigidbody rb;
@@ -87,17 +88,24 @@ public class Walking : MonoBehaviour
         moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
 
-        if (OnSlope())
+        // on slope
+        if (OnSlope() && !exitingSlope)
         {
-            rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
+            rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 10f, ForceMode.Force);
+            if (rb.velocity.y > 0)
+            {
+                rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+            }
         }
-
+        // on ground
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f, ForceMode.Force);
-
+        // in air
         else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
 
+        // on slop
+        rb.useGravity = !OnSlope(); // needs to be better, cost double calculation
     }
 
     // jummping & Walking 
@@ -108,13 +116,20 @@ public class Walking : MonoBehaviour
     }
     private void SpeedControl()
     {
-        Vector3 flatVelocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
-
-
-        if (flatVelocity.magnitude > moveSpeed)
+        if (OnSlope() && !exitingSlope)
         {
-            Vector3 limitedVelocity = flatVelocity.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+            if (rb.velocity.magnitude > moveSpeed)
+                rb.velocity = rb.velocity.normalized * moveSpeed;
+        }
+        else
+        {
+            Vector3 flatVelocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
+
+            if (flatVelocity.magnitude > moveSpeed)
+            {
+                Vector3 limitedVelocity = flatVelocity.normalized * moveSpeed;
+                rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
+            }
         }
     }
 
