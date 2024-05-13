@@ -19,6 +19,10 @@ public class Walking : MonoBehaviour
     [SerializeField] private LayerMask Body;
     public bool grounded { get; private set; }
 
+    [Header("SlopeHandeling")]
+    [SerializeField] private float maxSlopeAngle;
+    private RaycastHit slopeHit;
+
     [Header("GameObjects")]
     [SerializeField] private Rigidbody leftHandRB;
     [SerializeField] private Rigidbody rightHandRB;
@@ -95,7 +99,7 @@ public class Walking : MonoBehaviour
     private void CheckGround()
     {
         //grounded = Physics.Raycast(transform.position, Vector3.down, rayLenght, whatIsGround);
-        grounded = checkGround2();
+        grounded = CheckIfGroundIsGround();
     }
     private void SpeedControl()
     {
@@ -122,13 +126,26 @@ public class Walking : MonoBehaviour
         return average;
     }
 
-    private bool checkGround2()
+    private bool CheckIfGroundIsGround()
     {
         Vector3 start = bodyCollider.transform.TransformPoint(bodyCollider.center);
         float rayLenght = bodyCollider.height / 2 - bodyCollider.radius + 0.5f;
 
         bool hasHit = Physics.SphereCast(start, bodyCollider.radius, Vector3.down, out RaycastHit hitInfo, rayLenght, whatIsGround);
         return hasHit;
+    }
+    private bool OnSlope()
+    {
+        Vector3 start = bodyCollider.transform.TransformPoint(bodyCollider.center);
+        float rayLenght = bodyCollider.height / 2 + 0.3f;
+
+        if (Physics.Raycast(start, Vector3.down, out slopeHit, rayLenght))
+        {
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            return angle < maxSlopeAngle && angle != 0;
+        }
+
+        return false;
     }
 
 
