@@ -87,6 +87,11 @@ public class Walking : MonoBehaviour
         moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
 
+        if (OnSlope())
+        {
+            rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
+        }
+
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f, ForceMode.Force);
 
@@ -146,6 +151,11 @@ public class Walking : MonoBehaviour
         }
 
         return false;
+    }
+
+    private Vector3 GetSlopeMoveDirection()
+    {
+        return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 
 
