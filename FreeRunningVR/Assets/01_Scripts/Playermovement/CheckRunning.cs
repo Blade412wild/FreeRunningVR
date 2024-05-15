@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Hardware;
 using UnityEngine;
 
-public class Running : MonoBehaviour
+public class CheckRunning : MonoBehaviour
 {
     public enum Fases { Walking, Running };
     public enum HandFases { NextToBody, Front, Back }
@@ -81,15 +81,31 @@ public class Running : MonoBehaviour
         distanceFrontBack = Vector3.Distance(frontTrans.position, backTrans.position);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnUpdate()
     {
         UpdatingTimers();
-        UpdatingMovementSpeed();
         CalculatingBodyparts();
-        CheckIfRunning();
+        CheckTick();
         CalculateHandDistance();
     }
+
+    public bool IsRunning()
+    {
+        CalculatingBodyparts();
+        bool isRunning = CheckIfBeginningToRun();
+        return isRunning;
+    }
+
+    // Update is called once per frame
+    //void Update()
+    //{
+    //    UpdatingTimers();
+    //    CalculatingBodyparts();
+    //    CheckTick();
+    //    CalculateHandDistance();
+    //}
+
+
     private void SetGameObjects()
     {
         leftHandRB = playerData.playerGameObjects.leftHandRB;
@@ -105,6 +121,12 @@ public class Running : MonoBehaviour
 
         handsMiddleTrans = playerData.playerGameObjects.handsMiddleTrans;
         centerBodyPrefabTrans = playerData.playerGameObjects.centerBodyPrefabTSrans;
+    }
+
+    private bool CheckIfBeginningToRun()
+    {
+        bool isHandMoving = IsHandMoving();
+        return isHandMoving;
     }
 
     private void UpdatingMovementSpeed()
@@ -166,20 +188,46 @@ public class Running : MonoBehaviour
         }
 
     }
-
-    private void CheckIfRunning()
+    private bool IsHandMoving()
     {
+        RHFrontDistance = Vector3.Distance(frontTrans.position, rightHandTransform.position);
+        RHBackDistance = Vector3.Distance(backTrans.position, rightHandTransform.position);
 
+        float yAngle = CalculateAngle(RHBackDistance, RHFrontDistance, distanceFrontBack);
+
+        Debug.DrawLine(frontTrans.position, rightHandTransform.position, Color.white);
+        Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
+
+        if (yAngle < handsNexToBodyAngleMin || yAngle > handsNexToBodyAngleMax)
+        {
+            CalculateRHSpeedNormalized();
+            if (newRHSpeed > 1.0f && rightHandRB.velocity.y > 1.0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    private void CalculateRHSpeedNormalized()
+    {
         // getting Body and Hand speeds
-        float LHSpeed = leftHandRB.velocity.magnitude;
         RHSpeed = rightHandRB.velocity.magnitude;
         BodySpeed = bodyRB.velocity.magnitude;
-
-        // normalizing HandSpeeds
-        float newLHSpeed = LHSpeed - BodySpeed;
         newRHSpeed = RHSpeed - BodySpeed;
+    }
 
-        CreateTimer();
+    private void CheckTick() // eerst moet nog gecheckt worden of er wel snelheid is.
+    {
+
+        CalculateRHSpeedNormalized();
+
+        if (RunningTimer == null)
+        {
+            CreateTimer();
+        }
 
         if (RHFrontDistance > RHBackDistance)
         {
@@ -187,25 +235,18 @@ public class Running : MonoBehaviour
             currentLeftHandSide = 0;
             handFase = HandFases.Back;
 
-            if (firstTick == true)
-            {
-                previousLeftHandSide = currentLeftHandSide;
-                firstTick = false;
-            }
-
+            if (firstTick == false) return;
+            SetFirstTick();
         }
+
         if (RHFrontDistance < RHBackDistance)
         {
             //Debug.Log("LeftHandFront");
             currentLeftHandSide = 1;
             handFase = HandFases.Front;
 
-
-            if (firstTick == true)
-            {
-                previousLeftHandSide = currentLeftHandSide;
-                firstTick = false;
-            }
+            if (firstTick == false) return;
+            SetFirstTick();
         }
 
 
@@ -218,6 +259,12 @@ public class Running : MonoBehaviour
             PlayerFase = Fases.Running;
             previousLeftHandSide = currentLeftHandSide;
         }
+    }
+
+    private void SetFirstTick()
+    {
+        previousLeftHandSide = currentLeftHandSide;
+        firstTick = false;
     }
 
     private void CalculatingBodyparts()
@@ -248,11 +295,8 @@ public class Running : MonoBehaviour
     }
     private void CreateTimer()
     {
-        if (RunningTimer == null)
-        {
-            RunningTimer = new Timer1(RunningTimerDuration);
-            RunningTimer.OnTimerIsDone += SetPlayerFaseToWalking;
-        }
+        RunningTimer = new Timer1(RunningTimerDuration);
+        RunningTimer.OnTimerIsDone += SetPlayerFaseToWalking;
     }
     private void SetPlayerFaseToWalking()
     {

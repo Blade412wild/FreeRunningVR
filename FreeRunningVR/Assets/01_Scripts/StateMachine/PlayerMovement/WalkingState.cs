@@ -7,6 +7,7 @@ public class WalkingState : State
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
+    [SerializeField] private CheckRunning checkRunning;
 
     [Header("Movement")]
     [SerializeField] public float moveSpeed;
@@ -46,6 +47,8 @@ public class WalkingState : State
     public override void OnUpdate()
     {
         MyInput();
+        bool test = checkRunning.IsRunning();
+        Debug.Log("test : " + test);
         SpeedControl();
 
         if (grounded)

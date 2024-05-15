@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1493847179}
+  checkRunning: {fileID: 227154729492243547}
   moveSpeed: 7
   groundDrag: 4
   airMultiplier: 0.24
@@ -7969,6 +7970,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 227154729492243531}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &227154729492243547 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7258212354301704791, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 227154729492243531}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba025c9d40ebdce4c8c55366e2f9fdc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3700042012410327686
 PrefabInstance:
   m_ObjectHideFlags: 0
