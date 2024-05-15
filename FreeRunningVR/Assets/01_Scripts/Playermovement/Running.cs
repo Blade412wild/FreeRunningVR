@@ -7,23 +7,11 @@ public class Running : MonoBehaviour
 {
     public enum Fases { Walking, Running };
     public enum HandFases { NextToBody, Front, Back }
-    [Header("Scritps")]
+
+    [Header("Scripts")]
+    [SerializeField] private GameManager gameManager;
     public Walking walking;
-
-    [Header("GameObjects")] 
-    [SerializeField] private Rigidbody leftHandRB;
-    [SerializeField] private Rigidbody rightHandRB;
-    [SerializeField] private Rigidbody bodyRB;
-    [SerializeField] private Transform leftHandTransform;
-    [SerializeField] private Transform rightHandTransform;
-    [SerializeField] private Transform orientation;
-    [SerializeField] private CapsuleCollider bodyCollider;
-
-    [SerializeField] private Transform frontTrans;
-    [SerializeField] private Transform backTrans;
-
-    [SerializeField] private Transform handsMiddleTrans;
-    [SerializeField] private Transform centerBodyPrefabTrans;
+    PlayerData playerData;
 
     [Header("Running")]
     public Fases PlayerFase;
@@ -39,6 +27,22 @@ public class Running : MonoBehaviour
     [SerializeField] private float handNextToBodyTime = 0.3f;
     [SerializeField] private float handNextToBodySpeedBuffer = 0.6f;
     [SerializeField] private float HandSpeedTest = 3f;
+
+    //GameObjects 
+    private Rigidbody leftHandRB;
+    private Rigidbody rightHandRB;
+    private Rigidbody bodyRB;
+    private Transform leftHandTransform;
+    private Transform rightHandTransform;
+    private Transform orientation;
+    private CapsuleCollider bodyCollider;
+
+    private Transform frontTrans;
+    private Transform backTrans;
+
+    private Transform handsMiddleTrans;
+    private Transform centerBodyPrefabTrans;
+
 
     Timer1 RunningTimer;
     Timer1 handsBesideBodyTimer;
@@ -70,6 +74,9 @@ public class Running : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        SetGameObjects();
+
         PlayerFase = Fases.Walking;
         distanceFrontBack = Vector3.Distance(frontTrans.position, backTrans.position);
     }
@@ -82,6 +89,22 @@ public class Running : MonoBehaviour
         CalculatingBodyparts();
         CheckIfRunning();
         CalculateHandDistance();
+    }
+    private void SetGameObjects()
+    {
+        leftHandRB = playerData.playerGameObjects.leftHandRB;
+        rightHandRB = playerData.playerGameObjects.rightHandRB;
+        bodyRB = playerData.playerGameObjects.bodyRB;
+        leftHandTransform = playerData.playerGameObjects.leftHandTransform;
+        rightHandTransform = playerData.playerGameObjects.rightHandTransform;
+        orientation = playerData.playerGameObjects.orientation;
+        bodyCollider = playerData.playerGameObjects.bodyCollider;
+
+        frontTrans = playerData.playerGameObjects.frontTrans;
+        backTrans = playerData.playerGameObjects.backTrans;
+
+        handsMiddleTrans = playerData.playerGameObjects.handsMiddleTrans;
+        centerBodyPrefabTrans = playerData.playerGameObjects.centerBodyPrefabTSrans;
     }
 
     private void UpdatingMovementSpeed()

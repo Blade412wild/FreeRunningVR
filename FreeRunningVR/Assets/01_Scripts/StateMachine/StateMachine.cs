@@ -9,13 +9,14 @@ public class StateMachine
     public Guard Controller;
 
     // Start is called before the first frame update
-    public StateMachine(Guard Controller, params State[] states)
+    public StateMachine(object Controller, params State[] states)
     {
         foreach(State state in states)
         {
             Debug.Log(state.GetType().Name);
             state.Initalize(this);
-            stateDictionary.Add(state.GetType(), state); 
+            stateDictionary.Add(state.GetType(), state);
+            Debug.Log(state.name);
         }
     }
 
@@ -36,6 +37,11 @@ public class StateMachine
     public void OnUpdate()
     {
         activeState?.OnUpdate();
+    }
+
+    public void OnFixedUpdate()
+    {
+        activeState?.OnFixedUpdate();
     }
 
     public void SwitchState(System.Type stateName)

@@ -19,6 +19,11 @@ public class PatrolState : State
     {
     }
 
+    public override void OnFixedUpdate()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void OnUpdate()
     {
         //Transition

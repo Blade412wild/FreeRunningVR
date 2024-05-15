@@ -14,6 +14,11 @@ public class IdleState : State
     {
     }
 
+    public override void OnFixedUpdate()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void OnUpdate()
     {
         waitTime -= Time.deltaTime;

@@ -13,6 +13,7 @@ public class PlayerGameObjects : MonoBehaviour
     public Transform handsMiddleTrans;
     public Transform centerBodyPrefabTSrans;
     public Transform orientation;
+    public Transform CameraOffset;
 
     [Header("RigidBody")]
     public Rigidbody headRB;
@@ -27,5 +28,6 @@ public class PlayerGameObjects : MonoBehaviour
 
     [Header("Collider")]
     public CapsuleCollider bodyCollider;
+
 
 }

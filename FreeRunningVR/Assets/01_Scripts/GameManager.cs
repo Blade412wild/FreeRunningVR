@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.XR.LegacyInputHelpers;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
         ObjectData = new Scratchpad();
         ObjectData.Write("playerData", playerData);
         playerData.playerGameObjects = playerGameObjects;
+
     }
 
     // Start is called before the first frame update

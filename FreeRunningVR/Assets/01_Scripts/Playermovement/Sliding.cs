@@ -5,16 +5,21 @@ using UnityEngine.EventSystems;
 
 public class Sliding : MonoBehaviour
 {
+    [Header("Scripts")]
+    [SerializeField] private GameManager gameManager;
+    private PlayerData playerData;
     [SerializeField] private Walking walking;
-    [SerializeField] private Rigidbody headRB;
-    [SerializeField] private Rigidbody bodyRB;
-    [SerializeField] private Transform cameraOffset;
+
     [SerializeField] private float camOriginalYPos = 0;
     [SerializeField] private float camSlidingDecrease = -0.65f;
     [SerializeField] private float maxSlideDuration = 2.0f;
     [SerializeField] private float SlideForce = 5.0f;
     [SerializeField] private bool ForceSlide;
 
+    //GameObjects
+    private Rigidbody headRB;
+    private Rigidbody bodyRB;
+    private Transform cameraOffset;
 
     private Timer1 slidingTimer;
     private float headYVelocity;
@@ -28,7 +33,8 @@ public class Sliding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        SetGameObjects();
     }
 
     // Update is called once per frame
@@ -42,6 +48,13 @@ public class Sliding : MonoBehaviour
             CheckIfSliding();
         }
     }
+    private void SetGameObjects()
+    {
+        headRB = playerData.playerGameObjects.headRB;
+        bodyRB = playerData.playerGameObjects.bodyRB;
+        cameraOffset = playerData.playerGameObjects.orientation.parent;
+    }
+
 
     private void UpdateTimer()
     {

@@ -6,7 +6,10 @@ using UnityEngine.InputSystem;
 
 public class Jumping : MonoBehaviour
 {
+    [Header("Scripts")]
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private Walking walking;
+    PlayerData playerData;
 
     [Header("Jump")]
     [SerializeField] private float smallJumnpForce;
@@ -18,16 +21,17 @@ public class Jumping : MonoBehaviour
     [SerializeField] private float JumpVelocityMin = 2.0f;
     [SerializeField] private float JumpTravelDistanceMin = 0.2f;
     public bool grounded;
+
     [Header("GroundCheck")]
     [SerializeField] private float playerHeight;
     [SerializeField] private LayerMask whatIsGround;
 
     [Header("GameObjects")]
-    [SerializeField] private Rigidbody leftHandRB;
-    [SerializeField] private Rigidbody rightHandRB;
-    [SerializeField] private Transform leftHandTransform;
-    [SerializeField] private Transform rightHandTransform;
-    [SerializeField] private Transform orientation;
+    private Rigidbody leftHandRB;
+    private Rigidbody rightHandRB;
+    private Transform leftHandTransform;
+    private Transform rightHandTransform;
+    private Transform orientation;
 
     private List<float> leftHandRecordings = new List<float>();
     private List<float> rightHandRecordings = new List<float>();
@@ -43,19 +47,21 @@ public class Jumping : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        SetGameObjects();
+
         rb = GetComponent<Rigidbody>();
         InputManager.Instance.playerInputActions.Walking.TryToJump.canceled += DicideHowToJump;
         InputManager.Instance.playerInputActions.Walking.TryToJump.started += SetJumpData;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SetGameObjects()
     {
-        
-    }
-    private void FixedUpdate()
-    {
-
+        leftHandRB = playerData.playerGameObjects.leftHandRB;
+        rightHandRB = playerData.playerGameObjects.rightHandRB;
+        leftHandTransform = playerData.playerGameObjects.leftHandTransform;
+        rightHandTransform = playerData.playerGameObjects.rightHandTransform;
+        orientation = playerData.playerGameObjects.orientation;
     }
 
     // jummping & Walking 

@@ -1,12 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Walking : MonoBehaviour
+public class WalkingState : State
 {
+
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
@@ -40,19 +38,17 @@ public class Walking : MonoBehaviour
 
     public Vector3 moveDirection { get; private set; }
     private Rigidbody rb;
-
-    // Start is called before the first frame update
-    void Start()
+    public override void OnEnter()
     {
-        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
-        SetGameObjects();
-        
-        InputManager.Instance.playerInputActions.Walking.Enable();
-        StartMoveSpeed = moveSpeed;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnExit()
+    {
+
+    }
+
+    public override void OnUpdate()
     {
         MyInput();
         SpeedControl();
@@ -65,6 +61,19 @@ public class Walking : MonoBehaviour
         {
             rb.drag = 0;
         }
+    }
+    public override void OnFixedUpdate()
+    {
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        SetGameObjects();
+
+        InputManager.Instance.playerInputActions.Walking.Enable();
+        StartMoveSpeed = moveSpeed;
     }
 
     private void FixedUpdate()
