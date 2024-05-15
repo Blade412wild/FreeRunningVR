@@ -55,7 +55,7 @@ public class Sliding : MonoBehaviour
     {
         headYVelocity = headRB.velocity.y;
         //Debug.Log("HeadVelocity : " + headYVelocity);
-        if (headYVelocity <= -1 && bodyRB.velocity.magnitude > walking.StartMoveSpeed + 2.0f || ForceSlide == true)
+        if (headYVelocity <= -1 && headYVelocity >= -2 && bodyRB.velocity.magnitude > walking.StartMoveSpeed + 2.0f || ForceSlide == true)
         {
             if (slidingTimer == null)
             {

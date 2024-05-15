@@ -6,22 +6,18 @@ public class GameManager : MonoBehaviour
 {
     public Scratchpad ObjectData { get; private set; }
     public PlayerData playerData;
+    [SerializeField] private PlayerGameObjects playerGameObjects; 
 
     private void Awake()
     {
         ObjectData = new Scratchpad();
         ObjectData.Write("playerData", playerData);
+        playerData.playerGameObjects = playerGameObjects;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-       
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
