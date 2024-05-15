@@ -230,7 +230,7 @@
             "id": "51330e62-bd1e-4704-bb70-3b541143bb66",
             "actions": [
                 {
-                    "name": "Slide",
+                    "name": "Move",
                     "type": "Button",
                     "id": "2d416c62-4353-455e-9356-f837e3507dc1",
                     "expectedControlType": "Button",
@@ -247,7 +247,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Slide",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -257,15 +257,6 @@
             "name": "Jumping",
             "id": "221a86c8-1351-4cdf-b1dc-8116215b8fc6",
             "actions": [
-                {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "aa053da0-e99f-48a8-b800-b1d906bc9b60",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
                 {
                     "name": "Move",
                     "type": "Value",
@@ -277,17 +268,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "3253f880-8c84-4552-ac8c-afcac69bb750",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "WASD",
                     "id": "ed1644aa-9f16-4168-a4aa-9cb808a00dad",

@@ -252,7 +252,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""51330e62-bd1e-4704-bb70-3b541143bb66"",
             ""actions"": [
                 {
-                    ""name"": ""Slide"",
+                    ""name"": ""Move"",
                     ""type"": ""Button"",
                     ""id"": ""2d416c62-4353-455e-9356-f837e3507dc1"",
                     ""expectedControlType"": ""Button"",
@@ -269,7 +269,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Slide"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -279,15 +279,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""name"": ""Jumping"",
             ""id"": ""221a86c8-1351-4cdf-b1dc-8116215b8fc6"",
             ""actions"": [
-                {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""aa053da0-e99f-48a8-b800-b1d906bc9b60"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
                 {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
@@ -299,17 +290,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""3253f880-8c84-4552-ac8c-afcac69bb750"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""WASD"",
                     ""id"": ""ed1644aa-9f16-4168-a4aa-9cb808a00dad"",
@@ -382,10 +362,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Running_TryToSlide = m_Running.FindAction("TryToSlide", throwIfNotFound: true);
         // Sliding
         m_Sliding = asset.FindActionMap("Sliding", throwIfNotFound: true);
-        m_Sliding_Slide = m_Sliding.FindAction("Slide", throwIfNotFound: true);
+        m_Sliding_Move = m_Sliding.FindAction("Move", throwIfNotFound: true);
         // Jumping
         m_Jumping = asset.FindActionMap("Jumping", throwIfNotFound: true);
-        m_Jumping_Jump = m_Jumping.FindAction("Jump", throwIfNotFound: true);
         m_Jumping_Move = m_Jumping.FindAction("Move", throwIfNotFound: true);
     }
 
@@ -572,12 +551,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Sliding
     private readonly InputActionMap m_Sliding;
     private List<ISlidingActions> m_SlidingActionsCallbackInterfaces = new List<ISlidingActions>();
-    private readonly InputAction m_Sliding_Slide;
+    private readonly InputAction m_Sliding_Move;
     public struct SlidingActions
     {
         private @PlayerInputActions m_Wrapper;
         public SlidingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Slide => m_Wrapper.m_Sliding_Slide;
+        public InputAction @Move => m_Wrapper.m_Sliding_Move;
         public InputActionMap Get() { return m_Wrapper.m_Sliding; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -587,16 +566,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_SlidingActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_SlidingActionsCallbackInterfaces.Add(instance);
-            @Slide.started += instance.OnSlide;
-            @Slide.performed += instance.OnSlide;
-            @Slide.canceled += instance.OnSlide;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
         }
 
         private void UnregisterCallbacks(ISlidingActions instance)
         {
-            @Slide.started -= instance.OnSlide;
-            @Slide.performed -= instance.OnSlide;
-            @Slide.canceled -= instance.OnSlide;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
         }
 
         public void RemoveCallbacks(ISlidingActions instance)
@@ -618,13 +597,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Jumping
     private readonly InputActionMap m_Jumping;
     private List<IJumpingActions> m_JumpingActionsCallbackInterfaces = new List<IJumpingActions>();
-    private readonly InputAction m_Jumping_Jump;
     private readonly InputAction m_Jumping_Move;
     public struct JumpingActions
     {
         private @PlayerInputActions m_Wrapper;
         public JumpingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Jump => m_Wrapper.m_Jumping_Jump;
         public InputAction @Move => m_Wrapper.m_Jumping_Move;
         public InputActionMap Get() { return m_Wrapper.m_Jumping; }
         public void Enable() { Get().Enable(); }
@@ -635,9 +612,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_JumpingActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_JumpingActionsCallbackInterfaces.Add(instance);
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -645,9 +619,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IJumpingActions instance)
         {
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
@@ -682,11 +653,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface ISlidingActions
     {
-        void OnSlide(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
     public interface IJumpingActions
     {
-        void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
     }
 }

@@ -7,7 +7,6 @@ public class RunningState : State
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
 
-    int count;
 
     private void Start()
     {

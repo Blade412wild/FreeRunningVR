@@ -8,6 +8,7 @@ public class PlayerData : ScriptableObject
     [Header("playerData")]
     public bool grounded;
     public PlayerGameObjects playerGameObjects;
+    public object previousState;
 
     
 }

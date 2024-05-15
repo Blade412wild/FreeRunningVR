@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WalkingState : State
 {
-
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
@@ -16,7 +15,6 @@ public class WalkingState : State
     public float StartMoveSpeed;
 
     [Header("GroundCheck")]
-    [SerializeField] private float playerHeight;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask Body;
     public bool grounded { get; private set; }
@@ -28,9 +26,6 @@ public class WalkingState : State
     //GameObjects
     private Transform orientation;
     private CapsuleCollider bodyCollider;
-
-    private List<float> leftHandRecordings = new List<float>();
-    private List<float> rightHandRecordings = new List<float>();
 
     private float horizontalInput;
     private float verticalInput;
@@ -64,6 +59,8 @@ public class WalkingState : State
     }
     public override void OnFixedUpdate()
     {
+        CheckGround();
+        Walk();
     }
 
     // Start is called before the first frame update
@@ -76,18 +73,12 @@ public class WalkingState : State
         StartMoveSpeed = moveSpeed;
     }
 
-    private void FixedUpdate()
-    {
-        CheckGround();
-        Walk();
-    }
-
     private void SetGameObjects()
     {
         orientation = playerData.playerGameObjects.orientation;
         bodyCollider = playerData.playerGameObjects.bodyCollider;
 
-        rb = GetComponent<Rigidbody>();
+        rb = playerData.playerGameObjects.bodyRB;
         rb.freezeRotation = true;
 
     }

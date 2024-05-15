@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
 
     public PlayerInputActions playerInputActions;
 
-    [SerializeField] private Jumping jumping;
+    [SerializeField] private CheckJumping jumping;
 
     private void Awake()
     {

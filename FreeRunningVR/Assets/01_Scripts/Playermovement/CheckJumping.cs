@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Jumping : MonoBehaviour
+public class CheckJumping : MonoBehaviour
 {
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
