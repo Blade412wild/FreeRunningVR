@@ -11,9 +11,10 @@ public class SlidingState : State
 
     [SerializeField] private float camOriginalYPos = 0;
     [SerializeField] private float camSlidingDecrease = -0.65f;
-    [SerializeField] private float maxSlideDuration = 2.0f;
+    [SerializeField] private float maxSlideDuration = 1.3f;
     [SerializeField] private float SlideForce = 5.0f;
     [SerializeField] private bool ForceSlide;
+    [SerializeField] private float maxSlideSpeed = 10;
 
     [Header("Movement")]
     [SerializeField] public float moveSpeed;
@@ -103,8 +104,13 @@ public class SlidingState : State
         {
             UpdateTimer();
         }
+        if (headRB.velocity.y > 0.6f)
+        {
+            StopSliding();
+        }
         MyInput();
-        SpeedControl();
+
+        //SpeedControl();
 
         if (grounded)
         {
@@ -119,6 +125,7 @@ public class SlidingState : State
     {
         CheckGround();
         Walk();
+        Slide();
     }
 
     private void MyInput()
@@ -172,9 +179,9 @@ public class SlidingState : State
         {
             Vector3 flatVelocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
 
-            if (flatVelocity.magnitude > moveSpeed)
+            if (flatVelocity.magnitude > maxSlideSpeed)
             {
-                Vector3 limitedVelocity = flatVelocity.normalized * moveSpeed;
+                Vector3 limitedVelocity = flatVelocity.normalized * maxSlideSpeed;
                 rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
             }
         }
@@ -222,6 +229,6 @@ public class SlidingState : State
 
     public override void OnExit()
     {
-        throw new System.NotImplementedException();
+
     }
 }

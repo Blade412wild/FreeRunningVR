@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grounded: 0
   WalkSpeed: 7
-  RunSpeed: 12
+  RunSpeed: 20
   playerGameObjects: {fileID: 0}
