@@ -121,8 +121,6 @@ public class SlidingState : State
         Walk();
     }
 
-
-
     private void MyInput()
     {
         Vector2 stickInput = InputManager.Instance.playerInputActions.Walking.MoveVR.ReadValue<Vector2>();
