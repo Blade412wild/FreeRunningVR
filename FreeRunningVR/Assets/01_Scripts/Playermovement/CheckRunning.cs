@@ -12,61 +12,48 @@ public class CheckRunning : MonoBehaviour
     public Walking walking;
     PlayerData playerData;
 
-    [Header("Running")]
-    public HandFases handFase;
-    [SerializeField] private float maxRunningSpeed = 15.0f;
-    //[SerializeField] private float handsSameSiteThreshold = 0.1f;
-    //[SerializeField] private float velocityThreshold = 1.5f;
-    [SerializeField] private float speedThreshold = 1.5f;
-    [SerializeField] private float maxDistance = 0.3f;
+    [Header("Tick")]
     [SerializeField] private float time;
+    [SerializeField] private float handNextToBodyTime = 0.3f;
+    [SerializeField] private float RunningTimerDuration = 1.5f;
+    private Timer1 RunningTimer;
+    private int tick = 0;
+    private bool firstTick = true;
+    private int currentLeftHandSide;
+    private int previousLeftHandSide;
+
+    [Header("HandsBeside Body")]
+    public HandFases handFase;
+    [SerializeField] private float speedThreshold = 1.5f;
     [SerializeField] private float handsNexToBodyAngleMin = 0.015f;
     [SerializeField] private float handsNexToBodyAngleMax = 0.025f;
-    [SerializeField] private float handNextToBodyTime = 0.3f;
     [SerializeField] private float handNextToBodySpeedBuffer = 0.6f;
-    [SerializeField] private float HandSpeedTest = 3f;
-    [SerializeField] private float HandTime;
-    [SerializeField] private float TickTime;
+    private Timer1 handsBesideBodyTimer;
 
     //GameObjects 
     private Rigidbody leftHandRB;
     private Rigidbody rightHandRB;
     private Rigidbody bodyRB;
+    private CapsuleCollider bodyCollider;
     private Transform leftHandTransform;
     private Transform rightHandTransform;
     private Transform orientation;
-    private CapsuleCollider bodyCollider;
-
     private Transform frontTrans;
     private Transform backTrans;
-
     private Transform handsMiddleTrans;
     private Transform centerBodyPrefabTrans;
 
-
-    Timer1 RunningTimer;
-    Timer1 handsBesideBodyTimer;
-    private int tick = 0;
-    private int currentLeftHandSide;
-    private int previousLeftHandSide;
-    private bool firstTick = true;
-
+    //distances
     private float distanceFrontBack;
     private float RHFrontDistance;
     private float RHBackDistance;
+
+    //speeds 
     private float newRHSpeed;
     private float BodySpeed;
     private float RHSpeed;
 
     private bool IsStillRunningBool = true;
-
-
-
-    [SerializeField] private float RunningTimerDuration = 1.5f;
-
-
-    private List<float> leftHandRecordings = new List<float>();
-    private List<float> rightHandRecordings = new List<float>();
 
     private Vector3 Centerbody;
 
@@ -149,14 +136,13 @@ public class CheckRunning : MonoBehaviour
         if (RunningTimer != null)
         {
             RunningTimer.OnUpdate();
-            TickTime = RunningTimer.currentTime;
+            time = RunningTimer.currentTime;
 
         }
 
         if (handsBesideBodyTimer != null)
         {
             handsBesideBodyTimer.OnUpdate();
-            HandTime = handsBesideBodyTimer.currentTime;
         }
     }
 

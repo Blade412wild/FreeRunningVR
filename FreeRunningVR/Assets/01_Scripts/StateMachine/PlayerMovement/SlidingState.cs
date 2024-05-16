@@ -7,7 +7,6 @@ public class SlidingState : State
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
-    [SerializeField] private Walking walking;
 
     [SerializeField] private float camOriginalYPos = 0;
     [SerializeField] private float camSlidingDecrease = -0.65f;
