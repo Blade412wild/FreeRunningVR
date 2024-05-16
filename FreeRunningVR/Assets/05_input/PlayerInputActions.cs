@@ -346,6 +346,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Idle"",
+            ""id"": ""2df56d23-a17c-4dcb-882d-08fd20eb4cf7"",
+            ""actions"": [
+                {
+                    ""name"": ""MoveVR"",
+                    ""type"": ""Value"",
+                    ""id"": ""43aa2a7a-a17d-4026-a399-f800ee80443d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4bb48d96-c43d-4cad-a6ff-aaabbac15375"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/thumbstick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveVR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -366,6 +394,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Jumping
         m_Jumping = asset.FindActionMap("Jumping", throwIfNotFound: true);
         m_Jumping_Move = m_Jumping.FindAction("Move", throwIfNotFound: true);
+        // Idle
+        m_Idle = asset.FindActionMap("Idle", throwIfNotFound: true);
+        m_Idle_MoveVR = m_Idle.FindAction("MoveVR", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -639,6 +670,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public JumpingActions @Jumping => new JumpingActions(this);
+
+    // Idle
+    private readonly InputActionMap m_Idle;
+    private List<IIdleActions> m_IdleActionsCallbackInterfaces = new List<IIdleActions>();
+    private readonly InputAction m_Idle_MoveVR;
+    public struct IdleActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public IdleActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveVR => m_Wrapper.m_Idle_MoveVR;
+        public InputActionMap Get() { return m_Wrapper.m_Idle; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(IdleActions set) { return set.Get(); }
+        public void AddCallbacks(IIdleActions instance)
+        {
+            if (instance == null || m_Wrapper.m_IdleActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_IdleActionsCallbackInterfaces.Add(instance);
+            @MoveVR.started += instance.OnMoveVR;
+            @MoveVR.performed += instance.OnMoveVR;
+            @MoveVR.canceled += instance.OnMoveVR;
+        }
+
+        private void UnregisterCallbacks(IIdleActions instance)
+        {
+            @MoveVR.started -= instance.OnMoveVR;
+            @MoveVR.performed -= instance.OnMoveVR;
+            @MoveVR.canceled -= instance.OnMoveVR;
+        }
+
+        public void RemoveCallbacks(IIdleActions instance)
+        {
+            if (m_Wrapper.m_IdleActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IIdleActions instance)
+        {
+            foreach (var item in m_Wrapper.m_IdleActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_IdleActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public IdleActions @Idle => new IdleActions(this);
     public interface IWalkingActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -658,5 +735,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IJumpingActions
     {
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IIdleActions
+    {
+        void OnMoveVR(InputAction.CallbackContext context);
     }
 }

@@ -29,7 +29,7 @@ public class PatrolState : State
         //Transition
         if(Vector3.Distance(transform.position, patrolPoints[index].position) < stoppingDistance)
         {
-            Controller.SwitchState(typeof(IdleState));
+            //Controller.SwitchState(typeof(IdleState));
         }
 
         //Move

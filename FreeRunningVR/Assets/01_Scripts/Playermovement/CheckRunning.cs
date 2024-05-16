@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CheckRunning : MonoBehaviour
 {
-    public enum Fases { Walking, Running };
     public enum HandFases { NextToBody, Front, Back }
 
     [Header("Scripts")]
@@ -14,7 +13,6 @@ public class CheckRunning : MonoBehaviour
     PlayerData playerData;
 
     [Header("Running")]
-    public Fases PlayerFase;
     public HandFases handFase;
     [SerializeField] private float maxRunningSpeed = 15.0f;
     //[SerializeField] private float handsSameSiteThreshold = 0.1f;
@@ -27,6 +25,8 @@ public class CheckRunning : MonoBehaviour
     [SerializeField] private float handNextToBodyTime = 0.3f;
     [SerializeField] private float handNextToBodySpeedBuffer = 0.6f;
     [SerializeField] private float HandSpeedTest = 3f;
+    [SerializeField] private float HandTime;
+    [SerializeField] private float TickTime;
 
     //GameObjects 
     private Rigidbody leftHandRB;
@@ -51,14 +51,14 @@ public class CheckRunning : MonoBehaviour
     private int previousLeftHandSide;
     private bool firstTick = true;
 
-
-
     private float distanceFrontBack;
     private float RHFrontDistance;
     private float RHBackDistance;
     private float newRHSpeed;
     private float BodySpeed;
     private float RHSpeed;
+
+    private bool IsStillRunningBool = true;
 
 
 
@@ -77,7 +77,6 @@ public class CheckRunning : MonoBehaviour
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
 
-        PlayerFase = Fases.Walking;
         distanceFrontBack = Vector3.Distance(frontTrans.position, backTrans.position);
     }
 
@@ -96,15 +95,22 @@ public class CheckRunning : MonoBehaviour
         return isRunning;
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    UpdatingTimers();
-    //    CalculatingBodyparts();
-    //    CheckTick();
-    //    CalculateHandDistance();
-    //}
-
+    public bool IsStillRunning()
+    {
+        UpdatingTimers();
+        CalculatingBodyparts();
+        CheckTick();
+        CalculateHandDistance();
+        if (!IsStillRunningBool)
+        {
+            ResetChecks();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
     private void SetGameObjects()
     {
@@ -123,35 +129,34 @@ public class CheckRunning : MonoBehaviour
         centerBodyPrefabTrans = playerData.playerGameObjects.centerBodyPrefabTSrans;
     }
 
+    public void ResetChecks()
+    {
+
+        RunningTimer.ResetTimer();
+        handsBesideBodyTimer.ResetTimer();
+        IsStillRunningBool = true;
+    }
+
     private bool CheckIfBeginningToRun()
     {
         bool isHandMoving = IsHandMoving();
         return isHandMoving;
     }
 
-    private void UpdatingMovementSpeed()
-    {
-        if (PlayerFase == Fases.Running)
-        {
-            walking.moveSpeed = maxRunningSpeed;
-        }
-        else if (PlayerFase == Fases.Walking)
-        {
-            walking.moveSpeed = walking.StartMoveSpeed;
-        }
-    }
 
     private void UpdatingTimers()
     {
         if (RunningTimer != null)
         {
             RunningTimer.OnUpdate();
-            time = RunningTimer.currentTime;
+            TickTime = RunningTimer.currentTime;
+
         }
 
         if (handsBesideBodyTimer != null)
         {
             handsBesideBodyTimer.OnUpdate();
+            HandTime = handsBesideBodyTimer.currentTime;
         }
     }
 
@@ -166,7 +171,6 @@ public class CheckRunning : MonoBehaviour
         Debug.DrawLine(backTrans.position, rightHandTransform.position, Color.white);
         //Debug.Log("yAngle : " + yAngle);
 
-        if (PlayerFase != Fases.Running) return;
 
         if (yAngle > handsNexToBodyAngleMin && yAngle < handsNexToBodyAngleMax)
         {
@@ -175,7 +179,7 @@ public class CheckRunning : MonoBehaviour
                 if (handsBesideBodyTimer == null)
                 {
                     handsBesideBodyTimer = new Timer1(handNextToBodyTime);
-                    handsBesideBodyTimer.OnTimerIsDone += SetPlayerFaseToWalking2;
+                    handsBesideBodyTimer.OnTimerIsDone += SetRunningBoolToFalse;
                 }
 
                 handFase = HandFases.NextToBody;
@@ -235,8 +239,10 @@ public class CheckRunning : MonoBehaviour
             currentLeftHandSide = 0;
             handFase = HandFases.Back;
 
-            if (firstTick == false) return;
-            SetFirstTick();
+            if (firstTick == true)
+            {
+                SetFirstTick();
+            }
         }
 
         if (RHFrontDistance < RHBackDistance)
@@ -245,18 +251,17 @@ public class CheckRunning : MonoBehaviour
             currentLeftHandSide = 1;
             handFase = HandFases.Front;
 
-            if (firstTick == false) return;
-            SetFirstTick();
+            if (firstTick == true)
+            {
+                SetFirstTick();
+            }
         }
-
 
         // if the hand hasn;t changed side it won't reset te timer;
         if (currentLeftHandSide != previousLeftHandSide)
         {
-            //Debug.Log("tick");
             tick++;
             RunningTimer.ResetTimer();
-            PlayerFase = Fases.Running;
             previousLeftHandSide = currentLeftHandSide;
         }
     }
@@ -296,19 +301,11 @@ public class CheckRunning : MonoBehaviour
     private void CreateTimer()
     {
         RunningTimer = new Timer1(RunningTimerDuration);
-        RunningTimer.OnTimerIsDone += SetPlayerFaseToWalking;
+        RunningTimer.OnTimerIsDone += SetRunningBoolToFalse;
     }
-    private void SetPlayerFaseToWalking()
+    private void SetRunningBoolToFalse()
     {
-        if (PlayerFase == Fases.Walking) return;
-        Debug.Log("Timer Is Done");
-        PlayerFase = Fases.Walking;
-    }
-    private void SetPlayerFaseToWalking2()
-    {
-        if (PlayerFase == Fases.Walking) return;
-        //Debug.Log("Timer Hands Is Done");
-        PlayerFase = Fases.Walking;
+        IsStillRunningBool = false;
     }
     private float CalculateAngle(float a, float b, float c)
     {

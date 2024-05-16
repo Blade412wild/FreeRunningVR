@@ -13,10 +13,9 @@ public class StateMachine
     {
         foreach(State state in states)
         {
-            Debug.Log(state.GetType().Name);
+            //Debug.Log(state.GetType().Name);
             state.Initalize(this);
             stateDictionary.Add(state.GetType(), state);
-            Debug.Log(state.name);
         }
     }
 

@@ -324,6 +324,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Idle",
+            "id": "2df56d23-a17c-4dcb-882d-08fd20eb4cf7",
+            "actions": [
+                {
+                    "name": "MoveVR",
+                    "type": "Value",
+                    "id": "43aa2a7a-a17d-4026-a399-f800ee80443d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4bb48d96-c43d-4cad-a6ff-aaabbac15375",
+                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveVR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

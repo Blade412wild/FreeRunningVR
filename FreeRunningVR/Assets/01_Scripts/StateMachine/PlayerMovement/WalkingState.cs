@@ -34,21 +34,36 @@ public class WalkingState : State
 
     public Vector3 moveDirection { get; private set; }
     private Rigidbody rb;
+
+
+    void Start()
+    {
+        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        SetGameObjects();
+        StartMoveSpeed = moveSpeed;
+
+    }
     public override void OnEnter()
     {
-
+        InputManager.Instance.playerInputActions.Walking.Enable();
+        Debug.Log(" entered : Walking");
     }
-
     public override void OnExit()
     {
-
+        InputManager.Instance.playerInputActions.Walking.Disable();
     }
+
+
 
     public override void OnUpdate()
     {
         MyInput();
         bool test = checkRunning.IsRunning();
-        Debug.Log("test : " + test);
+        if (test)
+        {
+            Controller.SwitchState(typeof(RunningState));
+        }
+
         SpeedControl();
 
         if (grounded)
@@ -66,15 +81,6 @@ public class WalkingState : State
         Walk();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
-        SetGameObjects();
-
-        InputManager.Instance.playerInputActions.Walking.Enable();
-        StartMoveSpeed = moveSpeed;
-    }
 
     private void SetGameObjects()
     {

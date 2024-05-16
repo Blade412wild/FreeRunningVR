@@ -10,7 +10,7 @@ public class PlayerStateHandler : MonoBehaviour
     void Start()
     {
         stateMachine = new StateMachine(this, GetComponents<State>());
-        stateMachine.SwitchState(typeof(WalkingState));
+        stateMachine.SwitchState(typeof(IdleState));
     }
 
     // Update is called once per frame

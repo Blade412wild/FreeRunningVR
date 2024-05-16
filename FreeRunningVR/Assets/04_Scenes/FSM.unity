@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 936902}
   - component: {fileID: 936901}
   - component: {fileID: 936906}
+  - component: {fileID: 936907}
   m_Layer: 0
   m_Name: PlayerStateHandler
   m_TagString: Untagged
@@ -169,6 +170,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1493847179}
+  checkRunning: {fileID: 227154729492243547}
+  moveSpeed: 20
+  groundDrag: 4
+  airMultiplier: 0.24
+  StartMoveSpeed: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  Body:
+    serializedVersion: 2
+    m_Bits: 128
+  maxSlopeAngle: 40
+  exitingSlope: 0
 --- !u!114 &936903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +236,18 @@ MonoBehaviour:
     m_Bits: 128
   maxSlopeAngle: 40
   exitingSlope: 0
+--- !u!114 &936907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16df5b046f3f3ab44b076e649ad767f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2372940
 GameObject:
   m_ObjectHideFlags: 0
