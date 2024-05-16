@@ -13,19 +13,6 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   grounded: 0
-  playerHead: {fileID: 0}
-  leftHandTransform: {fileID: 0}
-  rightHandTransform: {fileID: 0}
-  frontTrans: {fileID: 0}
-  backTrans: {fileID: 0}
-  handsMiddleTrans: {fileID: 0}
-  centerBodyPrefabTSrans: {fileID: 0}
-  orientation: {fileID: 0}
-  headRB: {fileID: 0}
-  bodyRB: {fileID: 0}
-  leftHandRB: {fileID: 0}
-  rightHandRB: {fileID: 0}
-  headJoint: {fileID: 0}
-  rightHandJoint: {fileID: 0}
-  leftHandJoint: {fileID: 0}
-  bodyCollider: {fileID: 0}
+  WalkSpeed: 7
+  RunSpeed: 12
+  playerGameObjects: {fileID: 0}

@@ -8,6 +8,8 @@ public class RunningState : State
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
     [SerializeField] private CheckRunning checkRunning;
+    [SerializeField] private CheckSliding checkSliding;
+
 
     [Header("Movement")]
     [SerializeField] public float moveSpeed;
@@ -41,7 +43,7 @@ public class RunningState : State
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
 
-        StartMoveSpeed = moveSpeed;
+        moveSpeed = playerData.RunSpeed;
     }
     public override void OnEnter()
     {
@@ -60,6 +62,12 @@ public class RunningState : State
         {
             Controller.SwitchState(typeof(WalkingState));
         }
+
+        if (checkSliding.IsSliding())
+        {
+            Controller.SwitchState(typeof(SlidingState));
+        }
+
         SpeedControl();
 
         if (grounded)

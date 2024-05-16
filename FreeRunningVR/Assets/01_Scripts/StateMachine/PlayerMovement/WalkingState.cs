@@ -40,8 +40,7 @@ public class WalkingState : State
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
-        StartMoveSpeed = moveSpeed;
-
+        moveSpeed = playerData.WalkSpeed;
     }
     public override void OnEnter()
     {
