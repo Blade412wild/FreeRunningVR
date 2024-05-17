@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public Scratchpad ObjectData { get; private set; }
     public PlayerData playerData;
-    [SerializeField] private PlayerGameObjects playerGameObjects; 
+    [SerializeField] private PlayerGameObjects playerGameObjects;
+    private StateMachine GameStateMachine;
 
     private void Awake()
     {
@@ -20,6 +21,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        GameStateMachine = new StateMachine(this);
     }
 }

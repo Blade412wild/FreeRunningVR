@@ -118,9 +118,16 @@ public class CheckRunning : MonoBehaviour
 
     public void ResetChecks()
     {
+        if (RunningTimer != null)
+        {
+            RunningTimer.ResetTimer();
+        }
 
-        RunningTimer.ResetTimer();
-        handsBesideBodyTimer.ResetTimer();
+        if (handsBesideBodyTimer != null)
+        {
+            handsBesideBodyTimer.ResetTimer();
+        }
+
         IsStillRunningBool = true;
     }
 
