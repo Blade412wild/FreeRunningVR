@@ -13,10 +13,12 @@ public class CheckSliding : MonoBehaviour
     [SerializeField] private float camSlidingDecrease = -0.65f;
     [SerializeField] private float maxSlideDuration = 1.0f;
     [SerializeField] private float SlideForce = 5.0f;
+    private float previousPosY;
 
     //GameObjects
     private Rigidbody headRB;
     private float headYVelocity;
+    private Transform orientationTrans;
 
 
     // Start is called before the first frame update
@@ -24,6 +26,7 @@ public class CheckSliding : MonoBehaviour
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
+        previousPosY = transform.position.y;
     }
 
     public bool IsSliding()
@@ -33,11 +36,14 @@ public class CheckSliding : MonoBehaviour
     private void SetGameObjects()
     {
         headRB = playerData.playerGameObjects.headRB;
+        orientationTrans = playerData.playerGameObjects.orientation;
     }
     private bool CheckIfSliding()
     {
         headYVelocity = headRB.velocity.y;
-        if (headYVelocity <= -0.5 && headYVelocity >= -2)
+        float speed = CalculateSpeed();
+        Debug.Log("own S : " + speed + " | headVelocity Y : " +  headYVelocity);
+        if (speed <= -0.5 && speed >= -1)
         {
             return true;
         }
@@ -46,4 +52,13 @@ public class CheckSliding : MonoBehaviour
             return false;
         }
     }
+    private float CalculateSpeed()
+    {
+        float speed;
+        float currenYpos = orientationTrans.position.y;
+        speed = (currenYpos - previousPosY) / Time.deltaTime;
+        previousPosY = currenYpos;
+        return speed;
+    }
+
 }

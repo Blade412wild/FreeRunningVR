@@ -7931,6 +7931,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Physics Rig
       objectReference: {fileID: 0}
+    - target: {fileID: 5739100604614293188, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+        type: 3}
+      propertyPath: m_YMotion
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5758225845160547059, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: gameManager

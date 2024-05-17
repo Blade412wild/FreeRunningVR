@@ -49,6 +49,8 @@ public class SlidingState : State
     private float headYVelocity;
     private bool updateSlideTimer = false;
     private bool isSliding = false;
+    private float previousPosY;
+
 
     // Start is called before the first frame update
     void Start()
@@ -103,7 +105,8 @@ public class SlidingState : State
         {
             UpdateTimer();
         }
-        if (headRB.velocity.y > 0.6f)
+        float speedY =  CalculateSpeed();
+        if (speedY > 0.6f)
         {
             StopSliding();
         }
@@ -228,6 +231,14 @@ public class SlidingState : State
 
     public override void OnExit()
     {
-
+        slidingTimer.ResetTimer();
+    }
+    private float CalculateSpeed()
+    {
+        float speed;
+        float currenYpos = orientation.position.y;
+        speed = (currenYpos - previousPosY) / Time.deltaTime;
+        previousPosY = currenYpos;
+        return speed;
     }
 }
