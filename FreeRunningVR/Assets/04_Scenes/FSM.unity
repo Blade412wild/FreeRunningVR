@@ -162,8 +162,10 @@ MonoBehaviour:
   bigJumnpForce: 25
   jumpCooldown: 0.25
   airMultiplier: 0.24
-  PlayerDownFallMass: 10
-  moveSpeed: 20
+  PlayerDownFallMass: 4
+  downForce: 10
+  jumpingState: 0
+  moveSpeed: 10
   groundDrag: 0
   StartMoveSpeed: 0
   whatIsGround:
@@ -193,7 +195,6 @@ MonoBehaviour:
   groundDrag: 4
   airMultiplier: 0.24
   StartMoveSpeed: 0
-  WaitForSlidingCheck: 4
   maxSlopeAngle: 40
   exitingSlope: 0
   whatIsGround:

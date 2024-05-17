@@ -17,11 +17,6 @@ public class RunningState : State
     [SerializeField] private float airMultiplier;
     public float StartMoveSpeed;
 
-    [Header("Landing")]
-    [SerializeField] private float switchingStateTime;
-    private Timer1 landingTimer;
-    private bool MaySwitchState = false;
-
 
     [Header("SlopeHandeling")]
     [SerializeField] private float maxSlopeAngle;
@@ -51,9 +46,6 @@ public class RunningState : State
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
-        landingTimer = new Timer1(switchingStateTime);
-        landingTimer.OnTimerIsDone += SetMayCheckSlidingTrue;
-
         moveSpeed = playerData.RunSpeed;
     }
     public override void OnEnter()
@@ -63,7 +55,6 @@ public class RunningState : State
     public override void OnExit()
     {
         InputManager.Instance.playerInputActions.Walking.Disable();
-        landingTimer.ResetTimer();
     }
 
     public override void OnUpdate()
@@ -207,12 +198,4 @@ public class RunningState : State
     {
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
-
-    private void SetMayCheckSlidingTrue()
-    {
-        Debug.Log("MayCheckTimer isdone");
-        MaySwitchState = true;
-    }
-
-
 }

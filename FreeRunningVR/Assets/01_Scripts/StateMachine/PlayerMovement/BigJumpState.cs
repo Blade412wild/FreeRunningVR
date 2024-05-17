@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BigJumpState : State
 {
-    private enum JumpingState {Up, Down };
+    private enum JumpingState { Up, Down };
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
@@ -16,14 +16,12 @@ public class BigJumpState : State
     [SerializeField] private float jumpCooldown;
     [SerializeField] private float airMultiplier;
     [SerializeField] private float PlayerDownFallMass;
+    [SerializeField] private float downForce;
     [SerializeField] private JumpingState jumpingState;
+
     private bool readyToJump = true;
     private float startingMass;
 
-    [Header("Landing")]
-    [SerializeField] private float switchingStateTime;
-    private Timer1 landingTimer;
-    private bool MayCheckSwitchState = false;
 
     [Header("Movement")]
     [SerializeField] public float moveSpeed;
@@ -79,7 +77,7 @@ public class BigJumpState : State
         MyInput();
         // wall Running Check?
 
-        if(rb.velocity.y < 0)
+        if (rb.velocity.y < 0)
         {
             rb.mass = PlayerDownFallMass;
             jumpingState = JumpingState.Down;
@@ -119,26 +117,11 @@ public class BigJumpState : State
         moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
 
-        // on slope
-        if (OnSlope() && !exitingSlope)
+        rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f /**airMultiplier*/, ForceMode.Force);
+        if(jumpingState == JumpingState.Down)
         {
-            rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 10f, ForceMode.Force);
-            if (rb.velocity.y > 0)
-            {
-                rb.AddForce(Vector3.down * 80f, ForceMode.Force);
-            }
+            rb.AddForce(Vector3.down * downForce, ForceMode.Force);
         }
-        // on ground
-        if (grounded)
-        {
-            Debug.Log("grounded");
-        }
-        // in air
-        else if (!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f /**airMultiplier*/, ForceMode.Force);
-
-        // on slop
-        rb.useGravity = !OnSlope(); // needs to be better, cost double calculation
     }
 
     // jummping & Walking 
@@ -146,7 +129,6 @@ public class BigJumpState : State
     {
         //grounded = Physics.Raycast(transform.position, Vector3.down, rayLenght, whatIsGround);
         if (jumpingState == JumpingState.Up) return;
-        Debug.Log("Checking Grounded");
         grounded = CheckIfGroundIsGround();
         if (grounded && rb.velocity.y >= 0)
         {
