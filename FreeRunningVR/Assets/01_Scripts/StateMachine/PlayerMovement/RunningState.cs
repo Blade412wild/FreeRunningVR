@@ -6,9 +6,9 @@ public class RunningState : State
 {
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
-    private PlayerData playerData;
     [SerializeField] private CheckRunning checkRunning;
     [SerializeField] private CheckSliding checkSliding;
+    private PlayerData playerData;
 
 
     [Header("Movement")]
@@ -17,22 +17,31 @@ public class RunningState : State
     [SerializeField] private float airMultiplier;
     public float StartMoveSpeed;
 
+    [Header("Landing")]
+    [SerializeField] private float switchingStateTime;
+    private Timer1 landingTimer;
+    private bool MaySwitchState = false;
+
+
+    [Header("SlopeHandeling")]
+    [SerializeField] private float maxSlopeAngle;
+    [SerializeField] private bool exitingSlope;
+    private RaycastHit slopeHit;
+
     [Header("GroundCheck")]
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask Body;
     public bool grounded { get; private set; }
-
-    [Header("SlopeHandeling")]
-    [SerializeField] private float maxSlopeAngle;
-    private RaycastHit slopeHit;
+    // Input
+    private float horizontalInput;
+    private float verticalInput;
 
     //GameObjects
     private Transform orientation;
     private CapsuleCollider bodyCollider;
 
-    private float horizontalInput;
-    private float verticalInput;
-    public bool exitingSlope;
+
+
 
     public Vector3 moveDirection { get; private set; }
     private Rigidbody rb;
@@ -42,17 +51,19 @@ public class RunningState : State
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
+        landingTimer = new Timer1(switchingStateTime);
+        landingTimer.OnTimerIsDone += SetMayCheckSlidingTrue;
 
         moveSpeed = playerData.RunSpeed;
     }
     public override void OnEnter()
     {
         InputManager.Instance.playerInputActions.Walking.Enable();
-        Debug.Log(" entered : Running");
     }
     public override void OnExit()
     {
         InputManager.Instance.playerInputActions.Walking.Disable();
+        landingTimer.ResetTimer();
     }
 
     public override void OnUpdate()
@@ -67,6 +78,7 @@ public class RunningState : State
         {
             Controller.SwitchState(typeof(SlidingState));
         }
+
 
         SpeedControl();
 
@@ -194,6 +206,12 @@ public class RunningState : State
     private Vector3 GetSlopeMoveDirection()
     {
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+    }
+
+    private void SetMayCheckSlidingTrue()
+    {
+        Debug.Log("MayCheckTimer isdone");
+        MaySwitchState = true;
     }
 
 

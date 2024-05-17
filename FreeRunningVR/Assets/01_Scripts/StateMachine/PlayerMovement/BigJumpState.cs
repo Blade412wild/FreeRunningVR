@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BigJumpState : State
 {
+    private enum JumpingState {Up, Down };
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
@@ -13,7 +15,15 @@ public class BigJumpState : State
     [SerializeField] private float bigJumnpForce;
     [SerializeField] private float jumpCooldown;
     [SerializeField] private float airMultiplier;
+    [SerializeField] private float PlayerDownFallMass;
+    [SerializeField] private JumpingState jumpingState;
     private bool readyToJump = true;
+    private float startingMass;
+
+    [Header("Landing")]
+    [SerializeField] private float switchingStateTime;
+    private Timer1 landingTimer;
+    private bool MayCheckSwitchState = false;
 
     [Header("Movement")]
     [SerializeField] public float moveSpeed;
@@ -45,25 +55,35 @@ public class BigJumpState : State
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
-        moveSpeed = playerData.WalkSpeed;
+        //moveSpeed = playerData.WalkSpeed;
+
     }
     public override void OnEnter()
     {
+        jumpingState = JumpingState.Up;
         InputManager.Instance.playerInputActions.Walking.Enable();
         Debug.Log(" entered : Jumping");
 
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         rb.AddForce(transform.up * bigJumnpForce, ForceMode.Impulse);
+        startingMass = rb.mass;
     }
     public override void OnExit()
     {
         InputManager.Instance.playerInputActions.Walking.Disable();
+        rb.mass = startingMass;
     }
 
     public override void OnUpdate()
     {
         MyInput();
         // wall Running Check?
+
+        if(rb.velocity.y < 0)
+        {
+            rb.mass = PlayerDownFallMass;
+            jumpingState = JumpingState.Down;
+        }
 
         SpeedControl();
         rb.drag = 0;
@@ -115,7 +135,7 @@ public class BigJumpState : State
         }
         // in air
         else if (!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f /**airMultiplier*/, ForceMode.Force);
 
         // on slop
         rb.useGravity = !OnSlope(); // needs to be better, cost double calculation
@@ -125,10 +145,10 @@ public class BigJumpState : State
     private void CheckGround()
     {
         //grounded = Physics.Raycast(transform.position, Vector3.down, rayLenght, whatIsGround);
-        if (rb.velocity.y > -0.3) return;
+        if (jumpingState == JumpingState.Up) return;
         Debug.Log("Checking Grounded");
         grounded = CheckIfGroundIsGround();
-        if (grounded)
+        if (grounded && rb.velocity.y >= 0)
         {
             Controller.SwitchState(typeof(RunningState));
         }

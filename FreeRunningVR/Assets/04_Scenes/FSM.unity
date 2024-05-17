@@ -159,10 +159,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1493847179}
   smallJumnpForce: 12
-  bigJumnpForce: 30
+  bigJumnpForce: 25
   jumpCooldown: 0.25
   airMultiplier: 0.24
-  moveSpeed: 4
+  PlayerDownFallMass: 10
+  moveSpeed: 20
   groundDrag: 0
   StartMoveSpeed: 0
   whatIsGround:
@@ -192,14 +193,15 @@ MonoBehaviour:
   groundDrag: 4
   airMultiplier: 0.24
   StartMoveSpeed: 0
+  WaitForSlidingCheck: 4
+  maxSlopeAngle: 40
+  exitingSlope: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   Body:
     serializedVersion: 2
     m_Bits: 128
-  maxSlopeAngle: 40
-  exitingSlope: 0
 --- !u!114 &936903
 MonoBehaviour:
   m_ObjectHideFlags: 0
