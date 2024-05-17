@@ -158,6 +158,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1493847179}
+  smallJumnpForce: 12
+  bigJumnpForce: 30
+  jumpCooldown: 0.25
+  airMultiplier: 0.24
+  moveSpeed: 4
+  groundDrag: 0
+  StartMoveSpeed: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  Body:
+    serializedVersion: 2
+    m_Bits: 128
+  maxSlopeAngle: 40
+  exitingSlope: 0
 --- !u!114 &936902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,12 +278,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1493847179}
-  walking: {fileID: 0}
   camOriginalYPos: 0
   camSlidingDecrease: -0.65
   maxSlideDuration: 2
   SlideForce: 5
   ForceSlide: 1
+  maxSlideSpeed: 10
   moveSpeed: 7
   groundDrag: 4
   airMultiplier: 0.24
@@ -7923,6 +7938,11 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1493847179}
+    - target: {fileID: 6792970926989987716, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+        type: 3}
+      propertyPath: stateHandler
+      value: 
+      objectReference: {fileID: 936903}
     - target: {fileID: 7258212354301704791, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: backTrans

@@ -118,8 +118,8 @@ public class WalkingState : State
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f, ForceMode.Force);
         // in air
-        else if (!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
+        //else if (!grounded)
+        //    rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
 
         // on slop
         rb.useGravity = !OnSlope(); // needs to be better, cost double calculation

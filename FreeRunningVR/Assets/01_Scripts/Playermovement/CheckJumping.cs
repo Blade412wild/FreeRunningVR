@@ -9,6 +9,7 @@ public class CheckJumping : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private Walking walking;
+    [SerializeField] private PlayerStateHandler stateHandler;
     PlayerData playerData;
 
     [Header("Jump")]
@@ -114,7 +115,6 @@ public class CheckJumping : MonoBehaviour
             SmallJump();
             readyToJump = false;
             Invoke(nameof(resetJump), jumpCooldown);
-            
         }
 
         float leftHandDistanceTraveled = leftHandEndPos.y - leftHandInitialPos.y;
@@ -129,7 +129,9 @@ public class CheckJumping : MonoBehaviour
         // check if velocity is enough
         if (leftHandEndVel.y < 2.0f && rightHandEndVel.y < 3.0f) return;
         walking.exitingSlope = true;
-        BigJump();
+        stateHandler.stateMachine.SwitchState(typeof(BigJumpState));
+        //BigJump();
+        Debug.Log("we are still here");
         readyToJump = false;
         Invoke(nameof(resetJump), jumpCooldown);
     }
