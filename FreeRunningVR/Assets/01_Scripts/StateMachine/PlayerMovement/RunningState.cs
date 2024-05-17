@@ -65,9 +65,12 @@ public class RunningState : State
             Controller.SwitchState(typeof(WalkingState));
         }
 
-        if (checkSliding.IsSliding())
+        if (!OnSlope())
         {
-            Controller.SwitchState(typeof(SlidingState));
+            if (checkSliding.IsSliding())
+            {
+                Controller.SwitchState(typeof(SlidingState));
+            }
         }
 
 
@@ -123,12 +126,15 @@ public class RunningState : State
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
         }
-        // on ground
-        if (grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f, ForceMode.Force);
-        //// in air
-        //else if (!grounded)
-        //    rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
+        else
+        {
+            // on ground
+            if (grounded)
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f, ForceMode.Force);
+            //// in air
+            else if (!grounded)
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);
+        }
 
         // on slop
         rb.useGravity = !OnSlope(); // needs to be better, cost double calculation

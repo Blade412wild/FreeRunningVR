@@ -42,7 +42,7 @@ public class CheckSliding : MonoBehaviour
     {
         headYVelocity = headRB.velocity.y;
         float speed = CalculateSpeed();
-        Debug.Log("own S : " + speed + " | headVelocity Y : " +  headYVelocity);
+        //Debug.Log("own S : " + speed + " | headVelocity Y : " +  headYVelocity);
         if (speed <= -0.5 && speed >= -1)
         {
             return true;
