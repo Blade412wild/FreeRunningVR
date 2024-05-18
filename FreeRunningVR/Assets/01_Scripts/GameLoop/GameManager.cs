@@ -7,6 +7,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public event Action OnSpawnPlayer;
+    public event Action OnSpawnPlayerDone;
+    public PlayerStateHandler PlayerStateHandler;
     public Scratchpad ObjectData { get; private set; }
     public PlayerData playerData;
     [SerializeField] private PlayerGameObjects playerGameObjects;
@@ -17,7 +19,6 @@ public class GameManager : MonoBehaviour
         ObjectData = new Scratchpad();
         ObjectData.Write("playerData", playerData);
         playerData.playerGameObjects = playerGameObjects;
-
     }
 
     // Start is called before the first frame update
@@ -25,5 +26,11 @@ public class GameManager : MonoBehaviour
     {
         GameStateMachine = new StateMachine(this);
         OnSpawnPlayer?.Invoke();
+        //OnSpawnPlayerDone?.Invoke();
+    }
+    
+    public void PlayerSpawnDone()
+    {
+        OnSpawnPlayerDone?.Invoke();
     }
 }

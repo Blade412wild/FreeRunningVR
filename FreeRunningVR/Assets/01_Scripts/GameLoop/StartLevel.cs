@@ -16,12 +16,14 @@ public class StartLevel : MonoBehaviour
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         colliders = playerData.Colliders;
+        gameManager.OnSpawnPlayerDone += SetColliders;
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!firstTrigger) return;
         bool isPlayer = CheckIfColliderPlayer(other);
-        if (firstTrigger && isPlayer != null)
+        if (isPlayer)
         {
             OnStartLevel?.Invoke();
             firstTrigger = false;
@@ -36,5 +38,10 @@ public class StartLevel : MonoBehaviour
             if (collider == other) return true;
         }
         return false;
+    }
+
+    private void SetColliders()
+    {
+        colliders = playerData.Colliders;
     }
 }

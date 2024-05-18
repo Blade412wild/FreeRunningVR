@@ -10,13 +10,15 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private StartLevel startLevel;
     [SerializeField] private Transform player;
     [SerializeField] private Transform beginPos;
+    private PlayerData playerData;
     private GameObject playerPrefab;
     private bool MayRunTimer;
 
     private void Start()
     {
         PlayerGameStopWatch = new StopWatch();
-        playerPrefab = gameManager.ObjectData.Read<PlayerData>("playerData").PlayerPrefab;
+        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        playerPrefab = playerData.PlayerPrefab;
         startLevel = FindObjectOfType<StartLevel>();
         finishLevel = FindObjectOfType<FinishLevel>();
 
@@ -36,25 +38,27 @@ public class LevelManager : MonoBehaviour
 
     private void BeginLevel()
     {
+        Debug.Log("begin Level");
         MayRunTimer = true;
     }
 
     private void FinishLevel()
     {
         MayRunTimer = false;
-        SetPlayerPos();
+        SetPlayerPos(beginPos.position);
     }
 
-    private void SetPlayerPos()
+    private void SetPlayerPos(Vector3 targetPos)
     {
-        player.position = beginPos.position;
+        player.position = targetPos;
     }
 
     private void SpawnPlayer()
     {
-        Instantiate(playerPrefab, beginPos.position, Quaternion.identity);
+        Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        player = playerData.playerGameObjects.orientation.parent.parent;
+        SetPlayerPos(beginPos.position);
     }
-
 
 
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public class PlayerGameObjects : MonoBehaviour
@@ -14,6 +15,8 @@ public class PlayerGameObjects : MonoBehaviour
     public Transform centerBodyPrefabTSrans;
     public Transform orientation;
     public Transform CameraOffset;
+    public Transform XROrigin;
+
 
     [Header("RigidBody")]
     public Rigidbody headRB;
@@ -28,6 +31,4 @@ public class PlayerGameObjects : MonoBehaviour
 
     [Header("Collider")]
     public CapsuleCollider bodyCollider;
-
-
 }

@@ -651,14 +651,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2000339715543861714}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1556947737335080140}
   m_Father: {fileID: 2623748403707582092}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!114 &1440240188656459494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,6 +1089,7 @@ GameObject:
   - component: {fileID: 1662409700354057029}
   - component: {fileID: 7851908200326994644}
   - component: {fileID: 747676622777290411}
+  - component: {fileID: -7995675852375388120}
   m_Layer: 7
   m_Name: Physics Rig
   m_TagString: Untagged
@@ -1160,6 +1161,7 @@ MonoBehaviour:
   centerBodyPrefabTSrans: {fileID: 5771594254845145559}
   orientation: {fileID: 8401634229780447661}
   CameraOffset: {fileID: 6167131014670114736}
+  XROrigin: {fileID: 5302316099352207034}
   headRB: {fileID: 7189147346672812659}
   bodyRB: {fileID: 1140473580332199778}
   leftHandRB: {fileID: 4872065577376431380}
@@ -1168,6 +1170,23 @@ MonoBehaviour:
   rightHandJoint: {fileID: 8906824428584611965}
   leftHandJoint: {fileID: 9042549839794452579}
   bodyCollider: {fileID: 3158099745475485337}
+--- !u!114 &-7995675852375388120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4141962557154803324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88fd33a793f71ba48bf77078e728f852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 3158099745475485337}
+  - {fileID: 1710133209307854000}
+  - {fileID: 1295992710046756434}
+  - {fileID: 8109564205671505206}
 --- !u!1 &4480878950236215146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1798,6 +1817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c5491a3c9c1124eb874de2bc90175a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerColliders: {fileID: -7995675852375388120}
 --- !u!114 &2635502603240539153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1946,6 +1966,7 @@ MonoBehaviour:
   centerBodyPrefabTSrans: {fileID: 5771594254845145559}
   orientation: {fileID: 8401634229780447661}
   CameraOffset: {fileID: 0}
+  XROrigin: {fileID: 0}
   headRB: {fileID: 7189147346672812659}
   bodyRB: {fileID: 1140473580332199778}
   leftHandRB: {fileID: 4872065577376431380}

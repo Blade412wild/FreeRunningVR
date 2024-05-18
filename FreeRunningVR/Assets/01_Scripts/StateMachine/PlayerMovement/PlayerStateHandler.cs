@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerStateHandler : MonoBehaviour
 {
+    public event Action OnPlayerSpawnDone;
     public GameManager gameManager { get; private set; }
+    [SerializeField] private PlayerColliders playerColliders;
     public StateMachine stateMachine;
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.playerData.playerGameObjects = GetComponent<PlayerGameObjects>();
-        Debug.Log(gameManager);
+        gameManager.playerData.Colliders = playerColliders.colliders;
+        gameManager.PlayerSpawnDone();
+        
     }
 
     // Start is called before the first frame update

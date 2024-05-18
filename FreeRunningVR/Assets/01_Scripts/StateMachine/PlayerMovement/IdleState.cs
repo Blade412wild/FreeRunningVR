@@ -9,7 +9,6 @@ public class IdleState : State
     public override void OnEnter()
     {
         InputManager.Instance.playerInputActions.Idle.Enable();
-        Debug.Log(InputManager.Instance.playerInputActions);
         Debug.Log("entered Idle");
     }
 

@@ -5927,6 +5927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e4fc439de3f0c469642cbfddf9ba9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerStateHandler: {fileID: 0}
   playerData: {fileID: 11400000, guid: 85c853d9057530f44a705b0214e7adcd, type: 2}
   playerGameObjects: {fileID: 0}
 --- !u!4 &1493847180
@@ -7753,6 +7754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ceb86194817414a825394c9aa631bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 1493847179}
 --- !u!65 &1899835436
 BoxCollider:
   m_ObjectHideFlags: 0
