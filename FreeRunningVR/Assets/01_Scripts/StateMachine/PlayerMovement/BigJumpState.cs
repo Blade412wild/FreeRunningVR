@@ -7,7 +7,8 @@ public class BigJumpState : State
 {
     private enum JumpingState { Up, Down };
     [Header("Scripts")]
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerStateHandler stateHandler;
+    private GameManager gameManager;
     private PlayerData playerData;
 
     [Header("Jump")]
@@ -51,6 +52,7 @@ public class BigJumpState : State
 
     void Start()
     {
+        gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
         //moveSpeed = playerData.WalkSpeed;

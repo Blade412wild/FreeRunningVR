@@ -5,7 +5,8 @@ using UnityEngine;
 public class RunningState : State
 {
     [Header("Scripts")]
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerStateHandler stateHandler;
+    private GameManager gameManager;
     [SerializeField] private CheckRunning checkRunning;
     [SerializeField] private CheckSliding checkSliding;
     private PlayerData playerData;
@@ -44,6 +45,7 @@ public class RunningState : State
 
     void Start()
     {
+        gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
         moveSpeed = playerData.RunSpeed;

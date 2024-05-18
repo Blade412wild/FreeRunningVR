@@ -16,3 +16,6 @@ MonoBehaviour:
   WalkSpeed: 7
   RunSpeed: 20
   playerGameObjects: {fileID: 0}
+  Colliders: []
+  PlayerPrefab: {fileID: 4141962557154803324, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+    type: 3}

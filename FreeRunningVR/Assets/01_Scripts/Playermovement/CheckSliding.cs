@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 public class CheckSliding : MonoBehaviour
 {
     [Header("Scripts")]
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerStateHandler stateHandler;
+    private GameManager gameManager;
     private PlayerData playerData;
 
     [SerializeField] private float camOriginalYPos = 0;
@@ -24,6 +25,7 @@ public class CheckSliding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
         previousPosY = transform.position.y;

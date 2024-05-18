@@ -5,7 +5,8 @@ using UnityEngine;
 public class WalkingState : State
 {
     [Header("Scripts")]
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerStateHandler stateHandler;
+    private GameManager gameManager;
     private PlayerData playerData;
     [SerializeField] private CheckRunning checkRunning;
 
@@ -38,6 +39,7 @@ public class WalkingState : State
 
     void Start()
     {
+        gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
         moveSpeed = playerData.WalkSpeed;
@@ -98,7 +100,7 @@ public class WalkingState : State
         verticalInput = stickInput.y;
     }
 
-
+    
     private void Walk()
     {
         // calculate movement direction
@@ -117,6 +119,7 @@ public class WalkingState : State
         // on ground
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f, ForceMode.Force);
+        
         // in air
         else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f * airMultiplier, ForceMode.Force);

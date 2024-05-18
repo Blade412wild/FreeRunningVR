@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "PlayerData", menuName = "ObjectData")]
+[CreateAssetMenu(fileName = "PlayerData", menuName = "ObjectData")]
 public class PlayerData : ScriptableObject
 {
     [Header("playerData")]
@@ -11,6 +11,8 @@ public class PlayerData : ScriptableObject
     public float RunSpeed;
     public PlayerGameObjects playerGameObjects;
     public object previousState;
+    public List<Collider> Colliders;
 
-    
+    [Header("playerInstace")]
+    public GameObject PlayerPrefab;
 }

@@ -8,9 +8,11 @@ public class CheckRunning : MonoBehaviour
     public enum HandFases { NextToBody, Front, Back }
 
     [Header("Scripts")]
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerStateHandler stateHandler;
+    private GameManager gameManager;
     public Walking walking;
     PlayerData playerData;
+
 
     [Header("Tick")]
     [SerializeField] private float time;
@@ -61,6 +63,7 @@ public class CheckRunning : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
 

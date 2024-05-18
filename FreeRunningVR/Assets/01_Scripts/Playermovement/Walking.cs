@@ -8,7 +8,9 @@ using UnityEngine.InputSystem;
 public class Walking : MonoBehaviour
 {
     [Header("Scripts")]
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerStateHandler stateHandler;
+    private GameManager gameManager;
+
     private PlayerData playerData;
 
     [Header("Movement")]
@@ -44,6 +46,7 @@ public class Walking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
         
@@ -80,7 +83,6 @@ public class Walking : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
     }
 
     private void MyInput()

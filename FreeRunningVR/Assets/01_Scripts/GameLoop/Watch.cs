@@ -22,10 +22,7 @@ public class Watch : MonoBehaviour
         float time = levelManager.PlayerGameStopWatch.currentTime;
         int seconds = ((int)time % 60);
         int minutes = ((int)time / 60);
-        Debug.Log(" seconds : " + seconds);
-
         string UITime = string.Format("{0:00}:{1:00}", minutes, seconds);
-        Debug.Log(UITime);
         watchUI.text = UITime.ToString();
     }
 }

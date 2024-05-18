@@ -7,9 +7,10 @@ using UnityEngine.InputSystem;
 public class CheckJumping : MonoBehaviour
 {
     [Header("Scripts")]
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private Walking walking;
     [SerializeField] private PlayerStateHandler stateHandler;
+    private GameManager gameManager;
+    [SerializeField] private Walking walking;
+
     PlayerData playerData;
 
     [Header("Jump")]
@@ -48,6 +49,7 @@ public class CheckJumping : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
 
