@@ -66,9 +66,9 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        Instantiate(playerPrefab, beginPos.position, Quaternion.identity);
         player = playerData.playerGameObjects.orientation.parent.parent;
-        SetPlayerPos(beginPos.position);
+        //SetPlayerPos(beginPos.position);
     }
 
     private void SetPlayerBackToHome()
