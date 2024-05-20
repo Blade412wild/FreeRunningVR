@@ -32,6 +32,7 @@ public class IdleState : State
         //playerData.playerGameObjects.rightHandRB.velocity = Vector3.zero;
         //playerData.playerGameObjects.rightHandRB.angularVelocity = Vector3.zero;
         playerData.playerheight = playerData.playerGameObjects.bodyCollider.height;
+        playerData.PreviousHeight = playerData.playerheight;
         Debug.Log(" player Height = " +  playerData.playerheight);
     }
 

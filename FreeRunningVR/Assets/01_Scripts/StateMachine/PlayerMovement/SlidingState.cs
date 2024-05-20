@@ -110,6 +110,7 @@ public class SlidingState : State
         float speedY =  CalculateSpeed();
         if (speedY > 0.6f)
         {
+            playerData.HeadIsUp = true;
             StopSliding();
         }
         MyInput();
@@ -240,9 +241,10 @@ public class SlidingState : State
     private float CalculateSpeed()
     {
         float speed;
-        float currenYpos = orientation.position.y;
-        speed = (currenYpos - previousPosY) / Time.deltaTime;
-        previousPosY = currenYpos;
+        float currenYpos = bodyCollider.height;
+        speed = (currenYpos - playerData.PreviousHeight) / Time.deltaTime;
+        //Debug.Log("speed2 : " + speed);
+        playerData.PreviousHeight = currenYpos;
         return speed;
     }
 

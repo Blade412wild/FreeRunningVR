@@ -20,6 +20,8 @@ public class CheckSliding : MonoBehaviour
     private float headYVelocity;
     private Transform orientationTrans;
     private CapsuleCollider bodyCollider;
+    //private bool headIsUp = true;
+    private bool isSliding = false;
 
 
     // Start is called before the first frame update
@@ -44,13 +46,19 @@ public class CheckSliding : MonoBehaviour
     }
     private bool CheckIfSliding()
     {
+
         headYVelocity = headRB.velocity.y;
         float speed = CalculateSpeed2();
-        bool headIsLowEnough = CalculatePlayerHeight();
+        float difference = CalculatePlayerHeightDifference();
+        bool headIsLowEnough = CheckIfHeadIsLowEnough(difference);
+        CheckIfHeadIsBackUp(difference);
+
         //Debug.Log("own S : " + speed + " | headVelocity Y : " +  headYVelocity);
 
-        if (speed <= -1 && headIsLowEnough)
+        if (speed <= -1 && headIsLowEnough && playerData.HeadIsUp)
         {
+            //isSliding = true;
+            playerData.HeadIsUp = false;
             return true;
         }
         else
@@ -63,7 +71,6 @@ public class CheckSliding : MonoBehaviour
         float speed;
         float currenYpos = orientationTrans.position.y;
         speed = (currenYpos - playerData.playerheight) / Time.deltaTime;
-        //Debug.Log("speed : " + speed);
         previousHeight = currenYpos;
         return speed;
     }
@@ -71,20 +78,23 @@ public class CheckSliding : MonoBehaviour
     {
         float speed;
         float currenYpos = bodyCollider.height;
-        speed = (currenYpos - previousHeight) / Time.deltaTime;
-        Debug.Log("speed2 : " + speed);
-        previousHeight = currenYpos;
+        speed = (currenYpos - playerData.PreviousHeight) / Time.deltaTime;
+        playerData.PreviousHeight = currenYpos;
         return speed;
     }
 
-    private bool CalculatePlayerHeight()
+    private float CalculatePlayerHeightDifference()
     {
         float currentHeight = bodyCollider.height;
         float difference = currentHeight - playerData.playerheight;
-        //Debug.Log("difference : " + difference * 100);
-        //if (difference < )
         difference = difference * 100;
-        if(difference < minHeadDownPos)
+
+        return difference;
+    }
+
+    private bool CheckIfHeadIsLowEnough(float difference)
+    {
+        if (difference < minHeadDownPos)
         {
             return true;
         }
@@ -92,6 +102,13 @@ public class CheckSliding : MonoBehaviour
         {
             return false;
         }
+    }
 
+    private void CheckIfHeadIsBackUp(float difference)
+    {
+        if (difference > -2 && playerData.HeadIsUp == false)
+        {
+            playerData.HeadIsUp = true;
+        }
     }
 }

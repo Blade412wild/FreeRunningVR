@@ -1092,6 +1092,7 @@ GameObject:
   - component: {fileID: 747676622777290411}
   - component: {fileID: -7995675852375388120}
   - component: {fileID: 5508565732924408748}
+  - component: {fileID: -2866988077036877295}
   m_Layer: 7
   m_Name: Physics Rig
   m_TagString: Untagged
@@ -1203,6 +1204,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStateHandler: {fileID: 7247499809587352554}
+--- !u!114 &-2866988077036877295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4141962557154803324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e04e3859edb1cd04886cb4f1249ed70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHead: {fileID: 0}
+  leftHandTransform: {fileID: 0}
+  rightHandTransform: {fileID: 0}
+  frontTrans: {fileID: 0}
+  backTrans: {fileID: 0}
+  handsMiddleTrans: {fileID: 0}
+  centerBodyPrefabTSrans: {fileID: 0}
+  orientation: {fileID: 0}
+  CameraOffset: {fileID: 0}
+  XROrigin: {fileID: 0}
+  XROrigin2: {fileID: 0}
+  headRB: {fileID: 0}
+  bodyRB: {fileID: 0}
+  leftHandRB: {fileID: 0}
+  rightHandRB: {fileID: 0}
+  headJoint: {fileID: 0}
+  rightHandJoint: {fileID: 0}
+  leftHandJoint: {fileID: 0}
+  bodyCollider: {fileID: 0}
 --- !u!1 &4480878950236215146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1946,10 +1978,10 @@ MonoBehaviour:
   stateHandler: {fileID: 7247499809587352554}
   camOriginalYPos: 0
   camSlidingDecrease: -0.65
-  maxSlideDuration: 2
+  maxSlideDuration: 0.6
   SlideForce: 5
   ForceSlide: 1
-  maxSlideSpeed: 10
+  maxSlideSpeed: 8.5
   moveSpeed: 7
   groundDrag: 4
   airMultiplier: 0.24
@@ -1982,9 +2014,9 @@ MonoBehaviour:
   handsMiddleTrans: {fileID: 3291611719584266529}
   centerBodyPrefabTSrans: {fileID: 5771594254845145559}
   orientation: {fileID: 8401634229780447661}
-  CameraOffset: {fileID: 0}
-  XROrigin: {fileID: 0}
-  XROrigin2: {fileID: 0}
+  CameraOffset: {fileID: 6167131014670114736}
+  XROrigin: {fileID: 5302316099352207034}
+  XROrigin2: {fileID: 6236077969034834093}
   headRB: {fileID: 7189147346672812659}
   bodyRB: {fileID: 1140473580332199778}
   leftHandRB: {fileID: 4872065577376431380}

@@ -9,7 +9,12 @@ public class PlayerData : ScriptableObject
     public bool grounded;
     public float WalkSpeed;
     public float RunSpeed;
+
+    //sliding
     public float playerheight;
+    public bool HeadIsUp = true;
+    public float PreviousHeight;
+
     public PlayerGameObjects playerGameObjects;
     public object previousState;
     public List<Collider> Colliders;
