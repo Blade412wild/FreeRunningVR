@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903f943c5d6ed614eadc522d26a26da4, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  grounded: 0
+  grounded: 1
   WalkSpeed: 7
-  RunSpeed: 20
+  RunSpeed: 14
   playerGameObjects: {fileID: 0}
   Colliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   PlayerPrefab: {fileID: 4141962557154803324, guid: c6d800b1b50ab8b46b09c7c3359561dd,
     type: 3}

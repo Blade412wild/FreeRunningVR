@@ -68,9 +68,10 @@ public class CheckJumping : MonoBehaviour
     }
 
     // jummping & Walking 
-    private void CheckGround()
+    private bool CheckGround()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        return grounded;
     }
 
     // jumping 
@@ -104,8 +105,7 @@ public class CheckJumping : MonoBehaviour
     //jumping
     private void DicideHowToJump(InputAction.CallbackContext context)
     {
-        
-        if (!readyToJump && !grounded) return;
+        if (!readyToJump && !CheckGround()) return;
 
         Vector3 leftHandEndPos = leftHandTransform.position;
         Vector3 rightHandEndPos = rightHandTransform.position;
@@ -113,7 +113,7 @@ public class CheckJumping : MonoBehaviour
         // check if hands are movedup
         if (leftHandEndPos.y < leftHandInitialPos.y || rightHandEndPos.y < rightHandInitialPos.y)
         {
-            walking.exitingSlope = true;
+            //walking.exitingSlope = true;
             SmallJump();
             readyToJump = false;
             Invoke(nameof(resetJump), jumpCooldown);

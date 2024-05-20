@@ -44,6 +44,7 @@ public class CheckRunning : MonoBehaviour
     private Transform backTrans;
     private Transform handsMiddleTrans;
     private Transform centerBodyPrefabTrans;
+    private Vector3 Centerbody;
 
     //distances
     private float distanceFrontBack;
@@ -57,7 +58,6 @@ public class CheckRunning : MonoBehaviour
 
     private bool IsStillRunningBool = true;
 
-    private Vector3 Centerbody;
 
 
     // Start is called before the first frame update

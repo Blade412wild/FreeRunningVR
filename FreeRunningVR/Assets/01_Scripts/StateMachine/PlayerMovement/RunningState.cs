@@ -53,6 +53,8 @@ public class RunningState : State
     public override void OnEnter()
     {
         InputManager.Instance.playerInputActions.Walking.Enable();
+        InputManager.Instance.playerInputActions.Jumping.Disable();
+
     }
     public override void OnExit()
     {

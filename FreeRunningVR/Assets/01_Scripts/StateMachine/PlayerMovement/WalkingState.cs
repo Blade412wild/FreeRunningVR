@@ -47,6 +47,7 @@ public class WalkingState : State
     public override void OnEnter()
     {
         InputManager.Instance.playerInputActions.Walking.Enable();
+        InputManager.Instance.playerInputActions.Jumping.Disable();
         Debug.Log(" entered : Walking");
     }
     public override void OnExit()

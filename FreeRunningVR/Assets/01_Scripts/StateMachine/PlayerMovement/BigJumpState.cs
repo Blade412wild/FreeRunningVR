@@ -61,7 +61,8 @@ public class BigJumpState : State
     public override void OnEnter()
     {
         jumpingState = JumpingState.Up;
-        InputManager.Instance.playerInputActions.Walking.Enable();
+        InputManager.Instance.playerInputActions.Jumping.Enable();
+        InputManager.Instance.playerInputActions.Walking.Disable();
         Debug.Log(" entered : Jumping");
 
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
@@ -70,7 +71,8 @@ public class BigJumpState : State
     }
     public override void OnExit()
     {
-        InputManager.Instance.playerInputActions.Walking.Disable();
+        InputManager.Instance.playerInputActions.Walking.Enable();
+        InputManager.Instance.playerInputActions.Jumping.Disable();
         rb.mass = startingMass;
     }
 
@@ -107,7 +109,7 @@ public class BigJumpState : State
 
     private void MyInput()
     {
-        Vector2 stickInput = InputManager.Instance.playerInputActions.Walking.MoveVR.ReadValue<Vector2>();
+        Vector2 stickInput = InputManager.Instance.playerInputActions.Jumping.MoveVR.ReadValue<Vector2>();
         horizontalInput = stickInput.x;
         verticalInput = stickInput.y;
     }

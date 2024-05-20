@@ -19,6 +19,7 @@ public class IdleState : State
 
     public override void OnFixedUpdate()
     {
+
     }
 
     public override void OnUpdate()

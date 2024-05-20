@@ -5814,6 +5814,7 @@ MonoBehaviour:
     type: 3}
   respawnPointInterval: 5
   RespawnPointDisTreshold: 5
+  respawnPointsList: []
 --- !u!1 &1457356668
 GameObject:
   m_ObjectHideFlags: 0
@@ -9234,11 +9235,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3919425500771326840, guid: c6d800b1b50ab8b46b09c7c3359561dd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4141962557154803324, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: m_Name
@@ -9249,8 +9245,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3530809105120815623, guid: c6d800b1b50ab8b46b09c7c3359561dd, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

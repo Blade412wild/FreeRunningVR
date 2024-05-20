@@ -258,10 +258,10 @@
             "id": "221a86c8-1351-4cdf-b1dc-8116215b8fc6",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "MoveVR",
                     "type": "Value",
-                    "id": "dcbb1aa5-c39c-4132-970a-d066aa070bb1",
-                    "expectedControlType": "",
+                    "id": "f9a23911-ae9e-4020-89e1-cbc076f6062e",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -269,59 +269,15 @@
             ],
             "bindings": [
                 {
-                    "name": "WASD",
-                    "id": "ed1644aa-9f16-4168-a4aa-9cb808a00dad",
-                    "path": "2DVector",
+                    "name": "",
+                    "id": "af0b3421-24c5-4144-bc81-0869da507ca8",
+                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
+                    "action": "MoveVR",
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "e4d7a6a0-f614-4dbc-97d4-9ee3dc3a2d8d",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "df24a8f2-633d-41a8-9f3d-24324dcf21c1",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "6b75fbb7-b305-430a-95c6-8bf09d4f1844",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "4d23c7e6-6e71-4c0f-a039-59e0a142cb44",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         },

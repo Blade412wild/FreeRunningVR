@@ -62,5 +62,4 @@ public class CheckSliding : MonoBehaviour
         previousPosY = currenYpos;
         return speed;
     }
-
 }
