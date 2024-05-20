@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class CheckSliding : MonoBehaviour
 {
@@ -14,14 +11,15 @@ public class CheckSliding : MonoBehaviour
     [SerializeField] private float camSlidingDecrease = -0.65f;
     [SerializeField] private float maxSlideDuration = 1.0f;
     [SerializeField] private float SlideForce = 5.0f;
-    [SerializeField] private float minHeadDownPos = -10;
+    [SerializeField] private float minHeadDownPos = -5;
 
-    private float previousPosY;
+    private float previousHeight;
 
     //GameObjects
     private Rigidbody headRB;
     private float headYVelocity;
     private Transform orientationTrans;
+    private CapsuleCollider bodyCollider;
 
 
     // Start is called before the first frame update
@@ -30,7 +28,8 @@ public class CheckSliding : MonoBehaviour
         gameManager = stateHandler.gameManager;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         SetGameObjects();
-        previousPosY = transform.position.y;
+        previousHeight = transform.position.y;
+        Debug.Log(bodyCollider.height);
     }
 
     public bool IsSliding()
@@ -41,13 +40,16 @@ public class CheckSliding : MonoBehaviour
     {
         headRB = playerData.playerGameObjects.headRB;
         orientationTrans = playerData.playerGameObjects.orientation;
+        bodyCollider = playerData.playerGameObjects.bodyCollider;
     }
     private bool CheckIfSliding()
     {
         headYVelocity = headRB.velocity.y;
-        float speed = CalculateSpeed();
+        float speed = CalculateSpeed2();
+        bool headIsLowEnough = CalculatePlayerHeight();
         //Debug.Log("own S : " + speed + " | headVelocity Y : " +  headYVelocity);
-        if (speed <= -0.5 && speed >= -1 && orientationTrans.localPosition.y <= minHeadDownPos)
+
+        if (speed <= -1 && headIsLowEnough)
         {
             return true;
         }
@@ -60,8 +62,36 @@ public class CheckSliding : MonoBehaviour
     {
         float speed;
         float currenYpos = orientationTrans.position.y;
-        speed = (currenYpos - previousPosY) / Time.deltaTime;
-        previousPosY = currenYpos;
+        speed = (currenYpos - playerData.playerheight) / Time.deltaTime;
+        //Debug.Log("speed : " + speed);
+        previousHeight = currenYpos;
         return speed;
+    }
+    private float CalculateSpeed2()
+    {
+        float speed;
+        float currenYpos = bodyCollider.height;
+        speed = (currenYpos - previousHeight) / Time.deltaTime;
+        Debug.Log("speed2 : " + speed);
+        previousHeight = currenYpos;
+        return speed;
+    }
+
+    private bool CalculatePlayerHeight()
+    {
+        float currentHeight = bodyCollider.height;
+        float difference = currentHeight - playerData.playerheight;
+        //Debug.Log("difference : " + difference * 100);
+        //if (difference < )
+        difference = difference * 100;
+        if(difference < minHeadDownPos)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 }

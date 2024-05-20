@@ -31,8 +31,8 @@ public class IdleState : State
         //playerData.playerGameObjects.rightHandRB.mass = 0.1f;
         //playerData.playerGameObjects.rightHandRB.velocity = Vector3.zero;
         //playerData.playerGameObjects.rightHandRB.angularVelocity = Vector3.zero;
-
-
+        playerData.playerheight = playerData.playerGameObjects.bodyCollider.height;
+        Debug.Log(" player Height = " +  playerData.playerheight);
     }
 
     public override void OnFixedUpdate()

@@ -195,5 +195,9 @@ public class WalkingState : State
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 
+    private void SetPlayerHeight()
+    {
+        float height = bodyCollider.height;
+    }
 
 }
