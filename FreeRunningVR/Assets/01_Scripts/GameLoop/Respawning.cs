@@ -52,10 +52,7 @@ public class Respawning : MonoBehaviour
     private void TryToSetRespawnPoint()
     {
 
-        while (!playerData.grounded)
-        {
-            Debug.Log("waiting for player to be on ground");
-        }
+        if (!playerData.grounded) return;
 
         RespawnPoint point;
         if (respawnPointsList.Count >= 3)
@@ -84,16 +81,12 @@ public class Respawning : MonoBehaviour
 
         if (difference < 0 && difference < -RespawnPointDisTreshold)
         {
-            Debug.Log("yes");
             point = Instantiate(respawnPoint, player.position, Quaternion.identity);
             previousPoint = point;
             respawnPointsList.Add(point);
             previousPoint.DistanceFromFinish = playerEndDistance;
         }
-        else
-        {
-            Debug.Log("No");
-        }
+
     }
     private void TryToRespawn(InputAction.CallbackContext context)
     {
