@@ -132,8 +132,11 @@ public class BigJumpState : State
         //grounded = Physics.Raycast(transform.position, Vector3.down, rayLenght, whatIsGround);
         if (jumpingState == JumpingState.Up) return;
         grounded = CheckIfGroundIsGround();
+        playerData.grounded = false;
+
         if (grounded && rb.velocity.y >= 0)
         {
+            playerData.grounded = true;
             Controller.SwitchState(typeof(RunningState));
         }
     }

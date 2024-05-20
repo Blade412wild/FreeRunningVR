@@ -25,13 +25,13 @@ public class Timer1
         endTime = _seconds;
     }
 
-    public Timer1(int _seconds, bool _repeat)
+    public Timer1(float _seconds, bool _repeat)
     {
         endTime = _seconds;
         repeat = _repeat;
     }
 
-    public Timer1(int _seconds, bool _repeat, int _amount)
+    public Timer1(float _seconds, bool _repeat, int _amount)
     {
         endTime = _seconds;
         repeat = _repeat;
@@ -55,17 +55,15 @@ public class Timer1
             //Debug.Log(" Timer is finished, [" + endTime + "] have past");
             if (repeat == true && currentAmount < repeatAmount)
             {
-                Debug.Log(" repeat amount = " + currentAmount);
-                Debug.Log("repeat Timer");
                 var t = Time.time;
-                Debug.Log(t);
-                currentTime = 0;
                 currentAmount++;
+                ResetTimer();
                 OnTimerIsDone?.Invoke();
             }
             else
             {
                 OnTimerIsDone?.Invoke();
+                ResetTimer();
                 //OnRemoveTimer?.Invoke(this);
             }
         }

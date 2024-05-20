@@ -1162,6 +1162,7 @@ MonoBehaviour:
   orientation: {fileID: 8401634229780447661}
   CameraOffset: {fileID: 6167131014670114736}
   XROrigin: {fileID: 5302316099352207034}
+  XROrigin2: {fileID: 6236077969034834093}
   headRB: {fileID: 7189147346672812659}
   bodyRB: {fileID: 1140473580332199778}
   leftHandRB: {fileID: 4872065577376431380}
@@ -1967,6 +1968,7 @@ MonoBehaviour:
   orientation: {fileID: 8401634229780447661}
   CameraOffset: {fileID: 0}
   XROrigin: {fileID: 0}
+  XROrigin2: {fileID: 0}
   headRB: {fileID: 7189147346672812659}
   bodyRB: {fileID: 1140473580332199778}
   leftHandRB: {fileID: 4872065577376431380}

@@ -133,6 +133,7 @@ public class WalkingState : State
     {
         //grounded = Physics.Raycast(transform.position, Vector3.down, rayLenght, whatIsGround);
         grounded = CheckIfGroundIsGround();
+        playerData.grounded = grounded;
     }
     private void SpeedControl()
     {

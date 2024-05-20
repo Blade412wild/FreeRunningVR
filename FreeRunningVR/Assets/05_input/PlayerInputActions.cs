@@ -374,6 +374,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Respawing"",
+            ""id"": ""d38b9dcc-e71b-4e75-8393-b9427069e693"",
+            ""actions"": [
+                {
+                    ""name"": ""TryToRespawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3510651-fd8f-47e9-a1c5-9cc559e2dc33"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e4db1ed8-94c5-4864-8b33-00c8406683c9"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/secondaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryToRespawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -397,6 +425,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Idle
         m_Idle = asset.FindActionMap("Idle", throwIfNotFound: true);
         m_Idle_MoveVR = m_Idle.FindAction("MoveVR", throwIfNotFound: true);
+        // Respawing
+        m_Respawing = asset.FindActionMap("Respawing", throwIfNotFound: true);
+        m_Respawing_TryToRespawn = m_Respawing.FindAction("TryToRespawn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -716,6 +747,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public IdleActions @Idle => new IdleActions(this);
+
+    // Respawing
+    private readonly InputActionMap m_Respawing;
+    private List<IRespawingActions> m_RespawingActionsCallbackInterfaces = new List<IRespawingActions>();
+    private readonly InputAction m_Respawing_TryToRespawn;
+    public struct RespawingActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public RespawingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @TryToRespawn => m_Wrapper.m_Respawing_TryToRespawn;
+        public InputActionMap Get() { return m_Wrapper.m_Respawing; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(RespawingActions set) { return set.Get(); }
+        public void AddCallbacks(IRespawingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_RespawingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_RespawingActionsCallbackInterfaces.Add(instance);
+            @TryToRespawn.started += instance.OnTryToRespawn;
+            @TryToRespawn.performed += instance.OnTryToRespawn;
+            @TryToRespawn.canceled += instance.OnTryToRespawn;
+        }
+
+        private void UnregisterCallbacks(IRespawingActions instance)
+        {
+            @TryToRespawn.started -= instance.OnTryToRespawn;
+            @TryToRespawn.performed -= instance.OnTryToRespawn;
+            @TryToRespawn.canceled -= instance.OnTryToRespawn;
+        }
+
+        public void RemoveCallbacks(IRespawingActions instance)
+        {
+            if (m_Wrapper.m_RespawingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IRespawingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_RespawingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_RespawingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public RespawingActions @Respawing => new RespawingActions(this);
     public interface IWalkingActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -739,5 +816,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IIdleActions
     {
         void OnMoveVR(InputAction.CallbackContext context);
+    }
+    public interface IRespawingActions
+    {
+        void OnTryToRespawn(InputAction.CallbackContext context);
     }
 }

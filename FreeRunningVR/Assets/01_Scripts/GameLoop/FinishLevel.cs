@@ -26,7 +26,6 @@ public class FinishLevel : MonoBehaviour
             OnFinishLevel?.Invoke();
             firstTrigger = false;
         }
-
     }
 
     private bool CheckIfColliderPlayer(Collider other)

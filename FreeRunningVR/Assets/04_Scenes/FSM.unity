@@ -5148,7 +5148,7 @@ GameObject:
   - component: {fileID: 1275579449}
   - component: {fileID: 1275579448}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Begin Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5174,7 +5174,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 8fcef98561b654d4c8d7617061a46f61, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5754,6 +5754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1448705108}
   - component: {fileID: 1448705109}
+  - component: {fileID: 1448705110}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -5788,11 +5789,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7cb2bd36767364891b743cb359a847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelData: {fileID: 11400000, guid: 848c35b8d2cb74e4fa2a4b5590f3f43c, type: 2}
   gameManager: {fileID: 1493847179}
   finishLevel: {fileID: 0}
   startLevel: {fileID: 0}
   player: {fileID: 0}
   beginPos: {fileID: 1275579450}
+  finishTimerDuration: 0
+--- !u!114 &1448705110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448705107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c763df73f5725ed4badf049c0601b7ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1493847179}
+  levelManager: {fileID: 1448705109}
+  respawnPoint: {fileID: 9045329729671283882, guid: 36d0065ac043fcd48a415892795ac3bc,
+    type: 3}
+  respawnPointInterval: 5
+  RespawnPointDisTreshold: 5
 --- !u!1 &1457356668
 GameObject:
   m_ObjectHideFlags: 0
@@ -9213,6 +9234,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3919425500771326840, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4141962557154803324, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: m_Name
@@ -9223,7 +9249,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3530809105120815623, guid: c6d800b1b50ab8b46b09c7c3359561dd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

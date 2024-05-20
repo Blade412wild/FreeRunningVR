@@ -352,6 +352,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Respawing",
+            "id": "d38b9dcc-e71b-4e75-8393-b9427069e693",
+            "actions": [
+                {
+                    "name": "TryToRespawn",
+                    "type": "Button",
+                    "id": "f3510651-fd8f-47e9-a1c5-9cc559e2dc33",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e4db1ed8-94c5-4864-8b33-00c8406683c9",
+                    "path": "<OculusTouchController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TryToRespawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
