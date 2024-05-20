@@ -32,5 +32,6 @@ public class GameManager : MonoBehaviour
     public void PlayerSpawnDone()
     {
         OnSpawnPlayerDone?.Invoke();
+
     }
 }

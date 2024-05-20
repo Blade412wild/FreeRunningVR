@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Hardware;
 using UnityEngine;
 
 public class CheckRunning : MonoBehaviour
@@ -201,6 +199,7 @@ public class CheckRunning : MonoBehaviour
         if (yAngle < handsNexToBodyAngleMin || yAngle > handsNexToBodyAngleMax)
         {
             CalculateRHSpeedNormalized();
+            Debug.Log("NewRHSpeed : " + newRHSpeed + " | RightHandVel.y : " + rightHandRB.velocity.y);
             if (newRHSpeed > 1.0f && rightHandRB.velocity.y > 1.0)
             {
                 return true;

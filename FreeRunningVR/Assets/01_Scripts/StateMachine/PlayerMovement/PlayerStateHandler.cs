@@ -9,19 +9,22 @@ public class PlayerStateHandler : MonoBehaviour
     public GameManager gameManager { get; private set; }
     [SerializeField] private PlayerColliders playerColliders;
     public StateMachine stateMachine;
+    Timer1 playerDone;
+    private bool mayUpdate = true;
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.playerData.playerGameObjects = GetComponent<PlayerGameObjects>();
         gameManager.playerData.Colliders = playerColliders.colliders;
-        gameManager.PlayerSpawnDone();
-        
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        playerDone = new Timer1(1);
+        playerDone.OnTimerIsDone += PlayerIsDone;
         stateMachine = new StateMachine(this, GetComponents<State>());
         stateMachine.SwitchState(typeof(IdleState));
     }
@@ -29,12 +32,23 @@ public class PlayerStateHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerDone != null && mayUpdate == true)
+        {
+            playerDone.OnUpdate();      
+        }
+
         stateMachine?.OnUpdate();
     }
 
     private void FixedUpdate()
     {
         stateMachine?.OnFixedUpdate();
+    }
 
+    private void PlayerIsDone()
+    {
+        Debug.Log("playerIsDone");
+        gameManager.PlayerSpawnDone();
+        mayUpdate = false;
     }
 }

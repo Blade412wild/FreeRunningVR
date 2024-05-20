@@ -12,7 +12,6 @@ public class Scratchpad
     {
         bool keyIsAvailable = pad.TryAdd(_name, _data);
         pad.TryGetValue(_name, out object value);
-        Debug.Log("added : " +  _name + "object : " + value);
         
         if (!keyIsAvailable)
         {

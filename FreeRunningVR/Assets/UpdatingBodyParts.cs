@@ -24,6 +24,7 @@ public class UpdatingBodyParts : MonoBehaviour
         gameManager = playerStateHandler.gameManager;
         gameManager.OnSpawnPlayerDone += StartUpdatingBodyparts;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        Debug.Log(playerData);
         SetGameObjects();
     }
 
@@ -40,6 +41,9 @@ public class UpdatingBodyParts : MonoBehaviour
         rightHandTransform = playerData.playerGameObjects.rightHandTransform;
         handsMiddleTrans = playerData.playerGameObjects.handsMiddleTrans;
         centerBodyPrefabTrans = playerData.playerGameObjects.centerBodyPrefabTSrans;
+        bodyCollider = playerData.playerGameObjects.bodyCollider;
+        orientation = playerData.playerGameObjects.orientation;
+
     }
 
     private void CalculatingBodyparts()
@@ -48,6 +52,7 @@ public class UpdatingBodyParts : MonoBehaviour
 
         // calulating Body Pos & Rot
         centerBodyPrefabTrans.position = Centerbody;
+
         centerBodyPrefabTrans.rotation = Quaternion.Euler(centerBodyPrefabTrans.rotation.eulerAngles.x, orientation.rotation.eulerAngles.y, centerBodyPrefabTrans.rotation.eulerAngles.z);
 
         // calculating Hands MiddlePoint
@@ -58,6 +63,7 @@ public class UpdatingBodyParts : MonoBehaviour
 
     private void StartUpdatingBodyparts()
     {
+        Debug.Log(" start Updaring ");
         mayUpdate = true;
     }
 }
