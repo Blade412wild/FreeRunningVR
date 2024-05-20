@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class IdleState : State
 {
+    [SerializeField] private PlayerStateHandler playerStateHandler;
+    private GameManager gameManager;
+    PlayerData playerData;
     private float horizontalInput;
     private float verticalInput;
+
+    private void Start()
+    {
+        gameManager = playerStateHandler.gameManager;
+        playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+    }
     public override void OnEnter()
     {
         InputManager.Instance.playerInputActions.Idle.Enable();
@@ -15,6 +24,15 @@ public class IdleState : State
     public override void OnExit()
     {
         InputManager.Instance.playerInputActions.Idle.Disable();
+        //playerData.playerGameObjects.leftHandRB.mass = 0.1f;
+        //playerData.playerGameObjects.leftHandRB.velocity = Vector3.zero;
+        //playerData.playerGameObjects.leftHandRB.angularVelocity = Vector3.zero;
+
+        //playerData.playerGameObjects.rightHandRB.mass = 0.1f;
+        //playerData.playerGameObjects.rightHandRB.velocity = Vector3.zero;
+        //playerData.playerGameObjects.rightHandRB.angularVelocity = Vector3.zero;
+
+
     }
 
     public override void OnFixedUpdate()
