@@ -1078,6 +1078,7 @@ MonoBehaviour:
   camSlidingDecrease: -0.5
   maxSlideDuration: 1
   SlideForce: 5
+  minHeadDownPos: -10
 --- !u!1 &4141962557154803324
 GameObject:
   m_ObjectHideFlags: 0
@@ -2367,17 +2368,17 @@ PrefabInstance:
     - target: {fileID: 3149244538988487627, guid: c2508000615ebe54dabb161caba86143,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.009998093
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3149244538988487627, guid: c2508000615ebe54dabb161caba86143,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3149244538988487627, guid: c2508000615ebe54dabb161caba86143,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.110003
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3149244538988487627, guid: c2508000615ebe54dabb161caba86143,
         type: 3}
@@ -2456,17 +2457,17 @@ PrefabInstance:
     - target: {fileID: 2023421441815769819, guid: 05f71794acac6e44b8a95dc3da797788,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.009998093
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2023421441815769819, guid: 05f71794acac6e44b8a95dc3da797788,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2023421441815769819, guid: 05f71794acac6e44b8a95dc3da797788,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.110003
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2023421441815769819, guid: 05f71794acac6e44b8a95dc3da797788,
         type: 3}

@@ -71,7 +71,7 @@ public class RunningState : State
 
         if (!OnSlope())
         {
-            if (checkSliding.IsSliding())
+            if (checkSliding.IsSliding() && grounded)
             {
                 Controller.SwitchState(typeof(SlidingState));
             }

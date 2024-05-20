@@ -14,6 +14,8 @@ public class CheckSliding : MonoBehaviour
     [SerializeField] private float camSlidingDecrease = -0.65f;
     [SerializeField] private float maxSlideDuration = 1.0f;
     [SerializeField] private float SlideForce = 5.0f;
+    [SerializeField] private float minHeadDownPos = -10;
+
     private float previousPosY;
 
     //GameObjects
@@ -45,7 +47,7 @@ public class CheckSliding : MonoBehaviour
         headYVelocity = headRB.velocity.y;
         float speed = CalculateSpeed();
         //Debug.Log("own S : " + speed + " | headVelocity Y : " +  headYVelocity);
-        if (speed <= -0.5 && speed >= -1)
+        if (speed <= -0.5 && speed >= -1 && orientationTrans.localPosition.y <= minHeadDownPos)
         {
             return true;
         }
