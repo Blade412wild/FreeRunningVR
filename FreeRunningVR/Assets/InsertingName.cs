@@ -18,8 +18,8 @@ public class InsertingName : MonoBehaviour
     {
         highScoreManager.OnInsertName += BeginInsertingName;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
-        InputManager.Instance.playerInputActions.Walking.Enable();
-        InputManager.Instance.playerInputActions.Walking.SetLaptop.performed += SetKeyBoardPos;
+        //InputManager.Instance.playerInputActions.Walking.Enable();
+        //InputManager.Instance.playerInputActions.Walking.SetLaptop.performed += SetKeyBoardPos;
         Keyboard.OnInsertedName += DestroyComputer;
     }
 
@@ -31,11 +31,10 @@ public class InsertingName : MonoBehaviour
     }
     private void BeginInsertingName()
     {
-        //KeyBoard.SetActive(true);
-        //SetKeyBoardPos();
+        SetKeyBoardPos();
     }
 
-    private void SetKeyBoardPos(InputAction.CallbackContext context)
+    private void SetKeyBoardPos()
     {
 
         float height = playerData.playerGameObjects.bodyCollider.height;
