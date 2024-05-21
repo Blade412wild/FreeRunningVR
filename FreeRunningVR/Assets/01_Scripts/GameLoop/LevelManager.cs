@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LevelManager : MonoBehaviour
 {
@@ -22,7 +24,7 @@ public class LevelManager : MonoBehaviour
     private bool MayRunTimer;
     private Timer1 finishTimer;
 
-   
+
 
     private void Start()
     {
@@ -54,15 +56,14 @@ public class LevelManager : MonoBehaviour
     private void FinishLevel()
     {
         MayRunTimer = false;
-        finishTimer = new Timer1(finishTimerDuration);
-        finishTimer.OnTimerIsDone += SetPlayerBackToHome;
+        SetPlayerBackToHome();
         OnEndLevel?.Invoke();
     }
 
-    private void SetPlayerPos(Vector3 targetPos)
-    {
-        player.position = targetPos;
-    }
+    //private void SetPlayerPos(Vector3 targetPos)
+    //{
+    //    player.position = targetPos;
+    //}
 
     private void SpawnPlayer()
     {
@@ -86,5 +87,24 @@ public class LevelManager : MonoBehaviour
         levelData.finishLevel = finishLevel;
     }
 
-    
+    private void SetPlayerPos(Vector3 targetPos)
+    {
+        foreach(Collider collider in playerData.Colliders)
+        {
+
+        }
+
+        player.position = targetPos;
+
+        ResetRigidBody(playerData.playerGameObjects.bodyRB);
+        ResetRigidBody(playerData.playerGameObjects.headRB);
+        ResetRigidBody(playerData.playerGameObjects.rightHandRB);
+        ResetRigidBody(playerData.playerGameObjects.leftHandRB);
+    }
+
+    private void ResetRigidBody(Rigidbody rb)
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
 }

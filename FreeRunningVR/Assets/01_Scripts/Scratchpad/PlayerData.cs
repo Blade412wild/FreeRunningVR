@@ -9,6 +9,7 @@ public class PlayerData : ScriptableObject
     public bool grounded;
     public float WalkSpeed;
     public float RunSpeed;
+    public Vector3 KeyBoardPos;
 
     //sliding
     public float playerheight;

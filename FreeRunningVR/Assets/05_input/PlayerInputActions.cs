@@ -53,6 +53,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SetLaptop"",
+                    ""type"": ""Button"",
+                    ""id"": ""65429c2b-8478-4072-8b95-e5f8685a31ae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -130,6 +139,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveVR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31e986a1-0ca9-4234-bdde-caf70a674f5d"",
+                    ""path"": ""<OculusTouchController>{RightHand}/secondaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetLaptop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -367,6 +387,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Walking_Move = m_Walking.FindAction("Move", throwIfNotFound: true);
         m_Walking_TryToJump = m_Walking.FindAction("TryToJump", throwIfNotFound: true);
         m_Walking_MoveVR = m_Walking.FindAction("MoveVR", throwIfNotFound: true);
+        m_Walking_SetLaptop = m_Walking.FindAction("SetLaptop", throwIfNotFound: true);
         // Running
         m_Running = asset.FindActionMap("Running", throwIfNotFound: true);
         m_Running_Move = m_Running.FindAction("Move", throwIfNotFound: true);
@@ -448,6 +469,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Walking_Move;
     private readonly InputAction m_Walking_TryToJump;
     private readonly InputAction m_Walking_MoveVR;
+    private readonly InputAction m_Walking_SetLaptop;
     public struct WalkingActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -455,6 +477,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Walking_Move;
         public InputAction @TryToJump => m_Wrapper.m_Walking_TryToJump;
         public InputAction @MoveVR => m_Wrapper.m_Walking_MoveVR;
+        public InputAction @SetLaptop => m_Wrapper.m_Walking_SetLaptop;
         public InputActionMap Get() { return m_Wrapper.m_Walking; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -473,6 +496,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MoveVR.started += instance.OnMoveVR;
             @MoveVR.performed += instance.OnMoveVR;
             @MoveVR.canceled += instance.OnMoveVR;
+            @SetLaptop.started += instance.OnSetLaptop;
+            @SetLaptop.performed += instance.OnSetLaptop;
+            @SetLaptop.canceled += instance.OnSetLaptop;
         }
 
         private void UnregisterCallbacks(IWalkingActions instance)
@@ -486,6 +512,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MoveVR.started -= instance.OnMoveVR;
             @MoveVR.performed -= instance.OnMoveVR;
             @MoveVR.canceled -= instance.OnMoveVR;
+            @SetLaptop.started -= instance.OnSetLaptop;
+            @SetLaptop.performed -= instance.OnSetLaptop;
+            @SetLaptop.canceled -= instance.OnSetLaptop;
         }
 
         public void RemoveCallbacks(IWalkingActions instance)
@@ -754,6 +783,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnTryToJump(InputAction.CallbackContext context);
         void OnMoveVR(InputAction.CallbackContext context);
+        void OnSetLaptop(InputAction.CallbackContext context);
     }
     public interface IRunningActions
     {
