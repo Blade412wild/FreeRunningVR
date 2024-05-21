@@ -55,7 +55,7 @@ public class Saving : MonoBehaviour
     private void Save(string _filePath, data dataPackage)
     {
         StreamWriter writer = new StreamWriter(_filePath);
-        writer.WriteLine(JsonUtility.ToJson(dataPackage, true));
+        writer.WriteLine(JsonUtility.ToJson(dataPackage, false));
         writer.Close();
         writer.Dispose();
         //Debug.Log("Saved File To : " + _filePath);
