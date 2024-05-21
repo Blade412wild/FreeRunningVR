@@ -23,7 +23,7 @@ public class Keyboard : MonoBehaviour
 
     public void InstertChar(string c)
     {
-        if (inputField.text.Length <= maxNameLenght) return; 
+        if (inputField.text.Length >= maxNameLenght) return; 
         inputField.text += c;
     }
 
