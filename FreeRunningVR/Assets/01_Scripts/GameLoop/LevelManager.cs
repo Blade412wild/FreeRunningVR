@@ -19,10 +19,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Transform beginPos;
     [SerializeField] private float finishTimerDuration = 5.0f;
+
     private PlayerData playerData;
     private GameObject playerPrefab;
     private bool MayRunTimer;
     private Timer1 finishTimer;
+    private GameObject test;
 
 
 
@@ -32,6 +34,7 @@ public class LevelManager : MonoBehaviour
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         playerPrefab = playerData.PlayerPrefab;
         SetGameLevelData();
+
 
         gameManager.OnSpawnPlayer += SpawnPlayer;
         startLevel.OnStartLevel += BeginLevel;
@@ -67,7 +70,7 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Instantiate(playerPrefab, beginPos.position, Quaternion.identity);
+        test = Instantiate(playerPrefab, beginPos.position, Quaternion.identity);
         player = playerData.playerGameObjects.orientation.parent.parent;
         //SetPlayerPos(beginPos.position);
     }
@@ -89,12 +92,17 @@ public class LevelManager : MonoBehaviour
 
     private void SetPlayerPos(Vector3 targetPos)
     {
-        foreach(Collider collider in playerData.Colliders)
-        {
+        playerData.playerGameObjects.rightHandRB.isKinematic = true;
+        playerData.playerGameObjects.leftHandRB. isKinematic = true;
 
-        }
 
+        playerData.playerGameObjects.rightHandRB.position = targetPos;
+        playerData.playerGameObjects.leftHandRB.position = targetPos;
         player.position = targetPos;
+
+        playerData.playerGameObjects.rightHandRB.isKinematic = false;
+        playerData.playerGameObjects.leftHandRB.isKinematic = false;
+
 
         ResetRigidBody(playerData.playerGameObjects.bodyRB);
         ResetRigidBody(playerData.playerGameObjects.headRB);
