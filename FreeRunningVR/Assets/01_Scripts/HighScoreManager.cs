@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class HighScoreManager : MonoBehaviour
 {
+    public event Action<List<PlayerDataStruct>> OnHighScoreDataIsDone;
     public event Action OnInsertName;
     public LevelManager levelManager;
     public bool save = false;
@@ -31,7 +32,7 @@ public class HighScoreManager : MonoBehaviour
     {
         if (save)
         {
-            SaveList();
+            //SaveList();
             save = false;
         }
     }
@@ -39,25 +40,65 @@ public class HighScoreManager : MonoBehaviour
     private void PlayerIsFinished()
     {
         MayFillInName = false;
-        oldHighScore = CreateHighScoreList();
         currentPlayerData = GetPlayerData();
-        sortedScores = SortNewScore(oldHighScore, currentPlayerData);
+
+        string path = GetPath();
+        LevelDataStruct? highScoreFile = LoadList(path);
+
+        if (highScoreFile == null)
+        {
+            highScoreFile = CreateNewHighScore();
+            //highScoreFile.Value._highScores.Add(currentPlayerData);
+
+            oldHighScore = highScoreFile.Value._highScores;
+            sortedScores = new List<float> { currentPlayerData._time };
+            MayFillInName = true;
+
+        }
+        else
+        {
+            oldHighScore = highScoreFile.Value._highScores;
+            sortedScores = SortNewScoreNew(highScoreFile.Value._highScores, currentPlayerData);
+            MayFillInName = CheckIfPlayerMayFillInName(sortedScores, currentPlayerData);
+        }
 
 
         if (MayFillInName)
         {
             OnInsertName?.Invoke();
         }
+    }
 
+    private bool CheckIfPlayerMayFillInName(List<float> sortedScores, PlayerDataStruct currentPlayerData)
+    {
+        foreach(float score in sortedScores)
+        {
+            if(score == currentPlayerData._time)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private LevelDataStruct CreateNewHighScore()
+    {
+        LevelDataStruct newlevelDataStruct = new LevelDataStruct();
+        newlevelDataStruct._level = 1;
+        newlevelDataStruct._highScores = new List<PlayerDataStruct>();
+        return newlevelDataStruct;
     }
 
     private void FinalizeHighScore(Keyboard keyBoard)
     {
         currentPlayerData._name = keyBoard.name;
         List<PlayerDataStruct> newHighScore = LinkScoreWithPlayerData(oldHighScore, sortedScores, currentPlayerData);
-        oldHighScore = newHighScore;
+        //oldHighScore = newHighScore;
+        OnHighScoreDataIsDone?.Invoke(newHighScore);
+        string path = GetPath();
+        SaveList(path, newHighScore);
     }
-
 
     public void TryToSavePlayerData()
     {
@@ -112,101 +153,155 @@ public class HighScoreManager : MonoBehaviour
         Debug.Log(" Name : " + playerData._name + " | Time : " + playerData._time);
     }
 
-    private void SaveList()
+    private void SaveList(string path, List<PlayerDataStruct> newHighScores)
     {
-        PlayerDataStruct hoi = new PlayerDataStruct();
-        hoi._name = "Nathan";
-        hoi._time = 18.0f;
-
-        PlayerDataStruct hoi2 = new PlayerDataStruct();
-        hoi2._name = "Felice";
-        hoi2._time = 38.0f;
-
-        PlayerDataStruct hoi3 = new PlayerDataStruct();
-        hoi3._name = "Simon";
-        hoi3._time = 40.0f;
-
-        PlayerDataStruct hoi4 = new PlayerDataStruct();
-        hoi4._name = "Max";
-        hoi4._time = 100.0f;
-
-        PlayerDataStruct hoi5 = new PlayerDataStruct();
-        hoi5._name = "Thijs";
-        hoi5._time = 5.0f;
-
-        PlayerDataStruct Player1 = new PlayerDataStruct();
-        Player1._name = "Player1";
-        Player1._time = 1.0f;
-
-        LevelDataStruct levelDataStruct = new LevelDataStruct();
-        levelDataStruct._level = 1;
-        levelDataStruct._highScores = new List<PlayerDataStruct>
+        LevelDataStruct newlevelDataStruct = new LevelDataStruct();
+        newlevelDataStruct._level = 1;
+        newlevelDataStruct._highScores = newHighScores;
         {
-            hoi,
-            hoi2,
-            hoi3,
-            hoi4,
-            hoi5
         };
 
-        SortNewScore(levelDataStruct._highScores, Player1);
-
-        //string path = GetPath();
-        //StreamWriter streamWriter = new StreamWriter(path, false);
-        //streamWriter.WriteLine(JsonUtility.ToJson(levelDataStruct, true));
-        //streamWriter.Close();
-        //streamWriter.Dispose();
-
-        //LoadList(path);
+        StreamWriter streamWriter = new StreamWriter(path, false);
+        streamWriter.WriteLine(JsonUtility.ToJson(newlevelDataStruct, true));
+        streamWriter.Close();
+        streamWriter.Dispose();
     }
     private List<PlayerDataStruct> CreateHighScoreList()
     {
-        PlayerDataStruct hoi = new PlayerDataStruct();
-        hoi._name = "Nathan";
-        hoi._time = 18.0f;
 
-        PlayerDataStruct hoi2 = new PlayerDataStruct();
-        hoi2._name = "Felice";
-        hoi2._time = 38.0f;
-
-        PlayerDataStruct hoi3 = new PlayerDataStruct();
-        hoi3._name = "Simon";
-        hoi3._time = 40.0f;
-
-        PlayerDataStruct hoi4 = new PlayerDataStruct();
-        hoi4._name = "Max";
-        hoi4._time = 100.0f;
-
-        PlayerDataStruct hoi5 = new PlayerDataStruct();
-        hoi5._name = "Thijs";
-        hoi5._time = 5.0f;
-
-        PlayerDataStruct Player1 = new PlayerDataStruct();
-        Player1._name = "Player1";
-        Player1._time = 1.0f;
-
-        List<PlayerDataStruct> oldHighScoreData = new List<PlayerDataStruct>
-        {
-            hoi,
-            hoi2,
-            hoi3,
-            hoi4,
-            hoi5
-        };
+        List<PlayerDataStruct> oldHighScoreData = new List<PlayerDataStruct>();
 
         return oldHighScoreData;
     }
-    private void LoadList(string path)
+    private LevelDataStruct? LoadList(string path)
     {
-        if (File.Exists(path) == false) return;
+        if (File.Exists(path) == false) return null;
         StreamReader reader = new StreamReader(path);
-        LevelDataStruct levelData = JsonUtility.FromJson<LevelDataStruct>(reader.ReadToEnd());
+        LevelDataStruct levelHighScoreData = JsonUtility.FromJson<LevelDataStruct>(reader.ReadToEnd());
         reader.Close();
         reader.Dispose();
-        Debug.Log(levelData);
+        Debug.Log(levelHighScoreData);
+        return levelHighScoreData;
     }
 
+    private List<float> SortNewScoreold(List<PlayerDataStruct> oldHighscoreData, PlayerDataStruct currentPlayerData)
+    {
+
+        // seperate the score;
+        List<float> scores = new List<float>();
+        foreach (PlayerDataStruct playerDataStruct in oldHighscoreData)
+        {
+            scores.Add(playerDataStruct._time);
+        }
+
+        scores.Sort();
+        bool scoreIsGoodEnough = false;
+        bool reLoop = false;
+
+        // create new HighScore
+        List<float> newHighScoreOrder = new List<float>();
+
+        for (int i = 0; i < scores.Count; i++)
+        {
+            if (currentPlayerData._time > scores[i] && scoreIsGoodEnough == false)
+            {
+                newHighScoreOrder.Add(scores[i]);
+                scoreIsGoodEnough = true;
+
+            }
+
+
+            if (currentPlayerData._time < scores[i] && scoreIsGoodEnough == false)
+            {
+                newHighScoreOrder.Add(currentPlayerData._time);
+                scoreIsGoodEnough = true;
+                MayFillInName = true;
+                reLoop = true;
+            }
+
+            if (reLoop == true)
+            {
+                i--;
+                reLoop = false;
+            }
+        }
+
+        newHighScoreOrder.Sort();
+
+        // update de groote van de highscores
+        if (newHighScoreOrder.Count > maxHighScores && scoreIsGoodEnough)
+        {
+            newHighScoreOrder.Remove(newHighScoreOrder[newHighScoreOrder.Count - 1]);
+        }
+
+        return newHighScoreOrder;
+    }
     private List<float> SortNewScore(List<PlayerDataStruct> oldHighscoreData, PlayerDataStruct currentPlayerData)
+    {
+        // seperate the score;
+        List<float> scores = new List<float>();
+
+        if (oldHighscoreData.Count < maxHighScores)
+        {
+            oldHighscoreData.Add(currentPlayerData);
+        }
+
+        foreach (PlayerDataStruct playerDataStruct in oldHighscoreData)
+        {
+            scores.Add(playerDataStruct._time);
+        }
+
+        scores.Sort();
+        bool scoreIsGoodEnough = false;
+
+        // create new HighScore
+        List<float> newHighScoreOrder = new List<float>();
+
+        foreach (float score in scores)
+        {
+            if (currentPlayerData._time < score && scoreIsGoodEnough == false)
+            {
+                newHighScoreOrder.Add(currentPlayerData._time);
+                scoreIsGoodEnough = true;
+                MayFillInName = true;
+            }
+            else
+            {
+                newHighScoreOrder.Add(score);
+            }
+        }
+
+        newHighScoreOrder.Sort();
+
+        // update de groote van de highscores
+        if (newHighScoreOrder.Count >= maxHighScores && scoreIsGoodEnough)
+        {
+            newHighScoreOrder.Remove(newHighScoreOrder[newHighScoreOrder.Count - 1]);
+        }
+
+        return newHighScoreOrder;
+    }
+    private List<float> SortNewScoreNew(List<PlayerDataStruct> oldHighscoreData, PlayerDataStruct currentPlayerData)
+    {
+        // seperate the score;
+        List<float> scores = new List<float>();
+
+        scores.Add(currentPlayerData._time);
+        foreach (PlayerDataStruct playerDataStruct in oldHighscoreData)
+        {
+            scores.Add(playerDataStruct._time);
+        }
+
+        scores.Sort();
+
+        while (scores.Count > maxHighScores)
+        {
+            scores.Remove(scores[scores.Count - 1]);
+        }
+
+        return scores;
+    }
+    private List<float> SortNewScore2(List<PlayerDataStruct> oldHighscoreData, PlayerDataStruct currentPlayerData)
     {
         // seperate the score;
         List<float> scores = new List<float>();
@@ -249,6 +344,12 @@ public class HighScoreManager : MonoBehaviour
     private List<PlayerDataStruct> LinkScoreWithPlayerData(List<PlayerDataStruct> highScoreList, List<float> scores, PlayerDataStruct currentPlayerData)
     {
         List<PlayerDataStruct> newHighScoreList = new List<PlayerDataStruct>();
+        if (highScoreList.Count == 0)
+        {
+            newHighScoreList.Add(currentPlayerData);
+            return newHighScoreList;
+        }
+
         foreach (float score in scores)
         {
             foreach (PlayerDataStruct playerDataStruct in highScoreList)
@@ -267,6 +368,7 @@ public class HighScoreManager : MonoBehaviour
                 }
             }
         }
+
 
         return newHighScoreList;
     }

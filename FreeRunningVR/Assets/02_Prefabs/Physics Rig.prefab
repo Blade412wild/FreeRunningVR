@@ -758,14 +758,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2000339715543861714}
   serializedVersion: 2
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.97984415, y: 0.0003879071, z: 0.0014691653, w: -0.19975781}
+  m_LocalPosition: {x: -0.02039336, y: -0.024343155, z: -0.08308346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1556947737335080140}
-  m_Father: {fileID: 2623748403707582092}
-  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_Father: {fileID: 3216572898495608473}
+  m_LocalEulerAnglesHint: {x: 203.046, y: -0.16998291, z: -0.010986328}
 --- !u!114 &1440240188656459494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,7 +820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6329691660434292378}
   - component: {fileID: 3617502786224367879}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1724,7 +1724,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8375302401824682869}
-  - {fileID: 3539643846627576675}
   m_Father: {fileID: 6167131014670114736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8393618728832239157
@@ -2057,6 +2056,7 @@ Transform:
   - {fileID: 9079677850931016933}
   - {fileID: 665067579909847554}
   - {fileID: 5881056034616179221}
+  - {fileID: 3539643846627576675}
   m_Father: {fileID: 1662409700354057029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &4872065577376431380
