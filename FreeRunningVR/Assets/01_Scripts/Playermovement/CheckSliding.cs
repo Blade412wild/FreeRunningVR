@@ -16,8 +16,6 @@ public class CheckSliding : MonoBehaviour
     private float previousHeight;
 
     //GameObjects
-    private Rigidbody headRB;
-    private float headYVelocity;
     private Transform orientationTrans;
     private CapsuleCollider bodyCollider;
     //private bool headIsUp = true;
@@ -40,20 +38,16 @@ public class CheckSliding : MonoBehaviour
     }
     private void SetGameObjects()
     {
-        headRB = playerData.playerGameObjects.headRB;
         orientationTrans = playerData.playerGameObjects.orientation;
         bodyCollider = playerData.playerGameObjects.bodyCollider;
     }
     private bool CheckIfSliding()
     {
 
-        headYVelocity = headRB.velocity.y;
         float speed = CalculateSpeed2();
         float difference = CalculatePlayerHeightDifference();
         bool headIsLowEnough = CheckIfHeadIsLowEnough(difference);
         CheckIfHeadIsBackUp(difference);
-
-        //Debug.Log("own S : " + speed + " | headVelocity Y : " +  headYVelocity);
 
         if (speed <= -1 && headIsLowEnough && playerData.HeadIsUp)
         {

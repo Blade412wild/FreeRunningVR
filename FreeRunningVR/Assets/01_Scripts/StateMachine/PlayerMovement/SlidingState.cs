@@ -92,6 +92,7 @@ public class SlidingState : State
     private void Slide()
     {
         cameraOffset.localPosition = new Vector3(cameraOffset.localPosition.x, camSlidingDecrease, cameraOffset.localPosition.z);
+        bodyCollider.height -= camSlidingDecrease;
         bodyRB.AddForce(moveDirection.normalized * SlideForce, ForceMode.Impulse);
     }
 
