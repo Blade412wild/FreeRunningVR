@@ -92,6 +92,7 @@ public class SlidingState : State
     private void Slide()
     {
         cameraOffset.localPosition = new Vector3(cameraOffset.localPosition.x, camSlidingDecrease, cameraOffset.localPosition.z);
+        playerData.maxHeight = 0.3f;
         bodyRB.AddForce(moveDirection.normalized * SlideForce, ForceMode.Impulse);
     }
 
@@ -237,6 +238,8 @@ public class SlidingState : State
     public override void OnExit()
     {
         slidingTimer.ResetTimer();
+        playerData.maxHeight = 2.0f;
+
     }
     private float CalculateSpeed()
     {

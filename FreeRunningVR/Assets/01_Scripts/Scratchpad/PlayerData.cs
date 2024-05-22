@@ -22,4 +22,6 @@ public class PlayerData : ScriptableObject
 
     [Header("playerInstace")]
     public GameObject PlayerPrefab;
+    public float maxHeight;
+
 }
