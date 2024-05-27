@@ -33,5 +33,4 @@ public class PlayerGameObjects : MonoBehaviour
 
     [Header("Collider")]
     public CapsuleCollider bodyCollider;
-    public float maxHeight;
 }
