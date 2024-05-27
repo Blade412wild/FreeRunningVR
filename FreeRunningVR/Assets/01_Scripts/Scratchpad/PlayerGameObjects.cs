@@ -18,8 +18,6 @@ public class PlayerGameObjects : MonoBehaviour
     public Transform XROrigin;
     public XROrigin XROrigin2;
 
-
-
     [Header("RigidBody")]
     public Rigidbody headRB;
     public Rigidbody bodyRB;
@@ -33,4 +31,6 @@ public class PlayerGameObjects : MonoBehaviour
 
     [Header("Collider")]
     public CapsuleCollider bodyCollider;
+    public AudioSource audioSource;
+
 }

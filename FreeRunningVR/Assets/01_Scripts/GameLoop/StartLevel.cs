@@ -9,19 +9,24 @@ public class StartLevel : MonoBehaviour
     public event Action OnStartLevel;
     [SerializeField] private GameManager gameManager;
     private PlayerData playerData;
+    private AudioSource audioSource;
     private List<Collider> colliders;
     private bool firstTrigger = true;
+    
 
     private void Start()
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         colliders = playerData.Colliders;
         gameManager.OnSpawnPlayerDone += SetColliders;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!firstTrigger) return;
+        audioSource.Play();
+
         bool isPlayer = CheckIfColliderPlayer(other);
         if (isPlayer)
         {
