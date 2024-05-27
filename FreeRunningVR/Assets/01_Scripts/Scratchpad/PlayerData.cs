@@ -10,6 +10,7 @@ public class PlayerData : ScriptableObject
     public float WalkSpeed;
     public float RunSpeed;
     public Vector3 KeyBoardPos;
+    public float currentTime;
 
     //sliding
     public float playerheight;

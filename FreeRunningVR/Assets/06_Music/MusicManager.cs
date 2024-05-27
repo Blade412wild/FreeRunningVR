@@ -17,12 +17,18 @@ public class MusicManager : MonoBehaviour
     {
         levelManager.OnBeginLevel += StartLevel;
         levelManager.OnEndLevel += FinishLevel;
+        gameManager.OnSpawnPlayerDone += SetPlayerData;
     }
 
-    private void StartLevel()
+    private void SetPlayerData()
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         playerAudioSource = playerData.playerGameObjects.audioSource;
+    }
+
+
+    private void StartLevel()
+    {
         playerAudioSource.clip = musicData.levelMusic;
         playerAudioSource.Play();
     }

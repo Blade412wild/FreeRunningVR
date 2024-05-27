@@ -23,7 +23,8 @@ public class Respawning : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelManager.OnBeginLevel += StartRespwaningSystem;
+        //levelManager.OnBeginLevel += StartRespwaningSystem;
+        //levelManager.OnDataInputDone += ResetRespawning;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
     }
 
@@ -38,6 +39,7 @@ public class Respawning : MonoBehaviour
 
     private void StartRespwaningSystem()
     {
+        ResetRespawning();
         InputManager.Instance.playerInputActions.Respawing.Enable();
         InputManager.Instance.playerInputActions.Respawing.TryToRespawn.performed += TryToRespawn;
 
@@ -105,5 +107,15 @@ public class Respawning : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+    }
+
+    private void ResetRespawning()
+    {
+        foreach (RespawnPoint point in respawnPointsList)
+        {
+            respawnPointsList.Remove(point);
+            Destroy(point.gameObject);
+        }
+        respawnPointsList.Clear();
     }
 }

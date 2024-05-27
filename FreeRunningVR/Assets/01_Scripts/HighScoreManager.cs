@@ -8,10 +8,12 @@ using UnityEngine;
 public class HighScoreManager : MonoBehaviour
 {
     public event Action<List<PlayerDataStruct>> OnHighScoreDataIsDone;
+    public event Action OnRestartLevel;
     public event Action OnInsertName;
     public LevelManager levelManager;
     public bool save = false;
 
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private string Name;
     [SerializeField] private string fileName;
     [SerializeField] private float maxHighScores;
@@ -76,6 +78,10 @@ public class HighScoreManager : MonoBehaviour
         {
             OnInsertName?.Invoke();
         }
+        else
+        {
+            OnRestartLevel?.Invoke();
+        }
     }
 
     private bool CheckIfPlayerMayFillInName(List<float> sortedScores, PlayerDataStruct currentPlayerData)
@@ -93,8 +99,6 @@ public class HighScoreManager : MonoBehaviour
 
     private LevelDataStruct CreateNewHighScore()
     {
-
-
         LevelDataStruct newlevelDataStruct = new LevelDataStruct();
         newlevelDataStruct._level = 1;
         newlevelDataStruct._highScores = new List<PlayerDataStruct>();
@@ -107,6 +111,7 @@ public class HighScoreManager : MonoBehaviour
         List<PlayerDataStruct> newHighScore = LinkScoreWithPlayerData(oldHighScore, sortedScores, currentPlayerData);
         //oldHighScore = newHighScore;
         OnHighScoreDataIsDone?.Invoke(newHighScore);
+        OnRestartLevel?.Invoke();
         string path = GetPath();
         SaveList(path, newHighScore);
     }

@@ -8382,6 +8382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelManager: {fileID: 1448705109}
   save: 0
+  gameManager: {fileID: 1493847179}
   Name: Nathan
   fileName: HighScore
   maxHighScores: 5
@@ -8464,6 +8465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 848c35b8d2cb74e4fa2a4b5590f3f43c, type: 2}
   gameManager: {fileID: 1493847179}
+  highScoreManager: {fileID: 1431128219}
   finishLevel: {fileID: 0}
   startLevel: {fileID: 0}
   player: {fileID: 0}
@@ -10719,6 +10721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1493847179}
+  levelManager: {fileID: 1448705109}
 --- !u!65 &1856277823
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11062,6 +11065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1493847179}
+  levelManager: {fileID: 1448705109}
 --- !u!65 &1899835436
 BoxCollider:
   m_ObjectHideFlags: 0

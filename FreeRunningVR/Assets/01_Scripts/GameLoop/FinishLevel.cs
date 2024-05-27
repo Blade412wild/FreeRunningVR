@@ -6,15 +6,18 @@ public class FinishLevel : MonoBehaviour
 {
     public event Action OnFinishLevel;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private LevelManager levelManager;
     private PlayerData playerData;
     private List<Collider> colliders;
     private bool firstTrigger = true;
+    private bool mayFinish = false;
 
     private void Start()
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         colliders = playerData.Colliders;
         gameManager.OnSpawnPlayerDone += SetColliders;
+        levelManager.OnDataInputDone += ResetFinish;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,9 +26,15 @@ public class FinishLevel : MonoBehaviour
         bool isPlayer = CheckIfColliderPlayer(other);
         if (isPlayer)
         {
-            OnFinishLevel?.Invoke();
-            firstTrigger = false;
+            mayFinish = true;
         }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (!mayFinish) return;
+        firstTrigger = false;
+        mayFinish = false;
+        OnFinishLevel?.Invoke();
     }
 
     private bool CheckIfColliderPlayer(Collider other)
@@ -40,5 +49,11 @@ public class FinishLevel : MonoBehaviour
     private void SetColliders()
     {
         colliders = playerData.Colliders;
+    }
+
+    private void ResetFinish()
+    {
+        Debug.Log("ResetFinish");
+        firstTrigger = true;
     }
 }

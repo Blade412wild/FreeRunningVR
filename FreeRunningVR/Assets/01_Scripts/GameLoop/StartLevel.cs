@@ -8,6 +8,7 @@ public class StartLevel : MonoBehaviour
 {
     public event Action OnStartLevel;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private LevelManager levelManager;
     private PlayerData playerData;
     private AudioSource audioSource;
     private List<Collider> colliders;
@@ -18,8 +19,11 @@ public class StartLevel : MonoBehaviour
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         colliders = playerData.Colliders;
-        gameManager.OnSpawnPlayerDone += SetColliders;
         audioSource = GetComponent<AudioSource>();
+
+        gameManager.OnSpawnPlayerDone += SetColliders;
+        levelManager.OnDataInputDone += ResetStart;
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,5 +52,11 @@ public class StartLevel : MonoBehaviour
     private void SetColliders()
     {
         colliders = playerData.Colliders;
+    }
+
+    private void ResetStart()
+    {
+        Debug.Log("Reset Start");
+        firstTrigger = true;
     }
 }

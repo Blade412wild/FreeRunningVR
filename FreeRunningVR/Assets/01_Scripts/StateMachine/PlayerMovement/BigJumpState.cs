@@ -126,6 +126,9 @@ public class BigJumpState : State
         {
             rb.AddForce(Vector3.down * downForce, ForceMode.Force);
         }
+
+        // on slop
+        rb.useGravity = !OnSlope(); // needs to be better, cost double calculation
     }
 
     // jummping & Walking 

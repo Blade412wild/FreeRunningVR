@@ -1,19 +1,16 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class LevelManager : MonoBehaviour
 {
     public event Action OnBeginLevel;
     public event Action OnEndLevel;
+    public event Action OnDataInputDone;
     public StopWatch PlayerGameStopWatch { get; private set; }
     [SerializeField] private LevelData levelData;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private HighScoreManager highScoreManager;
     [SerializeField] private FinishLevel finishLevel;
     [SerializeField] private StartLevel startLevel;
     [SerializeField] private Transform player;
@@ -26,7 +23,7 @@ public class LevelManager : MonoBehaviour
     private Timer1 finishTimer;
     private GameObject test;
 
-
+   
 
     private void Start()
     {
@@ -35,7 +32,7 @@ public class LevelManager : MonoBehaviour
         playerPrefab = playerData.PlayerPrefab;
         SetGameLevelData();
 
-
+        highScoreManager.OnRestartLevel += ResetLevel;
         gameManager.OnSpawnPlayer += SpawnPlayer;
         startLevel.OnStartLevel += BeginLevel;
         finishLevel.OnFinishLevel += FinishLevel;
@@ -93,7 +90,7 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerPos(Vector3 targetPos)
     {
         playerData.playerGameObjects.rightHandRB.isKinematic = true;
-        playerData.playerGameObjects.leftHandRB. isKinematic = true;
+        playerData.playerGameObjects.leftHandRB.isKinematic = true;
 
 
         playerData.playerGameObjects.rightHandRB.position = targetPos;
@@ -114,5 +111,13 @@ public class LevelManager : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+    }
+
+    private void ResetLevel()
+    {
+        Debug.Log("ResetLevel");
+        MayRunTimer = false;
+        PlayerGameStopWatch.ResetTimer();
+        OnDataInputDone?.Invoke();
     }
 }
