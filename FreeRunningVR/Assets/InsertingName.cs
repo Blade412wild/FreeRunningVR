@@ -12,7 +12,6 @@ public class InsertingName : MonoBehaviour
     [SerializeField] private bool MayUpdate = false;
 
     private PlayerData playerData;
-    GameObject KeyBoard;
 
     private void Start()
     {
@@ -41,12 +40,14 @@ public class InsertingName : MonoBehaviour
         Transform orientation = playerData.playerGameObjects.orientation;
         Vector3 dir = orientation.forward;
         //Vector3 Position = new Vector3(orientation.position.x, height - 0.5f, orientation.position.z);
-        GameObject KeyBoard = Instantiate(KeyBoardPrefab, orientation);
-        KeyBoard.transform.localPosition = new Vector3(0, -0.5f, 0.4f);
-        KeyBoard.transform.parent = null;
+        GameObject keyBoard = Instantiate(KeyBoardPrefab, orientation);
+        keyBoard.transform.localPosition = new Vector3(0, -0.5f, 0.4f);
+        float directionY = orientation.rotation.eulerAngles.y;
+        Quaternion target = Quaternion.Euler(0, directionY, 0);
+        keyBoard.transform.rotation = target;
+        keyBoard.transform.parent = null;
+        
 
-        Quaternion target = Quaternion.Euler(0, orientation.rotation.y, 0);
-        KeyBoard.transform.rotation = target;
     }
 
     private void DestroyComputer(Keyboard keyboard)

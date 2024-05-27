@@ -39,6 +39,7 @@ public class CheckSliding : MonoBehaviour
     private void SetGameObjects()
     {
         orientationTrans = playerData.playerGameObjects.orientation;
+
         bodyCollider = playerData.playerGameObjects.bodyCollider;
     }
     private bool CheckIfSliding()
