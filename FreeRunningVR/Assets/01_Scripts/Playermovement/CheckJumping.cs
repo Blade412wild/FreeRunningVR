@@ -130,7 +130,6 @@ public class CheckJumping : MonoBehaviour
 
         // check if velocity is enough
         if (leftHandEndVel.y < 2.0f && rightHandEndVel.y < 3.0f) return;
-        walking.exitingSlope = true;
         stateHandler.stateMachine.SwitchState(typeof(BigJumpState));
         //BigJump();
         Debug.Log("we are still here");
