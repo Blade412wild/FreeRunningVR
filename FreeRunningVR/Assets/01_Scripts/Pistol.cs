@@ -24,6 +24,19 @@ public class Pistol : MonoBehaviour
     {
         GameObject bulletEffects = Instantiate(bulletEffectsPrefabs, bulletEffectsTrans.position, transform.localRotation);
         bulletEffects.transform.Rotate(bulletEffectsOffset, Space.Self);
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(bulletEffectsTrans.position,  bulletEffectsTrans.forward, out hit, Mathf.Infinity))
+        {
+            Debug.DrawRay(bulletEffectsTrans.position, bulletEffectsTrans.forward * hit.distance, Color.green);
+            Debug.Log("Hit");
+            hit.collider.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.DrawRay(bulletEffectsTrans.position, bulletEffectsTrans.forward * 1000, Color.red);
+        }
     }
 
     private void StopShoot()
