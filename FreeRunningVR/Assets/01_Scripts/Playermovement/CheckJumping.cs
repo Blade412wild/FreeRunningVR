@@ -92,7 +92,7 @@ public class CheckJumping : MonoBehaviour
     private void resetJump()
     {
         readyToJump = true;
-        walking.exitingSlope = false;
+        //walking.exitingSlope = false;
     }
 
     //jumping
