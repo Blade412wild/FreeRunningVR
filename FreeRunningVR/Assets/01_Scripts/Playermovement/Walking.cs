@@ -144,19 +144,6 @@ public class Walking : MonoBehaviour
         }
     }
 
-    private float calculateAvarage(List<float> list)
-    {
-        float allNumbers = 0;
-
-        foreach (var number in list)
-        {
-            allNumbers += number;
-        }
-
-        float average = allNumbers / list.Count;
-        return average;
-    }
-
     private bool CheckIfGroundIsGround()
     {
         Vector3 start = bodyCollider.transform.TransformPoint(bodyCollider.center);

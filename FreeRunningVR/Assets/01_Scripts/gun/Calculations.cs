@@ -27,4 +27,24 @@ public static class Calculations
 
         return true;
     }
+
+    public static float CalculateNewValueInNewScale(float valueOldScale, float oldMin, float oldMax, float newMin, float newMax)
+    {
+        float newValue = (valueOldScale - oldMin) / (oldMax - oldMin) * (newMax - newMin) +newMin;
+
+
+        return newValue;
+    }
+    public static float calculateAvarage(List<float> list)
+    {
+        float allNumbers = 0;
+
+        foreach (var number in list)
+        {
+            allNumbers += number;
+        }
+
+        float average = allNumbers / list.Count;
+        return average;
+    }
 }

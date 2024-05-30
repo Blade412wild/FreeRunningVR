@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
-using static Unity.VisualScripting.Member;
+using System;
 
 public class Pistol : MonoBehaviour
 {
+    public event Action<Target, Vector3> OnObjectHit;
     private enum GunHand { left, right };
 
     [SerializeField] private Vector3 bulletEffectsOffset;
@@ -25,7 +22,6 @@ public class Pistol : MonoBehaviour
         else
         {
             InputManager.Instance.playerInputActions.Shooting.ShootRight.performed += StartShoot;
-
         }
     }
 
@@ -53,13 +49,12 @@ public class Pistol : MonoBehaviour
 
         if (Physics.Raycast(bulletEffectsTrans.position, bulletEffectsTrans.forward, out hit, Mathf.Infinity))
         {
-            Debug.DrawRay(bulletEffectsTrans.position, bulletEffectsTrans.forward * hit.distance, Color.green);
-            Debug.Log("Hit");
-            hit.collider.gameObject.SetActive(false);
-        }
-        else
-        {
-            Debug.DrawRay(bulletEffectsTrans.position, bulletEffectsTrans.forward * 1000, Color.red);
+            if (hit.collider.gameObject.TryGetComponent<Target>(out Target hitObect))
+            {
+                Debug.Log(hitObect);
+                OnObjectHit?.Invoke(hitObect, hit.point);
+            }
+
         }
     }
 

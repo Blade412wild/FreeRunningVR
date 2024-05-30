@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PistolManager : MonoBehaviour
 {
+    public event Action<Target, Vector3> OnPistolHasHitTarget;
+
     [SerializeField] private GameManager gameManager;
     [SerializeField] private float radius = 0.2f;
     [SerializeField] private float height = 0.4f;
@@ -13,6 +16,7 @@ public class PistolManager : MonoBehaviour
     private CheckIfHandsAreInBody checkHands;
     private CheckWhichHand WhichHand = new CheckWhichHand();
     private ChangeHandsManager changeHandsManager;
+    
 
     private bool isPlayerSpawned;
     private bool isRightHandInArea;
@@ -22,7 +26,8 @@ public class PistolManager : MonoBehaviour
 
     private int gunHand;
 
-    private List<IUpdateable> activeUpdates = new List<IUpdateable>(); 
+    private List<IUpdateable> activeUpdates = new List<IUpdateable>();
+    private Pistol[] pistols;
 
     // Start is called before the first frame update
     void Start()
@@ -47,13 +52,17 @@ public class PistolManager : MonoBehaviour
     private void OnDisable()
     {
         InputManager.Instance.playerInputActions.Shooting.CheckForGun.performed -= CheckGrab;
+        pistols[0].OnObjectHit += PistolHasHitObject;
+        pistols[1].OnObjectHit += PistolHasHitObject;
     }
 
     private void SetPlayerData()
     {
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
+        GetPistols();
         CreateHandsTracking();
         CreateHandManager();
+
 
     }
     private void CreateHandManager()
@@ -69,16 +78,29 @@ public class PistolManager : MonoBehaviour
         checkHands.OnRightHandChanged += CheckRighHandStatus;
     }
 
+    private void GetPistols()
+    {
+        pistols = FindObjectsOfType<Pistol>();
+        pistols[0].gameObject.SetActive(false);
+        pistols[1].gameObject.SetActive(false);
+
+        pistols[0].OnObjectHit += PistolHasHitObject;
+        pistols[1].OnObjectHit += PistolHasHitObject;
+    }
+
+    private void PistolHasHitObject(Target target, Vector3 hitPoint)
+    {
+        OnPistolHasHitTarget?.Invoke(target, hitPoint);
+    }
+
     private void CheckLeftHandStatus(bool status)
     {
         isLeftHandInArea = status;
-        Debug.Log("LeftHandChanged : " + isLeftHandInArea);
     }
 
     private void CheckRighHandStatus(bool status)
     {
         isRightHandInArea = status;
-        Debug.Log("RightHandChanged : " + isRightHandInArea);
     }
 
     private void CheckGrab(InputAction.CallbackContext context)
