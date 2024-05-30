@@ -391,6 +391,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""3cd3c7c9-079a-4d4e-b20f-27bf078a7558"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2034f79-abf4-4219-80eb-1d676b582716"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -402,6 +420,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CheckForGun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a641d028-882e-41f4-ba1a-b7d6d92508e2"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/triggerPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShootLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ab841b3-2f6f-4c6c-9ba2-cbd89c66ae47"",
+                    ""path"": ""<OculusTouchController>{RightHand}/triggerPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShootRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -436,6 +476,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Shooting
         m_Shooting = asset.FindActionMap("Shooting", throwIfNotFound: true);
         m_Shooting_CheckForGun = m_Shooting.FindAction("CheckForGun", throwIfNotFound: true);
+        m_Shooting_ShootLeft = m_Shooting.FindAction("ShootLeft", throwIfNotFound: true);
+        m_Shooting_ShootRight = m_Shooting.FindAction("ShootRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -814,11 +856,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Shooting;
     private List<IShootingActions> m_ShootingActionsCallbackInterfaces = new List<IShootingActions>();
     private readonly InputAction m_Shooting_CheckForGun;
+    private readonly InputAction m_Shooting_ShootLeft;
+    private readonly InputAction m_Shooting_ShootRight;
     public struct ShootingActions
     {
         private @PlayerInputActions m_Wrapper;
         public ShootingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @CheckForGun => m_Wrapper.m_Shooting_CheckForGun;
+        public InputAction @ShootLeft => m_Wrapper.m_Shooting_ShootLeft;
+        public InputAction @ShootRight => m_Wrapper.m_Shooting_ShootRight;
         public InputActionMap Get() { return m_Wrapper.m_Shooting; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -831,6 +877,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @CheckForGun.started += instance.OnCheckForGun;
             @CheckForGun.performed += instance.OnCheckForGun;
             @CheckForGun.canceled += instance.OnCheckForGun;
+            @ShootLeft.started += instance.OnShootLeft;
+            @ShootLeft.performed += instance.OnShootLeft;
+            @ShootLeft.canceled += instance.OnShootLeft;
+            @ShootRight.started += instance.OnShootRight;
+            @ShootRight.performed += instance.OnShootRight;
+            @ShootRight.canceled += instance.OnShootRight;
         }
 
         private void UnregisterCallbacks(IShootingActions instance)
@@ -838,6 +890,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @CheckForGun.started -= instance.OnCheckForGun;
             @CheckForGun.performed -= instance.OnCheckForGun;
             @CheckForGun.canceled -= instance.OnCheckForGun;
+            @ShootLeft.started -= instance.OnShootLeft;
+            @ShootLeft.performed -= instance.OnShootLeft;
+            @ShootLeft.canceled -= instance.OnShootLeft;
+            @ShootRight.started -= instance.OnShootRight;
+            @ShootRight.performed -= instance.OnShootRight;
+            @ShootRight.canceled -= instance.OnShootRight;
         }
 
         public void RemoveCallbacks(IShootingActions instance)
@@ -887,5 +945,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IShootingActions
     {
         void OnCheckForGun(InputAction.CallbackContext context);
+        void OnShootLeft(InputAction.CallbackContext context);
+        void OnShootRight(InputAction.CallbackContext context);
     }
 }

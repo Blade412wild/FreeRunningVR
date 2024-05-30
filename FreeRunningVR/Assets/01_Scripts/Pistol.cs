@@ -2,32 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using static Unity.VisualScripting.Member;
 
 public class Pistol : MonoBehaviour
 {
+    private enum GunHand { left, right };
+
     [SerializeField] private Vector3 bulletEffectsOffset;
     [SerializeField] private GameObject bulletEffectsPrefabs;
     [SerializeField] private Transform bulletEffectsTrans;
 
+    [SerializeField] private GunHand gunhand;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        XRGrabInteractable grabInteractable = GetComponent<XRGrabInteractable>();
-        grabInteractable.activated.AddListener(x => StartShoot());
-        grabInteractable.deactivated.AddListener(x => StopShoot());
+        if (gunhand == GunHand.left)
+        {
+            InputManager.Instance.playerInputActions.Shooting.ShootLeft.performed += StartShoot;
+        }
+        else
+        {
+            InputManager.Instance.playerInputActions.Shooting.ShootRight.performed += StartShoot;
+
+        }
     }
 
-    private void StartShoot()
+    private void OnDisable()
     {
-        GameObject bulletEffects = Instantiate(bulletEffectsPrefabs, bulletEffectsTrans.position, transform.localRotation);
+        if (gunhand == GunHand.left)
+        {
+            InputManager.Instance.playerInputActions.Shooting.ShootLeft.performed -= StartShoot;
+
+        }
+        else
+        {
+            InputManager.Instance.playerInputActions.Shooting.ShootRight.performed -= StartShoot;
+        }
+
+    }
+    private void StartShoot(InputAction.CallbackContext context)
+    {
+        GameObject bulletEffects = Instantiate(bulletEffectsPrefabs, bulletEffectsTrans);
         bulletEffects.transform.Rotate(bulletEffectsOffset, Space.Self);
+        bulletEffects.transform.parent = null;
+
 
         RaycastHit hit;
 
-        if(Physics.Raycast(bulletEffectsTrans.position,  bulletEffectsTrans.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(bulletEffectsTrans.position, bulletEffectsTrans.forward, out hit, Mathf.Infinity))
         {
             Debug.DrawRay(bulletEffectsTrans.position, bulletEffectsTrans.forward * hit.distance, Color.green);
             Debug.Log("Hit");
@@ -47,6 +71,6 @@ public class Pistol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
