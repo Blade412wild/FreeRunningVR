@@ -356,6 +356,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Shooting",
+            "id": "7b848704-d896-4836-b807-d8dbe9b5f5c3",
+            "actions": [
+                {
+                    "name": "CheckForGun",
+                    "type": "Button",
+                    "id": "18fd1f74-37be-4630-bc37-d7b9566d4c04",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "db2494e7-3f23-4340-baf0-17fd5ad103a3",
+                    "path": "<OculusTouchController>/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CheckForGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

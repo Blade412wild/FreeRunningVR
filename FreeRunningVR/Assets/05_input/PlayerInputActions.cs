@@ -378,6 +378,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Shooting"",
+            ""id"": ""7b848704-d896-4836-b807-d8dbe9b5f5c3"",
+            ""actions"": [
+                {
+                    ""name"": ""CheckForGun"",
+                    ""type"": ""Button"",
+                    ""id"": ""18fd1f74-37be-4630-bc37-d7b9566d4c04"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""db2494e7-3f23-4340-baf0-17fd5ad103a3"",
+                    ""path"": ""<OculusTouchController>/gripPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CheckForGun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -405,6 +433,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Respawing
         m_Respawing = asset.FindActionMap("Respawing", throwIfNotFound: true);
         m_Respawing_TryToRespawn = m_Respawing.FindAction("TryToRespawn", throwIfNotFound: true);
+        // Shooting
+        m_Shooting = asset.FindActionMap("Shooting", throwIfNotFound: true);
+        m_Shooting_CheckForGun = m_Shooting.FindAction("CheckForGun", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -778,6 +809,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public RespawingActions @Respawing => new RespawingActions(this);
+
+    // Shooting
+    private readonly InputActionMap m_Shooting;
+    private List<IShootingActions> m_ShootingActionsCallbackInterfaces = new List<IShootingActions>();
+    private readonly InputAction m_Shooting_CheckForGun;
+    public struct ShootingActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public ShootingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @CheckForGun => m_Wrapper.m_Shooting_CheckForGun;
+        public InputActionMap Get() { return m_Wrapper.m_Shooting; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ShootingActions set) { return set.Get(); }
+        public void AddCallbacks(IShootingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ShootingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ShootingActionsCallbackInterfaces.Add(instance);
+            @CheckForGun.started += instance.OnCheckForGun;
+            @CheckForGun.performed += instance.OnCheckForGun;
+            @CheckForGun.canceled += instance.OnCheckForGun;
+        }
+
+        private void UnregisterCallbacks(IShootingActions instance)
+        {
+            @CheckForGun.started -= instance.OnCheckForGun;
+            @CheckForGun.performed -= instance.OnCheckForGun;
+            @CheckForGun.canceled -= instance.OnCheckForGun;
+        }
+
+        public void RemoveCallbacks(IShootingActions instance)
+        {
+            if (m_Wrapper.m_ShootingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IShootingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ShootingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ShootingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ShootingActions @Shooting => new ShootingActions(this);
     public interface IWalkingActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -806,5 +883,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IRespawingActions
     {
         void OnTryToRespawn(InputAction.CallbackContext context);
+    }
+    public interface IShootingActions
+    {
+        void OnCheckForGun(InputAction.CallbackContext context);
     }
 }

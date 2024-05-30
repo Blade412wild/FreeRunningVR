@@ -33,4 +33,12 @@ public class PlayerGameObjects : MonoBehaviour
     public CapsuleCollider bodyCollider;
     public AudioSource audioSource;
 
+    [Header("Models")]
+    public GameObject rightHandModel;
+    public GameObject rightHandPhysics;
+    public GameObject rightGun;
+
+    public GameObject leftHandModel;
+    public GameObject leftHandPhysics;
+    public GameObject leftGun;
 }
