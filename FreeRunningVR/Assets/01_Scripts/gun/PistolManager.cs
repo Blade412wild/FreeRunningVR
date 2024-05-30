@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 public class PistolManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private float radius = 0.2f;
+    [SerializeField] private float height = 0.4f;
+    [SerializeField] private float heightOffset = 0.3f;
     private PlayerData playerData;
     private CheckIfHandsAreInBody checkHands;
     private CheckWhichHand WhichHand = new CheckWhichHand();
@@ -15,6 +18,9 @@ public class PistolManager : MonoBehaviour
     private bool isRightHandInArea;
     private bool isLeftHandInArea;
     private bool didTryToGrab;
+    private bool GunInHand = false;
+
+    private int gunHand;
 
     private List<IUpdateable> activeUpdates = new List<IUpdateable>(); 
 
@@ -23,8 +29,8 @@ public class PistolManager : MonoBehaviour
     {
         gameManager.OnSpawnPlayerDone += SetPlayerData;
         InputManager.Instance.playerInputActions.Shooting.Enable();
-        InputManager.Instance.playerInputActions.Shooting.CheckForGun.performed += CheckHandInput;
-        WhichHand.OnGrabGun += GrabGun;
+        InputManager.Instance.playerInputActions.Shooting.CheckForGun.performed += CheckGrab;
+        InputManager.Instance.playerInputActions.Shooting.CheckForGun.canceled += CheckRelease;
     }
 
 
@@ -40,7 +46,7 @@ public class PistolManager : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.Instance.playerInputActions.Shooting.CheckForGun.performed -= CheckHandInput;
+        InputManager.Instance.playerInputActions.Shooting.CheckForGun.performed -= CheckGrab;
     }
 
     private void SetPlayerData()
@@ -75,14 +81,29 @@ public class PistolManager : MonoBehaviour
         Debug.Log("RightHandChanged : " + isRightHandInArea);
     }
 
-    private void CheckHandInput(InputAction.CallbackContext context)
+    private void CheckGrab(InputAction.CallbackContext context)
     {
-        WhichHand.CheckGrabGun(true, isLeftHandInArea, isRightHandInArea);
+        if (GunInHand) return;
+        if (isRightHandInArea == false && isLeftHandInArea == false) return;
+        gunHand = WhichHand.CheckGrabGun(isLeftHandInArea, isRightHandInArea);
+        GunInHand = true;
+        GrabGun(gunHand);
     }
 
+    private void CheckRelease(InputAction.CallbackContext context)
+    {
+        ReleaseGun(gunHand);
+        GunInHand = false;
+
+    }
 
     private void GrabGun(int hand)
     {
-        changeHandsManager.ChangeHands(hand);
+        changeHandsManager.ChangeHands(hand, true);
+    }
+
+    private void ReleaseGun(int hand)
+    {
+        changeHandsManager.ChangeHands(hand, false);
     }
 }

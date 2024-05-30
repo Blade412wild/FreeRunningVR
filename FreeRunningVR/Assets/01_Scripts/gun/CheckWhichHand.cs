@@ -8,23 +8,19 @@ using UnityEngine;
 
 public class CheckWhichHand
 {
-    public event Action<int> OnGrabGun;
-
-    public void CheckGrabGun(bool input, bool LeftHand, bool RightHand)
+    public int CheckGrabGun(bool LeftHand, bool RightHand)
     {
-
-        if (!input) return;
-
-        if (LeftHand && RightHand || RightHand)
+        if (LeftHand && RightHand || RightHand) // righthand 
         {
-            OnGrabGun?.Invoke(1);
+            return 1;
         }
 
-        if (LeftHand)
+        if (LeftHand) // lefthand
         {
-            OnGrabGun?.Invoke(0);
+            return 0;
         }
 
+        return 3;
     }
 }
 

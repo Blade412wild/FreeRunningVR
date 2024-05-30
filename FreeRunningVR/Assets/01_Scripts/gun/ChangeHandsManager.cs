@@ -21,7 +21,7 @@ class ChangeHandsManager
     {
         SetGameObjects(playerdata);
     }
-    
+
     private void SetGameObjects(PlayerData playerdata)
     {
         rightHand = playerdata.playerGameObjects.rightHandModel;
@@ -33,17 +33,41 @@ class ChangeHandsManager
         leftGun = playerdata.playerGameObjects.leftGun;
     }
 
-    public void ChangeHands(int hand)
+    public void ChangeHands(int hand, bool toGun)
     {
-        if(hand == 0)
+
+        // lefthand
+        if (hand == 0)
         {
-            Debug.Log("left");
+            if (toGun)
+            {
+                leftHand.SetActive(false);
+                leftGun.SetActive(true);
+            }
+            else
+            {
+                leftHand.SetActive(true);
+                leftGun.SetActive(false);
+            }
         }
+        //right hand
         else
         {
-            Debug.Log("right");
+            if (toGun)
+            {
+                rightHand.SetActive(false);
+                rightGun.SetActive(true);
+            }
+            else
+            {
+                rightHand.SetActive(true);
+                rightGun.SetActive(false);
+            }
         }
     }
+
+
+
 
 }
 
