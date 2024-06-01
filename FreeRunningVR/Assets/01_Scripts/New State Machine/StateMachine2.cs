@@ -74,15 +74,6 @@ public class StateMachine2 : MonoBehaviour
         }
     }
 
-    //public interface IState
-    //{
-    //    void OnEnter();
-    //    void OnUpdate();
-    //    void OnExit();
-    //}
-
-
-
     public class LocomotionState : State2<Actor>
     {
         public LocomotionState(Actor actor) : base(actor)
