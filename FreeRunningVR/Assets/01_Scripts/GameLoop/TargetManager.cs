@@ -53,6 +53,7 @@ public class TargetManager : MonoBehaviour
     private void procesHit(Target target, Vector3 hitPoint)
     {
         Target newTarget = GetTarget(target);
+        if (newTarget == null) return;
         newTarget.AudioSource.Play();
         newTarget.Animator.SetTrigger("hit");
         float Score = CalculateScore(target, hitPoint);
