@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 using UnityEngine.Rendering.Universal;
 
-public class Transition : MonoBehaviour
+public class TransitionPost : MonoBehaviour
 {
     public static Action<int> OnFinishedFadeInTransition;
     public static Action<int> OnFinishedFadeOutTransition;

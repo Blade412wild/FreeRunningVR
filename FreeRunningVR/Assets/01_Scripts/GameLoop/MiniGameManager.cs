@@ -7,5 +7,4 @@ public class MiniGameManager : MonoBehaviour
     [SerializeField] private List<Target> targets;
 
 
-
 }
