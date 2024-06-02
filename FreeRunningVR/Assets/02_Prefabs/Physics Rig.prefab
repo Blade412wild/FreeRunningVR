@@ -1517,6 +1517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6991eac8166066744ab913c5def076a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FreezeBodyCollider: 0
   playerStateHandler: {fileID: 7247499809587352554}
   playerHead: {fileID: 8401634229780447661}
   leftController: {fileID: 2623748403707582092}
@@ -2363,6 +2364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerColliders: {fileID: -7995675852375388120}
+  PhysicsRig: {fileID: 7851908200326994644}
 --- !u!114 &2635502603240539153
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class MiniGameManager : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     [SerializeField] private MiniGameTrigger trigger;
     [SerializeField] private Animator animator;
+    [SerializeField] private MainShu mainShu;
     [SerializeField] private PistolManager pistolManager;
     private GameActivator gameActivor;
     private TargetManager2 targetManager;
@@ -25,6 +26,8 @@ public class MiniGameManager : MonoBehaviour
     [SerializeField] private Transform targertSpawnLocation;
     [SerializeField] private List<TargetLevel> targetLevels;
 
+    [SerializeField] private bool freezePos;
+    private int counter = 0;
 
     private Collider playerCollider;
     private Timer1 timer;
@@ -36,6 +39,7 @@ public class MiniGameManager : MonoBehaviour
     private bool playerisInCollider = false;
     private bool isTimerDone = false;
     private bool areAllTargetHit = false;
+    private bool shutterIsClosed = false;
 
     private StateMachine2 stateMachine;
 
@@ -44,6 +48,7 @@ public class MiniGameManager : MonoBehaviour
         SetupTargetManager();
         SetupStateMachine();
         gameManager.OnSpawnPlayerDone += BeginMiniGameInilisation;
+        mainShu.OnShutterClosed += ShutterIsClosed;
     }
 
     private void Update()
@@ -57,6 +62,29 @@ public class MiniGameManager : MonoBehaviour
     {
         stateMachine.OnFixedUpdate();
     }
+    private void SetupTargetManager()
+    {
+        targetManager = new TargetManager2(pistolManager,targertSpawnLocation, targetLevels);
+        targetManager.OnAllTargetsHit += SetTargetSToTrue;
+        targetManager.OnAllTargetsHit += CloseShutter;
+        targetManager.OnBuildLevel += SetTargetToFalse;
+    }
+    public void SetupStateMachine()
+    {
+        //creating States
+        IState idle = new Idle(this, targetManager);
+        IState playing = new Playing(this);
+        IState ending = new Ending(this);
+
+        stateMachine = new StateMachine2(idle, playing, ending);
+
+        stateMachine.AddTransition(new Transition(idle, playing, CheckifPlayerIsInTrigger));
+        //stateMachine.AddTransition(new Transition(ending, idle, CheckifTimerIsDone));
+        stateMachine.AddTransition(new Transition(playing, ending, CheckIfAllTargetsAreHit));
+        stateMachine.AddTransition(new Transition(ending, idle, CheckIfShutterIsClosed));
+
+        stateMachine.SwitchState(idle);
+    }
 
     private void BeginMiniGameInilisation()
     {
@@ -68,7 +96,11 @@ public class MiniGameManager : MonoBehaviour
 
     private void BeginGame()
     {
-        animator.SetTrigger("open");
+        gameManager.playerData.PhysicsRig.FreezeBodyCollider = true;
+        //gameManager.PlayerStateHandler.stateMachine.SwitchState();
+        animator.SetBool("close", false); 
+        animator.SetBool("open", true);
+        shutterIsClosed = false;
         playerisInCollider = true;
     }
 
@@ -76,6 +108,8 @@ public class MiniGameManager : MonoBehaviour
     {
         TurnTimerOn(triggerTimer);
         playerisInCollider = false;
+        animator.SetBool("open", false);
+        animator.SetBool("close", true);
     }
 
 
@@ -85,7 +119,6 @@ public class MiniGameManager : MonoBehaviour
         isTimerDone = false;
         timer.ResetTimer();
         mayTimerUpdate = true;
-        SwitchToIdle();
 
         if(isEventSet == false)
         {
@@ -98,11 +131,21 @@ public class MiniGameManager : MonoBehaviour
         isTimerDone = true; 
     }
 
-    private void SwitchToIdle()
+    private void CloseShutter()
     {
-        //animator.SetTrigger("close");
+        animator.SetBool("open", false);
+        animator.SetBool("close", true);        
         //TriggerTimerDone?.Invoke();
     }
+
+    private void ShutterIsClosed()
+    {
+        Debug.Log("shutter is closed");
+        shutterIsClosed = true;
+        gameManager.playerData.PhysicsRig.FreezeBodyCollider = false;
+
+    }
+
 
     private Collider GetPlayerCollider()
     {
@@ -114,6 +157,12 @@ public class MiniGameManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+
+    private bool CheckIfShutterIsClosed()
+    {
+        return shutterIsClosed;
     }
     public bool CheckifPlayerIsInTrigger()
     {
@@ -130,12 +179,8 @@ public class MiniGameManager : MonoBehaviour
         return areAllTargetHit;
     }
 
-    private void SetupTargetManager()
-    {
-        targetManager = new TargetManager2(pistolManager,targertSpawnLocation, targetLevels);
-        targetManager.OnAllTargetsHit += SetTargetSToTrue;
-        targetManager.OnBuildLevel += SetTargetToFalse;
-    }
+
+
 
     private void SetTargetSToTrue()
     {
@@ -146,22 +191,6 @@ public class MiniGameManager : MonoBehaviour
     private void SetTargetToFalse()
     {
         areAllTargetHit = false;
-    }
-    public void SetupStateMachine()
-    {
-        //creating States
-        IState idle = new Idle(this, targetManager);
-        IState playing = new Playing(this);
-        IState ending = new Ending(this);
-
-        stateMachine = new StateMachine2(idle, playing, ending);
-
-        stateMachine.AddTransition(new Transition(idle, playing, CheckifPlayerIsInTrigger));
-        //stateMachine.AddTransition(new Transition(playing, idle, CheckifTimerIsDone));
-        stateMachine.AddTransition(new Transition(playing, ending, CheckIfAllTargetsAreHit));
-        stateMachine.AddTransition(new Transition(ending, idle, () => { return true; }));
-
-        stateMachine.SwitchState(idle);
     }
 
 }

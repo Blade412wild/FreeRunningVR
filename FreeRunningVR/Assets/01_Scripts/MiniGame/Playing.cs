@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Playing : State2<MiniGameManager>
 {
-    public Playing(MiniGameManager owner) : base(owner)
+    public Playing(MiniGameManager owner ) : base(owner)
     {
     }
     public override void OnEnter()

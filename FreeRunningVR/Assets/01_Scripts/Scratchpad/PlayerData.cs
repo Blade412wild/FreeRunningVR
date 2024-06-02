@@ -18,6 +18,7 @@ public class PlayerData : ScriptableObject
     public float PreviousHeight;
 
     public PlayerGameObjects playerGameObjects;
+    public PhysicsRig PhysicsRig;
     public object previousState;
     public List<Collider> Colliders;
 

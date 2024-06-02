@@ -8,6 +8,7 @@ public class PlayerStateHandler : MonoBehaviour
     public event Action OnPlayerSpawnDone;
     public GameManager gameManager { get; private set; }
     [SerializeField] private PlayerColliders playerColliders;
+    [SerializeField] private PhysicsRig PhysicsRig;
     public StateMachine stateMachine;
     Timer1 playerDone;
     private bool mayUpdate = true;
@@ -17,6 +18,7 @@ public class PlayerStateHandler : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         gameManager.playerData.playerGameObjects = GetComponent<PlayerGameObjects>();
         gameManager.playerData.Colliders = playerColliders.colliders;
+        gameManager.playerData.PhysicsRig = PhysicsRig;
 
     }
 

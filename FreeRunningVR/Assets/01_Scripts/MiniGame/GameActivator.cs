@@ -63,7 +63,7 @@ public class GameActivator
     private void HandleExit(Collider otherCollider)
     {
         if (IsColliderPlayer(otherCollider) == false) return;
-
+        Debug.Log("Player has Exit");
         ObjectsActive(false, true);
         OnPlayerExitCollider?.Invoke(triggerDisableTimer);
     }

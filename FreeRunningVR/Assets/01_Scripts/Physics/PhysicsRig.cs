@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PhysicsRig : MonoBehaviour
 {
+    public bool FreezeBodyCollider = false;
     [SerializeField] private PlayerStateHandler playerStateHandler;
     private GameManager gameManager;
-     
+
 
     [Header("Transforms")]
     [SerializeField] private Transform playerHead;
@@ -25,6 +26,7 @@ public class PhysicsRig : MonoBehaviour
     [SerializeField] private float bodyHeightMin = 0.5f;
     [SerializeField] private float bodyHeightMax = 2.0f;
 
+
     private void Start()
     {
         gameManager = playerStateHandler.gameManager;
@@ -34,7 +36,10 @@ public class PhysicsRig : MonoBehaviour
     private void FixedUpdate()
     {
         bodyCollider.height = Mathf.Clamp(playerHead.localPosition.y, bodyHeightMin, gameManager.playerData.maxHeight);
-        bodyCollider.center = new Vector3(playerHead.localPosition.x, bodyCollider.height / 2, playerHead.localPosition.z);
+        if (!FreezeBodyCollider)
+        {
+            bodyCollider.center = new Vector3(playerHead.localPosition.x, bodyCollider.height / 2, playerHead.localPosition.z);
+        }
 
         leftHandJoint.targetPosition = leftController.localPosition;
         leftHandJoint.targetRotation = leftController.localRotation;
