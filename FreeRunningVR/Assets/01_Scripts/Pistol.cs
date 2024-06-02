@@ -51,7 +51,6 @@ public class Pistol : MonoBehaviour
         {
             if (hit.collider.gameObject.TryGetComponent<Target>(out Target hitObect))
             {
-                Debug.Log(hitObect);
                 OnObjectHit?.Invoke(hitObect, hit.point);
             }
 

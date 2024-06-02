@@ -57,22 +57,6 @@ public class StateMachine2 : MonoBehaviour
     {
         allTransitions.Add(transition);
     }
-    public class Transition
-    {
-        public IState fromState;
-        public IState toState;
-        public Func<bool> condition;
-        public Transition(IState fromState, IState toState, Func<bool> condition)
-        {
-            this.fromState = fromState;
-            this.toState = toState;
-            this.condition = condition;
-        }
-        public bool Evalutate()
-        {
-            return condition();
-        }
-    }
 
     public class LocomotionState : State2<Actor>
     {

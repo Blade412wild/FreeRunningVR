@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,11 @@ public class Ending : State2<MiniGameManager>
     }
     public override void OnEnter()
     {
-        Debug.Log(" entered Idle");
+        Debug.Log(" entered Ending");
     }
-    public override void OnExit() { }
+    public override void OnExit()
+    {
+
+    }
     public override void OnUpdate() { }
 }

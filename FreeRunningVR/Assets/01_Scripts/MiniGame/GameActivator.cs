@@ -23,6 +23,7 @@ public class GameActivator
         this.playerCollider = playerCollider;
         triggerBodyEnterObject = enterObject;
         triggerBodyExitObject = exitObject;
+        triggerDisableTimer = new Timer1(triggerDisableTime);
 
         SetEventsListeners();
     }
@@ -31,6 +32,7 @@ public class GameActivator
     {
         miniGameTrigger.OnColliderEnter += HandleEnter;
         miniGameTrigger.OnColliderExit += HandleExit;
+        triggerDisableTimer.OnTimerIsDone += ResetTriggerObjects;
     }
 
     public void RemoveEventsListeners()
@@ -63,10 +65,6 @@ public class GameActivator
         if (IsColliderPlayer(otherCollider) == false) return;
 
         ObjectsActive(false, true);
-
-        triggerDisableTimer = new Timer1(triggerDisableTime);
-        triggerDisableTimer.OnTimerIsDone += ResetTriggerObjects;
-
         OnPlayerExitCollider?.Invoke(triggerDisableTimer);
     }
 

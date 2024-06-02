@@ -1,48 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine;
 using System;
+using static UnityEngine.GraphicsBuffer;
 
-public class TargetManager : MonoBehaviour
+public class TargetManager2
 {
     public event Action OnAllTargetsHit;
+    public event Action OnBuildLevel;
 
     public float number = 0.3f;
-    [SerializeField] private PistolManager pistolManager;
-    [SerializeField] private List<Target> activeTargets;
-    [SerializeField] private List<Target> deactiveTargets;
+    private PistolManager pistolManager;
+    private List<Target> targetsLevel;
+    private List<Target> activeTargets;
+    private List<Target> deactiveTargets = new List<Target>();
+    private List<TargetLevel> targetLevels;
+    private Transform spawnLocation;
 
 
-    [SerializeField] private TextMeshProUGUI targetUI;
+    private TextMeshProUGUI targetUI;
     private List<float> scores = new List<float>();
 
-
-
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    public TargetManager2(PistolManager pistolManager, Transform spawnLocation, List<TargetLevel> targetLevels)
     {
-        SetEvents();
-    }
+        this.pistolManager = pistolManager;
+        this.spawnLocation = spawnLocation;
+        this.targetLevels = targetLevels;
 
-    private void SetEvents()
-    {
         pistolManager.OnPistolHasHitTarget += procesHit;
-
+    }
+    private void AddEventsLisnteners()
+    {
         foreach (Target target in activeTargets)
         {
             target.OnAnimtionIsDone += RemoveTarget;
+            Debug.Log(" target " + target.name);
         }
     }
 
+    public void BuildLevel()
+    {
+        var newLevel = GameObject.Instantiate(targetLevels[0], spawnLocation);
+        activeTargets = newLevel.GetTargets();
+        AddEventsLisnteners();
+        OnBuildLevel?.Invoke();
+
+
+    }
+
+    public void ResetLevel()
+    {
+        GameObject.Instantiate(targetLevels[0], spawnLocation);
+        AddEventsLisnteners();
+    }
+
+
     private void RemoveTarget(Target hitTarget)
     {
-        activeTargets.Remove(hitTarget);
-        deactiveTargets.Add(hitTarget);
+        hitTarget.OnAnimtionIsDone -= RemoveTarget;
         hitTarget.gameObject.SetActive(false);
 
         if (activeTargets.Count == 0)
@@ -57,6 +73,10 @@ public class TargetManager : MonoBehaviour
     {
         Target newTarget = GetTarget(target);
         if (newTarget == null) return;
+
+        activeTargets.Remove(newTarget);
+        deactiveTargets.Add(newTarget);
+
         newTarget.AudioSource.Play();
         newTarget.Animator.SetTrigger("hit");
         float Score = CalculateScore(target, hitPoint);
@@ -66,7 +86,7 @@ public class TargetManager : MonoBehaviour
         if (activeTargets.Count == 0)
         {
             float avarage = Calculations.calculateAvarage(scores);
-            targetUI.text = avarage.ToString();
+            //targetUI.text = avarage.ToString();
         }
 
     }
