@@ -6,10 +6,13 @@ public class FreezeMovement : State
 {
     public override void OnEnter()
     {
+        Debug.Log("entered Freeze");
     }
 
     public override void OnExit()
     {
+        Debug.Log("exit Freeze");
+
     }
 
     public override void OnFixedUpdate()
@@ -18,17 +21,5 @@ public class FreezeMovement : State
 
     public override void OnUpdate()
     {
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

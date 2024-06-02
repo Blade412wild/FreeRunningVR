@@ -76,6 +76,7 @@ public class GameActivator
 
     private void ResetTriggerObjects()
     {
+        Debug.Log("resetTrigger");
         ObjectsActive(true, false);
     }
 }

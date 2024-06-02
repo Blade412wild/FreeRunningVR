@@ -97,7 +97,7 @@ public class MiniGameManager : MonoBehaviour
     private void BeginGame()
     {
         gameManager.playerData.PhysicsRig.FreezeBodyCollider = true;
-        //gameManager.PlayerStateHandler.stateMachine.SwitchState();
+        gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(FreezeMovement));
         animator.SetBool("close", false); 
         animator.SetBool("open", true);
         shutterIsClosed = false;
@@ -110,6 +110,12 @@ public class MiniGameManager : MonoBehaviour
         playerisInCollider = false;
         animator.SetBool("open", false);
         animator.SetBool("close", true);
+    }
+
+    private void TurnTimerOff()
+    {
+        mayTimerUpdate = false;
+        timer.ResetTimer();
     }
 
 
@@ -128,7 +134,8 @@ public class MiniGameManager : MonoBehaviour
 
     private void TimerIsDone()
     {
-        isTimerDone = true; 
+        isTimerDone = true;
+        TurnTimerOff();
     }
 
     private void CloseShutter()
@@ -143,7 +150,7 @@ public class MiniGameManager : MonoBehaviour
         Debug.Log("shutter is closed");
         shutterIsClosed = true;
         gameManager.playerData.PhysicsRig.FreezeBodyCollider = false;
-
+        gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(WalkingState));
     }
 
 

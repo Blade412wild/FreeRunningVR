@@ -19,6 +19,7 @@ public class PlayerStateHandler : MonoBehaviour
         gameManager.playerData.playerGameObjects = GetComponent<PlayerGameObjects>();
         gameManager.playerData.Colliders = playerColliders.colliders;
         gameManager.playerData.PhysicsRig = PhysicsRig;
+        gameManager.PlayerStateHandler = this;
 
     }
 
