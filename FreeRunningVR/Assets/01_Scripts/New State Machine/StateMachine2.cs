@@ -17,7 +17,7 @@ public class StateMachine2 : MonoBehaviour
             stateCollection.Add(states[i].GetType(), states[i]);
         }
     }
-    public void OnFixedUpdate()
+    public void OnUpdate()
     {
         foreach (Transition transition in activeTransitions)
         {
@@ -29,6 +29,8 @@ public class StateMachine2 : MonoBehaviour
         }
         currentState?.OnUpdate();
     }
+
+
     public void SwitchState(System.Type newStateType)
     {
         if (stateCollection.ContainsKey(newStateType))

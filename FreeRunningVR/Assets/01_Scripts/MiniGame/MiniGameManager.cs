@@ -53,14 +53,12 @@ public class MiniGameManager : MonoBehaviour
 
     private void Update()
     {
+        stateMachine.OnUpdate();
+
         if (mayTimerUpdate)
         {
             timer.OnUpdate();
         }
-    }
-    private void FixedUpdate()
-    {
-        stateMachine.OnFixedUpdate();
     }
     private void SetupTargetManager()
     {

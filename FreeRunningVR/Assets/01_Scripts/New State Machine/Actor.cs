@@ -32,7 +32,7 @@ public class Actor : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        stateMachine.OnFixedUpdate();
+        stateMachine.OnUpdate();
     }
     public bool IsDead()
     {
