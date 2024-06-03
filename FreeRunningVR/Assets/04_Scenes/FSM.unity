@@ -19270,6 +19270,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1567022050}
     m_Modifications:
+    - target: {fileID: -7995675852375388120, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+        type: 3}
+      propertyPath: colliders.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7995675852375388120, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+        type: 3}
+      propertyPath: colliders.Array.data[4]
+      value: 
+      objectReference: {fileID: 227154729492243550}
     - target: {fileID: 1662409700354057029, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19328,12 +19338,7 @@ PrefabInstance:
     - target: {fileID: 4141962557154803324, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542036871246171348, guid: c6d800b1b50ab8b46b09c7c3359561dd,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.08
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19343,6 +19348,12 @@ PrefabInstance:
 --- !u!20 &227154729492243545 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 5572111167861176358, guid: c6d800b1b50ab8b46b09c7c3359561dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 227154729492243531}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &227154729492243550 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 8863583608368309382, guid: c6d800b1b50ab8b46b09c7c3359561dd,
     type: 3}
   m_PrefabInstance: {fileID: 227154729492243531}
   m_PrefabAsset: {fileID: 0}
