@@ -6,19 +6,29 @@ public class JumpingObjectsManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private List<JumpObject> jumpingObjects;
+    [SerializeField] private List<JumpObject> jumpingObjectsDeactive;
+
     [SerializeField] private float timerDuration;
 
     private PlayerData playerData;
+    private UpperBodyColliderDetection upperDection;
+    private JumpObject currentJumpObject;
+    private JumpObject previousHitJumpObject;
+
+    private Transform upperBody;
+    private Transform orientation;
     private bool DidPutToTrigger = false;
     private Timer1 timer;
     private bool timerMayUpdate = false;
-    private JumpObject currentJumpObject;
+    private bool mayUpdate = false;
+    private Color newColor;
 
     private void Start()
     {
+        newColor = Color.red;
         timer = new Timer1(timerDuration);
         timer.OnTimerIsDone += TurnObjectToCollider;
-        playerData = gameManager.playerData;
+        gameManager.OnSpawnPlayerDone += GetPlayerData;
 
         foreach (JumpObject jumpObject in jumpingObjects)
         {
@@ -29,12 +39,19 @@ public class JumpingObjectsManager : MonoBehaviour
 
     private void Update()
     {
+        if (mayUpdate == false) return;
+
+        if (upperDection != null)
+        {
+            upperDection.OnUpdate();
+        }
+
         if (timerMayUpdate)
         {
             timer.OnUpdate();
         }
 
-        if (playerData.IsGoingUp == 1 && DidPutToTrigger == false)
+        if (playerData.IsGoingUp == 1)
         {
             foreach (JumpObject _object in jumpingObjects)
             {
@@ -60,8 +77,12 @@ public class JumpingObjectsManager : MonoBehaviour
             }
             DidPutToTrigger = false;
         }
+    }
 
-
+    private void FixedUpdate()
+    {
+        if (upperDection == null) return;
+        upperDection.OnFixedUpdate();
     }
 
     private void TurnObjectToCollider()
@@ -85,17 +106,52 @@ public class JumpingObjectsManager : MonoBehaviour
         currentJumpObject = objectCollider;
     }
 
-
-
-    private void PlayerIsOutOfTrigger()
+    private void GetPlayerData()
     {
+        playerData = gameManager.playerData;
+        upperBody = playerData.playerGameObjects.upperBody;
+        orientation = playerData.playerGameObjects.orientation;
+        CreateUpperbodyDetection();
+    }
+
+    private void ProcesHit(JumpObject jumpObject)
+    {
+        RemoveJumpObjectFromList(jumpObject);
+
+        if (previousHitJumpObject != null && jumpObject != previousHitJumpObject)
+        {
+            AddJumpObjectToList(previousHitJumpObject);
+        }
+        previousHitJumpObject = jumpObject;
+        Debug.Log("remove");
+    }
+
+    private void AddJumpObjectToList(JumpObject previousHitObject)
+    {      
+        if (!jumpingObjects.Contains(previousHitObject))
+        {
+            jumpingObjects.Add(previousHitObject);
+        }
+
+        jumpingObjectsDeactive.Remove(previousHitObject);
+    }
+
+    private void RemoveJumpObjectFromList(JumpObject jumpObject)
+    {
+      
+        jumpingObjects.Remove(jumpObject);
+        jumpingObjectsDeactive.Add(jumpObject);
 
     }
 
-    private void SetPlayerData()
+    private void CreateUpperbodyDetection()
     {
-
+        upperDection = new UpperBodyColliderDetection(upperBody, orientation);
+        upperDection.OnJumpObjectHit += ProcesHit;
+        mayUpdate = true;
     }
+
+
 
 
 

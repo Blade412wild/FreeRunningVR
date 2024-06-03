@@ -1,9 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using System;
-using static UnityEngine.GraphicsBuffer;
 
 public class TargetManager2
 {

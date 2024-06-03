@@ -17,6 +17,7 @@ public class PlayerGameObjects : MonoBehaviour
     public Transform CameraOffset;
     public Transform XROrigin;
     public XROrigin XROrigin2;
+    public Transform upperBody;
 
     [Header("RigidBody")]
     public Rigidbody headRB;

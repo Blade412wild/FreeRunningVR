@@ -8054,6 +8054,7 @@ MonoBehaviour:
   - {fileID: 1064463255}
   - {fileID: 362974561}
   - {fileID: 1051892985}
+  jumpingObjectsDeactive: []
   timerDuration: 0.2
 --- !u!1 &851707096 stripped
 GameObject:
@@ -19327,17 +19328,12 @@ PrefabInstance:
     - target: {fileID: 4141962557154803324, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7542036871246171348, guid: c6d800b1b50ab8b46b09c7c3359561dd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0833
-      objectReference: {fileID: 0}
-    - target: {fileID: 8109564205671505206, guid: c6d800b1b50ab8b46b09c7c3359561dd,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.1
+      value: -0.08
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
