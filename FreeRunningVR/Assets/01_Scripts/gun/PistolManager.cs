@@ -13,6 +13,8 @@ public class PistolManager : MonoBehaviour
     [SerializeField] private float height = 0.4f;
     [SerializeField] private float heightOffset = 0.3f;
     private PlayerData playerData;
+
+    // deze heb ik toegevoegd na de laatste les van onder naar boven werken
     private CheckIfHandsAreInBody checkHands;
     private CheckWhichHand WhichHand = new CheckWhichHand();
     private ChangeHandsManager changeHandsManager;

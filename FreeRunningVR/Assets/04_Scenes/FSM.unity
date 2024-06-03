@@ -13002,6 +13002,7 @@ MonoBehaviour:
   exitTriggerObject: {fileID: 1821164263}
   targertSpawnLocation: {fileID: 1310926317}
   targetLevels:
+  - {fileID: 2500461253622731537, guid: 400daac975d72d34280c072b1b0e8f95, type: 3}
   - {fileID: 2500461253622731537, guid: 667e76eb835bc6e4381d6e15da151998, type: 3}
   - {fileID: 3337539044271261038, guid: 97ad8c1ef1b1c1c4486dbab2f01179dd, type: 3}
   freezePos: 0
