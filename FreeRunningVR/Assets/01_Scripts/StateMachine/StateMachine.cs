@@ -6,7 +6,7 @@ public class StateMachine
     private Dictionary<System.Type, State> stateDictionary = new Dictionary<System.Type, State>();
     private State activeState;
 
-    public Guard Controller;
+    public object Controller;
 
     // Start is called before the first frame update
     public StateMachine(object Controller, params State[] states)
