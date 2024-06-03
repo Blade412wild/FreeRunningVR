@@ -15,12 +15,12 @@ public class PhysicsRig : MonoBehaviour
     [SerializeField] private Transform rightController;
 
     [Header("Joints")]
-    [SerializeField] private ConfigurableJoint headJoint;
     [SerializeField] private ConfigurableJoint rightHandJoint;
     [SerializeField] private ConfigurableJoint leftHandJoint;
 
     [Header("Collider")]
     [SerializeField] private CapsuleCollider bodyCollider;
+    [SerializeField] private Transform headCollider;
 
 
     [SerializeField] private float bodyHeightMin = 0.5f;
@@ -47,7 +47,7 @@ public class PhysicsRig : MonoBehaviour
         rightHandJoint.targetPosition = rightController.localPosition;
         rightHandJoint.targetRotation = rightController.localRotation;
 
-        headJoint.targetPosition = playerHead.localPosition;
+        headCollider.position = playerHead.position;
     }
 
 

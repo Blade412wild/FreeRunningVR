@@ -85,7 +85,6 @@ public class CheckJumping : MonoBehaviour
     private void BigJump()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        rb.AddForce(transform.up * bigJumnpForce, ForceMode.Impulse);
     }
 
     // jumping 

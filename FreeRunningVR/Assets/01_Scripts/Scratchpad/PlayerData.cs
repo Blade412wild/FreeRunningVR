@@ -12,6 +12,9 @@ public class PlayerData : ScriptableObject
     public Vector3 KeyBoardPos;
     public float currentTime;
 
+    //jumping
+    public int IsGoingUp = 0;
+
     //sliding
     public float playerheight;
     public bool HeadIsUp = true;

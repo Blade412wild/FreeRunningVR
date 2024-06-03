@@ -87,7 +87,7 @@ public class RunningState : State
         }
         else
         {
-            rb.drag = 0;
+            rb.drag = 1;
         }
     }
     public override void OnFixedUpdate()

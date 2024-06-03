@@ -73,6 +73,7 @@ public class BigJumpState : State
     {
         InputManager.Instance.playerInputActions.Walking.Enable();
         InputManager.Instance.playerInputActions.Jumping.Disable();
+        playerData.IsGoingUp = 0;
         rb.mass = startingMass;
     }
 
@@ -85,6 +86,11 @@ public class BigJumpState : State
         {
             rb.mass = PlayerDownFallMass;
             jumpingState = JumpingState.Down;
+            playerData.IsGoingUp = 2;
+        }
+        else
+        {
+            playerData.IsGoingUp = 1;
         }
 
         SpeedControl();
