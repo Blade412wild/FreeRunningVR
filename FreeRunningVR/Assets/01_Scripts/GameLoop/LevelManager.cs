@@ -102,7 +102,7 @@ public class LevelManager : MonoBehaviour
 
 
         ResetRigidBody(playerData.playerGameObjects.bodyRB);
-        ResetRigidBody(playerData.playerGameObjects.headRB);
+        //ResetRigidBody(playerData.playerGameObjects.headRB);
         ResetRigidBody(playerData.playerGameObjects.rightHandRB);
         ResetRigidBody(playerData.playerGameObjects.leftHandRB);
     }

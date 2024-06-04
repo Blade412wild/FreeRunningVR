@@ -5,18 +5,22 @@ using UnityEngine;
 public class JumpingObjectsManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
-    [SerializeField] private List<JumpObject> jumpingObjects;
-    [SerializeField] private List<JumpObject> jumpingObjectsDeactive;
+    [SerializeField] private List<JumpObject> jumpingObjects = new List<JumpObject>();
+    [SerializeField] private List<JumpObject> jumpingObjectsDeactive = new List<JumpObject>();
 
     [SerializeField] private float timerDuration;
+    [SerializeField] private float maxObjectCount;
 
     private PlayerData playerData;
-    private UpperBodyColliderDetection upperDection;
+    private JumpColliderDetection upperDetection;
+    private JumpColliderDetection lowerDetection;
+    private JumpColliderDetection LandingDetection;
     private JumpObject currentJumpObject;
     private JumpObject previousHitJumpObject;
 
     private Transform upperBody;
     private Transform orientation;
+    private Transform lowerBody;
     private bool DidPutToTrigger = false;
     private Timer1 timer;
     private bool timerMayUpdate = false;
@@ -32,8 +36,7 @@ public class JumpingObjectsManager : MonoBehaviour
 
         foreach (JumpObject jumpObject in jumpingObjects)
         {
-            jumpObject.GetCollider();
-            jumpObject.OnPlayerEnterTrigger += PlayerIsInObject;
+            //jumpObject.GetCollider();
         }
     }
 
@@ -41,9 +44,11 @@ public class JumpingObjectsManager : MonoBehaviour
     {
         if (mayUpdate == false) return;
 
-        if (upperDection != null)
+        if (upperDetection != null)
         {
-            upperDection.OnUpdate();
+            upperDetection.OnUpdate();
+            LandingDetection.OnUpdate();
+            lowerDetection.OnUpdate();
         }
 
         if (timerMayUpdate)
@@ -57,8 +62,6 @@ public class JumpingObjectsManager : MonoBehaviour
             {
                 _object.TurnToTrigger();
             }
-            //DidPutToTrigger = true;
-
         }
         else if (playerData.IsGoingUp == 2)
         {
@@ -66,8 +69,6 @@ public class JumpingObjectsManager : MonoBehaviour
             {
                 _object.TurnToCollider();
             }
-            DidPutToTrigger = false;
-
         }
         else
         {
@@ -75,14 +76,29 @@ public class JumpingObjectsManager : MonoBehaviour
             {
                 _object.TurnToCollider();
             }
-            DidPutToTrigger = false;
         }
     }
 
     private void FixedUpdate()
     {
-        if (upperDection == null) return;
-        upperDection.OnFixedUpdate();
+        if (upperDetection == null) return;
+
+        if (playerData.IsGoingUp == 1)
+        {
+
+
+        }
+        else if (playerData.IsGoingUp == 2)
+        {
+
+            LandingDetection.OnFixedUpdate();
+        }
+        else
+        {
+            upperDetection.OnFixedUpdate();
+            lowerDetection.OnFixedUpdate();
+
+        }
     }
 
     private void TurnObjectToCollider()
@@ -110,11 +126,12 @@ public class JumpingObjectsManager : MonoBehaviour
     {
         playerData = gameManager.playerData;
         upperBody = playerData.playerGameObjects.upperBody;
+        lowerBody = playerData.playerGameObjects.lowerBody;
         orientation = playerData.playerGameObjects.orientation;
-        CreateUpperbodyDetection();
+        CreateBodyDetection();
     }
 
-    private void ProcesHit(JumpObject jumpObject)
+    private void ProcesUpperDection(JumpObject jumpObject)
     {
         RemoveJumpObjectFromList(jumpObject);
 
@@ -125,9 +142,28 @@ public class JumpingObjectsManager : MonoBehaviour
         previousHitJumpObject = jumpObject;
         Debug.Log("remove");
     }
+    private void ProcesLowerDection(JumpObject jumpObject)
+    {
+        if(jumpingObjects.Count > maxObjectCount)
+        {
+            jumpingObjects[0].OnPlayerEnterTrigger -= PlayerIsInObject;
+            //jumpingObjects[0].TurnToCollider();
+            jumpingObjects.Remove(jumpingObjects[0]);
+        }
+
+        jumpingObjects.Add(jumpObject);
+        jumpObject.OnPlayerEnterTrigger += PlayerIsInObject;
+
+    }
+    private void ProcesLandingDection(JumpObject jumpObject)
+    {
+        //AddJumpObjectToList(jumpObject);
+        //jumpingObjects.Add(jumpObject);
+    }
+
 
     private void AddJumpObjectToList(JumpObject previousHitObject)
-    {      
+    {
         if (!jumpingObjects.Contains(previousHitObject))
         {
             jumpingObjects.Add(previousHitObject);
@@ -138,16 +174,23 @@ public class JumpingObjectsManager : MonoBehaviour
 
     private void RemoveJumpObjectFromList(JumpObject jumpObject)
     {
-      
+
         jumpingObjects.Remove(jumpObject);
         jumpingObjectsDeactive.Add(jumpObject);
 
     }
 
-    private void CreateUpperbodyDetection()
+    private void CreateBodyDetection()
     {
-        upperDection = new UpperBodyColliderDetection(upperBody, orientation);
-        upperDection.OnJumpObjectHit += ProcesHit;
+        upperDetection = new JumpColliderDetection(upperBody, orientation, 0.8f);
+        upperDetection.OnJumpObjectHit += ProcesUpperDection;
+
+        LandingDetection = new JumpColliderDetection(upperBody, orientation, -0.8f);
+        LandingDetection.OnJumpObjectHit += ProcesLandingDection;
+
+        lowerDetection = new JumpColliderDetection(lowerBody, orientation, 0);
+        lowerDetection.OnJumpObjectHit += ProcesLowerDection;
+
         mayUpdate = true;
     }
 

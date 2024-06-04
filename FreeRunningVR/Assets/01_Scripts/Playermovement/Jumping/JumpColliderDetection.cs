@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class UpperBodyColliderDetection
+public class JumpColliderDetection
 {
     public event Action<JumpObject> OnJumpObjectHit;
 
@@ -14,13 +14,15 @@ public class UpperBodyColliderDetection
     private Transform upperBodyTrans;
     private Collider currentJumpObject;
     private Collider previousJumpObject;
+    private float offsetY;
 
     public Vector3 direction = new Vector3(0, 1, 0);
 
-    public UpperBodyColliderDetection(Transform upperBodyTrans, Transform orientation)
+    public JumpColliderDetection(Transform upperBodyTrans, Transform orientation, float OffsetY)
     {
         this.upperBodyTrans = upperBodyTrans;
         this.orientation = orientation;
+        this.offsetY = OffsetY;
     }
 
     // Update is called once per frame
@@ -67,7 +69,7 @@ public class UpperBodyColliderDetection
         verticalInput = stickInput.y;
 
         direction = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
-        direction = new Vector3(direction.x, 0.8f, direction.z);
+        direction = new Vector3(direction.x, offsetY, direction.z);
     }
 
     private void GetOrientatiom()

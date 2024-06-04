@@ -18,6 +18,7 @@ public class PlayerGameObjects : MonoBehaviour
     public Transform XROrigin;
     public XROrigin XROrigin2;
     public Transform upperBody;
+    public Transform lowerBody;
 
     [Header("RigidBody")]
     public Rigidbody headRB;

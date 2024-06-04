@@ -8,6 +8,10 @@ public class JumpObject : MonoBehaviour
     public event Action<JumpObject, Collider> OnPlayerEnterTrigger;
 
     private Collider collider;
+    private void Start()
+    {
+        GetCollider();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

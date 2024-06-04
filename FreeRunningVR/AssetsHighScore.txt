@@ -2,24 +2,8 @@
     "_level": 1,
     "_highScores": [
         {
-            "_name": "Nathan2",
-            "_time": 0.5969666838645935
-        },
-        {
-            "_name": " Nathan1",
-            "_time": 0.6527999639511108
-        },
-        {
-            "_name": "Nathan3",
-            "_time": 0.7235403656959534
-        },
-        {
-            "_name": "NATHAN",
-            "_time": 21.45337677001953
-        },
-        {
-            "_name": "NathanBest",
-            "_time": 22.99860382080078
+            "_name": "Nathan",
+            "_time": 36.97502899169922
         }
     ]
 }
