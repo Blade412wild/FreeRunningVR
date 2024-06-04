@@ -84,7 +84,7 @@ public class BigJumpState : State
 
         if (rb.velocity.y < 0)
         {
-            rb.mass = PlayerDownFallMass;
+            //rb.mass = PlayerDownFallMass;
             jumpingState = JumpingState.Down;
             playerData.IsGoingUp = 2;
         }
