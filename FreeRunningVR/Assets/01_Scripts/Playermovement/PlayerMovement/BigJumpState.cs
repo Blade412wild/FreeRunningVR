@@ -33,6 +33,7 @@ public class BigJumpState : State
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask Body;
     public bool grounded { get; private set; }
+    public bool exitingSlope;
 
     [Header("SlopeHandeling")]
     [SerializeField] private float maxSlopeAngle;
@@ -44,7 +45,7 @@ public class BigJumpState : State
 
     private float horizontalInput;
     private float verticalInput;
-    public bool exitingSlope;
+    private bool didHitAJumpObject = false;
 
     public Vector3 moveDirection { get; private set; }
     private Rigidbody rb;
@@ -128,7 +129,7 @@ public class BigJumpState : State
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
 
         rb.AddForce(moveDirection.normalized * moveSpeed * 10.0f /**airMultiplier*/, ForceMode.Force);
-        if(jumpingState == JumpingState.Down)
+        if (jumpingState == JumpingState.Down)
         {
             rb.AddForce(Vector3.down * downForce, ForceMode.Force);
         }
@@ -141,8 +142,23 @@ public class BigJumpState : State
     private void CheckGround()
     {
         //grounded = Physics.Raycast(transform.position, Vector3.down, rayLenght, whatIsGround);
+        //if (CheckIfGroundIsJumpObject())
+        //{
+        //    Debug.Log("JumpingObject");
+        //    playerData.HitJumpingObject = true;
+        //}
+        //else
+        //{
+        //    playerData.HitJumpingObject = false;
+        //}
+
         if (jumpingState == JumpingState.Up) return;
+
+       
+
+
         grounded = CheckIfGroundIsGround();
+
         playerData.grounded = false;
 
         if (grounded && rb.velocity.y >= 0)
@@ -181,6 +197,22 @@ public class BigJumpState : State
 
         float average = allNumbers / list.Count;
         return average;
+    }
+
+    private bool CheckIfGroundIsJumpObject()
+    {
+        Vector3 start = bodyCollider.transform.TransformPoint(bodyCollider.center);
+        float rayLenght = bodyCollider.height / 2 - bodyCollider.radius + 0.5f;
+
+        bool hasHit = Physics.SphereCast(start, bodyCollider.radius, Vector3.down, out RaycastHit hitInfo, rayLenght);
+        if (hasHit)
+        {
+            if (hitInfo.collider.TryGetComponent<JumpObject>(out JumpObject jumpObject))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private bool CheckIfGroundIsGround()

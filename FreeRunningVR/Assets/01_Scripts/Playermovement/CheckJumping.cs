@@ -56,6 +56,8 @@ public class CheckJumping : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         InputManager.Instance.playerInputActions.Walking.TryToJump.canceled += DicideHowToJump;
         InputManager.Instance.playerInputActions.Walking.TryToJump.started += SetJumpData;
+
+        //InputManager.Instance.playerInputActions.Jumping.TryToJump.started += CheckIfAbleToJumpAgain;
     }
 
     private void SetGameObjects()
@@ -99,6 +101,13 @@ public class CheckJumping : MonoBehaviour
     {
         leftHandInitialPos = leftHandTransform.position;
         rightHandInitialPos = rightHandTransform.position;
+    }
+
+    private void CheckIfAbleToJumpAgain(InputAction.CallbackContext context)
+    {
+        if (playerData.HitJumpingObject == false) return;
+        Debug.Log("let's GO");
+        stateHandler.stateMachine.SwitchState(typeof(BigJumpState));
     }
 
     //jumping

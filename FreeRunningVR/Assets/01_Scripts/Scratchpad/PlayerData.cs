@@ -11,6 +11,7 @@ public class PlayerData : ScriptableObject
     public float RunSpeed;
     public Vector3 KeyBoardPos;
     public float currentTime;
+    public bool HitJumpingObject;
 
     //jumping
     public int IsGoingUp = 0;

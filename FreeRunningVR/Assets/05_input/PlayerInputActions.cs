@@ -122,17 +122,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6fe9da6a-4eab-4e53-9784-b54ae6f0843c"",
-                    ""path"": ""<OculusTouchController>/primaryButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TryToJump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""b3d7d9e0-5c06-46df-bd44-1041459e5d68"",
                     ""path"": ""<OculusTouchController>{LeftHand}/thumbstick"",
                     ""interactions"": """",
@@ -150,6 +139,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SetLaptop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""390f7520-5c75-4940-b9a0-2bc712342a1a"",
+                    ""path"": ""<OculusTouchController>{RightHand}/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryToJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -307,6 +307,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TryToJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""f4f1052a-5859-4e53-b81d-f21a7de9da6f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -318,6 +327,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveVR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e88258cb-ad8f-4938-9d79-7e1d65df27bf"",
+                    ""path"": ""<OculusTouchController>{RightHand}/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TryToJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -467,6 +487,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Jumping
         m_Jumping = asset.FindActionMap("Jumping", throwIfNotFound: true);
         m_Jumping_MoveVR = m_Jumping.FindAction("MoveVR", throwIfNotFound: true);
+        m_Jumping_TryToJump = m_Jumping.FindAction("TryToJump", throwIfNotFound: true);
         // Idle
         m_Idle = asset.FindActionMap("Idle", throwIfNotFound: true);
         m_Idle_MoveVR = m_Idle.FindAction("MoveVR", throwIfNotFound: true);
@@ -718,11 +739,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Jumping;
     private List<IJumpingActions> m_JumpingActionsCallbackInterfaces = new List<IJumpingActions>();
     private readonly InputAction m_Jumping_MoveVR;
+    private readonly InputAction m_Jumping_TryToJump;
     public struct JumpingActions
     {
         private @PlayerInputActions m_Wrapper;
         public JumpingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveVR => m_Wrapper.m_Jumping_MoveVR;
+        public InputAction @TryToJump => m_Wrapper.m_Jumping_TryToJump;
         public InputActionMap Get() { return m_Wrapper.m_Jumping; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -735,6 +758,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MoveVR.started += instance.OnMoveVR;
             @MoveVR.performed += instance.OnMoveVR;
             @MoveVR.canceled += instance.OnMoveVR;
+            @TryToJump.started += instance.OnTryToJump;
+            @TryToJump.performed += instance.OnTryToJump;
+            @TryToJump.canceled += instance.OnTryToJump;
         }
 
         private void UnregisterCallbacks(IJumpingActions instance)
@@ -742,6 +768,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MoveVR.started -= instance.OnMoveVR;
             @MoveVR.performed -= instance.OnMoveVR;
             @MoveVR.canceled -= instance.OnMoveVR;
+            @TryToJump.started -= instance.OnTryToJump;
+            @TryToJump.performed -= instance.OnTryToJump;
+            @TryToJump.canceled -= instance.OnTryToJump;
         }
 
         public void RemoveCallbacks(IJumpingActions instance)
@@ -933,6 +962,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IJumpingActions
     {
         void OnMoveVR(InputAction.CallbackContext context);
+        void OnTryToJump(InputAction.CallbackContext context);
     }
     public interface IIdleActions
     {

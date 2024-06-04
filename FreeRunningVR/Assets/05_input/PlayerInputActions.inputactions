@@ -100,17 +100,6 @@
                 },
                 {
                     "name": "",
-                    "id": "6fe9da6a-4eab-4e53-9784-b54ae6f0843c",
-                    "path": "<OculusTouchController>/primaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TryToJump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b3d7d9e0-5c06-46df-bd44-1041459e5d68",
                     "path": "<OculusTouchController>{LeftHand}/thumbstick",
                     "interactions": "",
@@ -128,6 +117,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SetLaptop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "390f7520-5c75-4940-b9a0-2bc712342a1a",
+                    "path": "<OculusTouchController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TryToJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -285,6 +285,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "TryToJump",
+                    "type": "Button",
+                    "id": "f4f1052a-5859-4e53-b81d-f21a7de9da6f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -296,6 +305,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "MoveVR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e88258cb-ad8f-4938-9d79-7e1d65df27bf",
+                    "path": "<OculusTouchController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TryToJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
