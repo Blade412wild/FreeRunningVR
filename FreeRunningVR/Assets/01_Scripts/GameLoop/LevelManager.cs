@@ -75,6 +75,7 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerBackToHome()
     {
         SetPlayerPos(beginPos.position);
+        gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(FreezeMovement));
     }
 
     private void SetGameLevelData()
@@ -119,5 +120,6 @@ public class LevelManager : MonoBehaviour
         MayRunTimer = false;
         PlayerGameStopWatch.ResetTimer();
         OnDataInputDone?.Invoke();
+        gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(WalkingState));
     }
 }
