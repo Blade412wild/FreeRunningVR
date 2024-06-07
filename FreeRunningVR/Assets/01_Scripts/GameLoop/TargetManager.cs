@@ -11,17 +11,12 @@ public class TargetManager : MonoBehaviour
 
     public float number = 0.3f;
     [SerializeField] private PistolManager pistolManager;
-    [SerializeField] private List<Target> activeTargets;
-    [SerializeField] private List<Target> deactiveTargets;
+    [SerializeField] private List<Target> activeTargets = new List<Target>();
+    [SerializeField] private List<Target> deactiveTargets = new List<Target>();
 
 
     [SerializeField] private TextMeshProUGUI targetUI;
     private List<float> scores = new List<float>();
-
-
-
-
-
 
     // Start is called before the first frame update
     void Start()

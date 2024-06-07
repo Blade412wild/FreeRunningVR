@@ -15,6 +15,7 @@ public class HighScoreManager : MonoBehaviour
 
     [SerializeField] private GameManager gameManager;
     [SerializeField] private PlayerScoreData playerScoreData;
+    [SerializeField] private HighscoreRequirements highscoreRequirements;
     [SerializeField] private TargetManager targetManager;
     [SerializeField] private string Name;
     [SerializeField] private string fileName;
@@ -26,14 +27,14 @@ public class HighScoreManager : MonoBehaviour
     private PlayerDataStruct currentPlayerData;
     private GetPlayerData getPlayerData;
     private List<float> sortedScores;
-    
+
 
     private void Start()
     {
         levelManager.OnEndLevel += PlayerIsFinished;
         Keyboard.OnInsertedName += FinalizeHighScore;
 
-        getPlayerData = new GetPlayerData(levelManager, targetManager);
+        getPlayerData = new GetPlayerData(highscoreRequirements, levelManager, targetManager);
         LoadHighScoreOnStart();
 
     }
@@ -72,15 +73,15 @@ public class HighScoreManager : MonoBehaviour
             //highScoreFile.Value._highScores.Add(currentPlayerData);
 
             oldHighScore = highScoreFile.Value._highScores;
-            sortedScores = new List<float> { currentPlayerData._time };
-            MayFillInName = true;
+            //sortedScores = new List<float> { currentPlayerData._time };
+            //MayFillInName = true;
 
         }
         else
         {
             oldHighScore = highScoreFile.Value._highScores;
-            sortedScores = SortNewScoreNew(highScoreFile.Value._highScores, currentPlayerData);
-            MayFillInName = CheckIfPlayerMayFillInName(sortedScores, currentPlayerData);
+            //sortedScores = SortNewScoreNew(highScoreFile.Value._highScores, currentPlayerData);
+            //MayFillInName = CheckIfPlayerMayFillInName(sortedScores, currentPlayerData);
         }
 
 
@@ -107,6 +108,7 @@ public class HighScoreManager : MonoBehaviour
         return false;
     }
 
+
     private LevelDataStruct CreateNewHighScore()
     {
         LevelDataStruct newlevelDataStruct = new LevelDataStruct();
@@ -126,7 +128,7 @@ public class HighScoreManager : MonoBehaviour
         SaveList(path, newHighScore);
     }
 
-  
+
     public string GetPath()
     {
         if (Application.isPlaying)
@@ -145,6 +147,7 @@ public class HighScoreManager : MonoBehaviour
         PlayerDataStruct playerData = new PlayerDataStruct();
         playerData._name = Name;
         playerData._time = levelManager.PlayerGameStopWatch.currentTime;
+        playerData._scrore = newData;
 
         return playerData;
     }
@@ -195,7 +198,7 @@ public class HighScoreManager : MonoBehaviour
 
         return scores;
     }
-    
+
     private List<PlayerDataStruct> LinkScoreWithPlayerData(List<PlayerDataStruct> highScoreList, List<float> scores, PlayerDataStruct currentPlayerData)
     {
         List<PlayerDataStruct> newHighScoreList = new List<PlayerDataStruct>();
@@ -234,6 +237,7 @@ public struct PlayerDataStruct
 {
     public string _name;
     public float _time;
+    public Vector4 _scrore;
 }
 
 [Serializable]

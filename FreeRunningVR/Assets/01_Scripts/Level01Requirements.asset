@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d513f500a2728ec45950ecb984eec05b, type: 3}
-  m_Name: Level01
+  m_Name: Level01Requirements
   m_EditorClassIdentifier: 
-  Requirements: []
-  Requirements2:
+  Requirements:
   - {x: 0, y: 80, z: 4, w: 90}
-  - {x: 1, y: 85, z: 3, w: 85}
+  - {x: 1, y: 85, z: 3, w: 80}
   - {x: 2, y: 90, z: 3, w: 80}
-  - {x: 3, y: 95, z: 2, w: 75}
+  - {x: 3, y: 95, z: 2, w: 70}
   - {x: 4, y: 100, z: 2, w: 70}
-  - {x: 5, y: 110, z: 1, w: 65}
+  - {x: 5, y: 110, z: 1, w: 60}
   - {x: 6, y: 120, z: 1, w: 60}
   - {x: 7, y: 0, z: 0, w: 0}
