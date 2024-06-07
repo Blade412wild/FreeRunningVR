@@ -14,6 +14,8 @@ public class HighScoreManager : MonoBehaviour
     public bool save = false;
 
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerScoreData playerScoreData;
+    [SerializeField] private TargetManager targetManager;
     [SerializeField] private string Name;
     [SerializeField] private string fileName;
     [SerializeField] private float maxHighScores;
@@ -22,21 +24,18 @@ public class HighScoreManager : MonoBehaviour
 
     private List<PlayerDataStruct> oldHighScore;
     private PlayerDataStruct currentPlayerData;
+    private GetPlayerData getPlayerData;
     private List<float> sortedScores;
+    
 
     private void Start()
     {
         levelManager.OnEndLevel += PlayerIsFinished;
         Keyboard.OnInsertedName += FinalizeHighScore;
 
-        string path = GetPath();
+        getPlayerData = new GetPlayerData(levelManager, targetManager);
+        LoadHighScoreOnStart();
 
-        LevelDataStruct? highScoreFile = LoadList(path);
-
-        if (highScoreFile != null)
-        {
-            OnHighScoreDataIsDone?.Invoke(highScoreFile.Value._highScores);
-        }
     }
 
     private void Update()
@@ -45,6 +44,17 @@ public class HighScoreManager : MonoBehaviour
         {
             //SaveList();
             save = false;
+        }
+    }
+
+    private void LoadHighScoreOnStart()
+    {
+        string path = GetPath();
+        LevelDataStruct? highScoreFile = LoadList(path);
+
+        if (highScoreFile != null)
+        {
+            OnHighScoreDataIsDone?.Invoke(highScoreFile.Value._highScores);
         }
     }
 
@@ -130,6 +140,8 @@ public class HighScoreManager : MonoBehaviour
     }
     private PlayerDataStruct GetPlayerData()
     {
+        Vector4 newData = getPlayerData.GetData();
+        Debug.Log(newData);
         PlayerDataStruct playerData = new PlayerDataStruct();
         playerData._name = Name;
         playerData._time = levelManager.PlayerGameStopWatch.currentTime;

@@ -92,4 +92,15 @@ public class TargetManager : MonoBehaviour
 
         return score;
     }
+
+    public float SendAccuracy()
+    {
+        float avarage = Calculations.calculateAvarage(scores);
+        return avarage;
+    }
+
+    public int SendHitObjects()
+    {
+        return deactiveTargets.Count;
+    }
 }

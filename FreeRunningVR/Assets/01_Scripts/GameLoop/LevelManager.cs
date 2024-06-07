@@ -122,4 +122,8 @@ public class LevelManager : MonoBehaviour
         OnDataInputDone?.Invoke();
         gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(WalkingState));
     }
+    public float SendTime()
+    {
+        return PlayerGameStopWatch.currentTime;
+    } 
 }
