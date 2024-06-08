@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ public class HighScoreManager : MonoBehaviour
     [SerializeField] private string fileName;
     [SerializeField] private float maxHighScores;
     private string fullPath;
-    private bool MayFillInName;
+    private bool mayFillInName;
 
     private List<PlayerDataStruct> oldHighScore;
     private PlayerDataStruct currentPlayerData;
@@ -61,7 +62,7 @@ public class HighScoreManager : MonoBehaviour
 
     private void PlayerIsFinished()
     {
-        MayFillInName = false;
+        mayFillInName = false;
         currentPlayerData = GetPlayerData();
 
         string path = GetPath();
@@ -80,12 +81,28 @@ public class HighScoreManager : MonoBehaviour
         else
         {
             oldHighScore = highScoreFile.Value._highScores;
+            List<float> grades = SortNewHighScoreOnGrade(oldHighScore, currentPlayerData);
+            mayFillInName = isPlayerOnScoreboard(grades, currentPlayerData); // ga eruit als de speler niet on the board mag
+
+
+            if (CheckIfScoreIsSameGrade(grades))
+            {
+                // sortListOnTime;
+                // if time is the same
+                // sort list on Accuray
+            }
+            else
+            {
+                // create new highscoreboard
+            }
+
             //sortedScores = SortNewScoreNew(highScoreFile.Value._highScores, currentPlayerData);
             //MayFillInName = CheckIfPlayerMayFillInName(sortedScores, currentPlayerData);
         }
 
 
-        if (MayFillInName)
+
+        if (mayFillInName)
         {
             OnInsertName?.Invoke();
         }
@@ -93,6 +110,64 @@ public class HighScoreManager : MonoBehaviour
         {
             OnRestartLevel?.Invoke();
         }
+    }
+
+    private void CalulcateNewHighScore(List<PlayerDataStruct> oldHighscoreData)
+    {
+        List<Vector4> scores = new List<Vector4>();  
+
+
+        for(int i = 0; i < maxHighScores; i++)
+        {
+        }
+    }
+
+
+    private bool isPlayerOnScoreboard(List<float> grades, PlayerDataStruct currentPlayerData)
+    {
+        foreach (float grade in grades)
+        {
+            if (grade == currentPlayerData._scrore.x) return true;
+        }
+
+        return false;
+    }
+
+    private bool CheckIfScoreIsSameGrade(List<float> grades)
+    {
+        float refrences = grades[0];
+        bool isSameGrade = false;
+        foreach (float grade in grades)
+        {
+            if (grade != refrences) break;
+            isSameGrade = true;
+
+        }
+        return isSameGrade;
+    }
+
+    private List<float> SortNewHighScoreOnGrade(List<PlayerDataStruct> oldHighscoreData, PlayerDataStruct currentPlayerData)
+    {
+        // seperate the score;
+        List<float> grade = new List<float>();
+
+        grade.Add(currentPlayerData._scrore.x);
+
+
+        foreach (PlayerDataStruct playerDataStruct in oldHighscoreData)
+        {
+            grade.Add(playerDataStruct._time);
+        }
+
+        grade.Sort();
+
+
+        while (grade.Count > maxHighScores)
+        {
+            grade.Remove(grade[grade.Count - 1]);
+        }
+
+        return grade;
     }
 
     private bool CheckIfPlayerMayFillInName(List<float> sortedScores, PlayerDataStruct currentPlayerData)
@@ -178,25 +253,25 @@ public class HighScoreManager : MonoBehaviour
     private List<float> SortNewScoreNew(List<PlayerDataStruct> oldHighscoreData, PlayerDataStruct currentPlayerData)
     {
         // seperate the score;
-        List<float> scores = new List<float>();
+        List<float> grade = new List<float>();
 
 
-        scores.Add(currentPlayerData._time);
+        grade.Add(currentPlayerData._time);
 
 
         foreach (PlayerDataStruct playerDataStruct in oldHighscoreData)
         {
-            scores.Add(playerDataStruct._time);
+            grade.Add(playerDataStruct._time);
         }
 
-        scores.Sort();
+        grade.Sort();
 
-        while (scores.Count > maxHighScores)
+        while (grade.Count > maxHighScores)
         {
-            scores.Remove(scores[scores.Count - 1]);
+            grade.Remove(grade[grade.Count - 1]);
         }
 
-        return scores;
+        return grade;
     }
 
     private List<PlayerDataStruct> LinkScoreWithPlayerData(List<PlayerDataStruct> highScoreList, List<float> scores, PlayerDataStruct currentPlayerData)
@@ -237,6 +312,7 @@ public struct PlayerDataStruct
 {
     public string _name;
     public float _time;
+    public int rank;
     public Vector4 _scrore;
 }
 
