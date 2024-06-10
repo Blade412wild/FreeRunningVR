@@ -247,8 +247,11 @@ public class SlidingState : State
     private float CalculateSpeed()
     {
         float speed;
-        float currenYpos = bodyCollider.height;
+        float currenYpos = orientation.position.y;
+        Debug.Log("current Ypos : " + currenYpos);
         speed = (currenYpos - playerData.PreviousHeight) / Time.deltaTime;
+        Debug.Log("current speed : " + speed);
+
         //Debug.Log("speed2 : " + speed);
         playerData.PreviousHeight = currenYpos;
         return speed;

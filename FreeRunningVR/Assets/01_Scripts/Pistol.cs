@@ -10,6 +10,7 @@ public class Pistol : MonoBehaviour
     [SerializeField] private Vector3 bulletEffectsOffset;
     [SerializeField] private GameObject bulletEffectsPrefabs;
     [SerializeField] private Transform bulletEffectsTrans;
+    [SerializeField] private Transform bullet;
 
     [SerializeField] private GunHand gunhand;
 
@@ -49,9 +50,12 @@ public class Pistol : MonoBehaviour
 
         if (Physics.Raycast(bulletEffectsTrans.position, bulletEffectsTrans.forward, out hit, Mathf.Infinity))
         {
+            Instantiate(bullet, hit.point, Quaternion.identity);
+
             if (hit.collider.gameObject.TryGetComponent<Target>(out Target hitObect))
             {
                 OnObjectHit?.Invoke(hitObect, hit.point);
+
             }
 
         }

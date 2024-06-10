@@ -176,6 +176,7 @@ public class WalkingState : State
         bool hasHit = Physics.SphereCast(start, bodyCollider.radius, Vector3.down, out RaycastHit hitInfo, rayLenght, whatIsGround);
         return hasHit;
     }
+
     private bool OnSlope()
     {
         Vector3 start = bodyCollider.transform.TransformPoint(bodyCollider.center);
