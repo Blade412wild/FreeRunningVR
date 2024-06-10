@@ -51,6 +51,7 @@ public class SlidingState : State
     private bool updateSlideTimer = false;
     private bool isSliding = false;
     private float previousPosY;
+    private bool firstCalulation;
 
 
     // Start is called before the first frame update
@@ -69,7 +70,7 @@ public class SlidingState : State
             slidingTimer = new Timer1(maxSlideDuration);
             slidingTimer.OnTimerIsDone += StopSliding;
         }
-
+        firstCalulation = true;
         Slide();
     }
     private void SetGameObjects()
@@ -248,12 +249,17 @@ public class SlidingState : State
     {
         float speed;
         float currenYpos = orientation.position.y;
+        if (firstCalulation)
+        {
+            previousPosY = currenYpos;
+            firstCalulation = false;
+        }
         Debug.Log("current Ypos : " + currenYpos);
-        speed = (currenYpos - playerData.PreviousHeight) / Time.deltaTime;
+        speed = (currenYpos - previousPosY) / Time.deltaTime;
         Debug.Log("current speed : " + speed);
 
         //Debug.Log("speed2 : " + speed);
-        playerData.PreviousHeight = currenYpos;
+        previousPosY = currenYpos;
         return speed;
     }
 
