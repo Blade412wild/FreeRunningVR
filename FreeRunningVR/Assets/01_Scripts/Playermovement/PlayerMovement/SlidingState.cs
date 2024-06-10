@@ -98,8 +98,8 @@ public class SlidingState : State
 
     private void StopSliding()
     {
-        cameraOffset.localPosition = new Vector3(cameraOffset.localPosition.x, camOriginalYPos, cameraOffset.localPosition.z);
         slidingTimer.ResetTimer();
+        cameraOffset.localPosition = new Vector3(cameraOffset.localPosition.x, camOriginalYPos, cameraOffset.localPosition.z);
         Controller.SwitchState(typeof(RunningState));
     }
     public override void OnUpdate()
@@ -109,6 +109,7 @@ public class SlidingState : State
             UpdateTimer();
         }
         float speedY =  CalculateSpeed();
+        Debug.Log(speedY);
         if (speedY > 0.6f)
         {
             playerData.HeadIsUp = true;
@@ -124,7 +125,7 @@ public class SlidingState : State
         }
         else
         {
-            rb.drag = 0;
+            //rb.drag = 0;
         }
     }
     public override void OnFixedUpdate()
@@ -133,7 +134,7 @@ public class SlidingState : State
         Walk();
         Slide();
     }
-
+    
     private void MyInput()
     {
         Vector2 stickInput = InputManager.Instance.playerInputActions.Walking.MoveVR.ReadValue<Vector2>();
@@ -237,8 +238,10 @@ public class SlidingState : State
 
     public override void OnExit()
     {
+        //StopSliding();
         slidingTimer.ResetTimer();
         playerData.maxHeight = 2.0f;
+
 
     }
     private float CalculateSpeed()
