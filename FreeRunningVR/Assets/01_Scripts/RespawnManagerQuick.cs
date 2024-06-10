@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RespawnManagerQuick : MonoBehaviour
 {
+    public event Action OnPlayerRespawn;
+    public event Action OnPlayerEnterdCheckPoint;
+
     [SerializeField] private GameManager gameManager;
     [SerializeField] private List<RespawnBlock> respawnBlocks = new List<RespawnBlock>();
     [SerializeField] private List<RespawnPoint2> respawnPoints = new List<RespawnPoint2>();
@@ -38,11 +42,13 @@ public class RespawnManagerQuick : MonoBehaviour
     private void SetCurrentSpawnPoint(RespawnPoint point)
     {
         currentRespawnPoint = point.transform;
+        OnPlayerEnterdCheckPoint?.Invoke();
     }
 
     private void RespawnPlayer()
     {
         if (currentRespawnPoint == null) return;
+        OnPlayerRespawn?.Invoke();
         SetPlayerPos(currentRespawnPoint.position);
     }
 

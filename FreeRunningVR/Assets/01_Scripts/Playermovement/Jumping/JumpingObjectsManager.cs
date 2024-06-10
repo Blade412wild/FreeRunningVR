@@ -103,7 +103,7 @@ public class JumpingObjectsManager : MonoBehaviour
 
     private void TurnObjectToCollider()
     {
-        Debug.Log("turn to Collider");
+        //Debug.Log("turn to Collider");
         currentJumpObject.TurnToCollider();
         timerMayUpdate = false;
         timer.ResetTimer();

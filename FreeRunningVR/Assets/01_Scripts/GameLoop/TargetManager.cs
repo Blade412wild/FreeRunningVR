@@ -11,17 +11,78 @@ public class TargetManager : MonoBehaviour
 
     public float number = 0.3f;
     [SerializeField] private PistolManager pistolManager;
+    [SerializeField] private RespawnManagerQuick respawnManager;
+    [SerializeField] private LevelManager levelManager;
     [SerializeField] private List<Target> activeTargets;
     [SerializeField] private List<Target> deactiveTargets;
 
 
     [SerializeField] private TextMeshProUGUI targetUI;
     private List<float> scores = new List<float>();
+    private List<Target> beginTargets = new List<Target>();
+    private List<Target> activeTargetsToBeRemoved = new List<Target>();
+    private List<Target> deactiveTargetsToBeRemoved = new List<Target>();
 
     // Start is called before the first frame update
     void Start()
     {
+        SetBeginningTargets();
+        levelManager.OnEndLevel += RespawnTargets;
+        respawnManager.OnPlayerEnterdCheckPoint += UpdateDeactiveTargetList;
+        //beginTargets = activeTargets;
         SetEvents();
+    }
+
+    private void SetBeginningTargets()
+    {
+        foreach(Target target in activeTargets)
+        {
+            beginTargets.Add(target);
+        }
+    }
+
+    private void RespawnTargets()
+    {
+        // emptying activeTargets
+        foreach(Target target in activeTargets)
+        {
+            target.OnAnimtionIsDone -= RemoveTarget;
+            activeTargetsToBeRemoved.Add(target);
+        }
+
+        foreach(Target target in activeTargetsToBeRemoved)
+        {
+            activeTargets.Remove(target);
+        }
+
+        activeTargetsToBeRemoved.Clear();
+
+        foreach (Target target in deactiveTargets)
+        {
+            target.OnAnimtionIsDone -= RemoveTarget;
+            deactiveTargetsToBeRemoved.Add(target);
+        }
+
+        foreach (Target target in deactiveTargetsToBeRemoved)
+        {
+            deactiveTargets.Remove(target);
+        }
+
+        deactiveTargetsToBeRemoved.Clear();
+
+
+        foreach (Target target in beginTargets)
+        {
+            Target newTarget = Instantiate(target);
+            activeTargets.Add(newTarget);
+            newTarget.OnAnimtionIsDone += RemoveTarget;
+        }
+
+    }
+
+    private void UpdateDeactiveTargetList()
+    {
+
     }
 
     private void SetEvents()
@@ -36,6 +97,7 @@ public class TargetManager : MonoBehaviour
 
     private void RemoveTarget(Target hitTarget)
     {
+        Debug.Log("begin removeTarget");
         activeTargets.Remove(hitTarget);
         deactiveTargets.Add(hitTarget);
         hitTarget.gameObject.SetActive(false);
@@ -46,6 +108,9 @@ public class TargetManager : MonoBehaviour
             //targetUI.text = avarage.ToString();
             OnAllTargetsHit?.Invoke();
         }
+
+        Debug.Log("Ended removeTarget");
+
     }
 
     private void procesHit(Target target, Vector3 hitPoint)

@@ -140,7 +140,7 @@ public class CheckJumping : MonoBehaviour
         if (/*leftHandEndVel.y < 2.0f && */rightHandEndVel.y < 2.0f) return;
         stateHandler.stateMachine.SwitchState(typeof(BigJumpState));
         //BigJump();
-        Debug.Log("we are still here");
+        //Debug.Log("we are still here");
         readyToJump = false;
         Invoke(nameof(resetJump), jumpCooldown);
     }

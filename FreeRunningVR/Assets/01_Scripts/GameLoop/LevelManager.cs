@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerBackToHome()
     {
         SetPlayerPos(beginPos.position);
-        gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(FreezeMovement));
+        //gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(FreezeMovement));
     }
 
     private void SetGameLevelData()
