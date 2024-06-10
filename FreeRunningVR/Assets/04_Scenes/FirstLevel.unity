@@ -17443,6 +17443,8 @@ MonoBehaviour:
   - {fileID: 1339689669}
   - {fileID: 1639840328}
   deactiveTargets: []
+  targetPrefab: {fileID: 9060063669468986792, guid: 5a5a96611a1ba4c4eb67f412cdfae26e,
+    type: 3}
   targetUI: {fileID: 0}
 --- !u!1 &1129208088
 GameObject:
@@ -24418,6 +24420,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   deactiveTargets: []
+  targetPrefab: {fileID: 0}
   targetUI: {fileID: 0}
 --- !u!1 &1567022049
 GameObject:

@@ -15,6 +15,7 @@ public class TargetManager : MonoBehaviour
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private List<Target> activeTargets;
     [SerializeField] private List<Target> deactiveTargets;
+    [SerializeField] private Target targetPrefab;
 
 
     [SerializeField] private TextMeshProUGUI targetUI;
@@ -22,6 +23,7 @@ public class TargetManager : MonoBehaviour
     private List<Target> beginTargets = new List<Target>();
     private List<Target> activeTargetsToBeRemoved = new List<Target>();
     private List<Target> deactiveTargetsToBeRemoved = new List<Target>();
+    
 
     // Start is called before the first frame update
     void Start()
@@ -73,7 +75,7 @@ public class TargetManager : MonoBehaviour
 
         foreach (Target target in beginTargets)
         {
-            Target newTarget = Instantiate(target);
+            Target newTarget = Instantiate(targetPrefab, target.transform.position, target.transform.rotation);
             activeTargets.Add(newTarget);
             newTarget.OnAnimtionIsDone += RemoveTarget;
         }
