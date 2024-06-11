@@ -27,9 +27,9 @@ public class GetPlayerData
         //playerData.w = targetManager.SendAccuracy();
         //playerData.x = CalculateScore(playerData);
 
-        playerData.y = 50;
-        playerData.z = 2;
-        playerData.w = 90;
+        playerData.y = 40;
+        playerData.z = 3;
+        playerData.w = 99;
         playerData.x = 1;
 
         return playerData;
