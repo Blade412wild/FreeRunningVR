@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using Unity.VisualScripting;
 
 public class Keyboard : MonoBehaviour
 {
@@ -12,8 +13,7 @@ public class Keyboard : MonoBehaviour
     public GameObject normalButtons;
     public GameObject capsButtons;
     [SerializeField] private float maxNameLenght;
-    public string Name { get; private set; }
-
+    public string TypedName { get; private set; }
     private bool caps = false;
 
     public void InstertChar(string c)
@@ -53,7 +53,7 @@ public class Keyboard : MonoBehaviour
 
     public void InsertName()
     {
-        name = inputField.text;
+        TypedName = inputField.text;
         OnInsertedName?.Invoke(this);
     }
 

@@ -10,6 +10,8 @@ public class GetPlayerData
     private HighscoreRequirements highscoreRequirements;
     private string[] grades = { "S", "A+", "A", "B+", "B", "C+", "C", "F" };
 
+    private int counter = 0;
+
     public GetPlayerData(HighscoreRequirements highscoreRequirements, LevelManager levelManager, TargetManager targetManager)
     {
         this.levelManager = levelManager;
@@ -27,11 +29,12 @@ public class GetPlayerData
         //playerData.w = targetManager.SendAccuracy();
         //playerData.x = CalculateScore(playerData);
 
-        playerData.y = 40;
+        playerData.y = 40 + counter;
         playerData.z = 3;
         playerData.w = 99;
         playerData.x = 1;
 
+        counter++;
         return playerData;
     }
 
