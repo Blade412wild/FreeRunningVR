@@ -22,11 +22,15 @@ public class GetPlayerData
         //X = Grade, Y= time, Z = hits, W = accuracy
         Vector4 playerData = new Vector4();
 
-        playerData.y = levelManager.SendTime();
-        playerData.z = targetManager.SendHitObjects();
-        playerData.w = targetManager.SendAccuracy();
-        playerData.x = CalculateScore(playerData);
+        //playerData.y = levelManager.SendTime();
+       // playerData.z = targetManager.SendHitObjects();
+        //playerData.w = targetManager.SendAccuracy();
+        //playerData.x = CalculateScore(playerData);
 
+        playerData.y = 50;
+        playerData.z = 2;
+        playerData.w = 90;
+        playerData.x = 1;
 
         return playerData;
     }

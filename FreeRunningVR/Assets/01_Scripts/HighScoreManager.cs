@@ -36,7 +36,9 @@ public class HighScoreManager : MonoBehaviour
         Keyboard.OnInsertedName += FinalizeHighScore;
 
         getPlayerData = new GetPlayerData(highscoreRequirements, levelManager, targetManager);
-        LoadHighScoreOnStart();
+        //LoadHighScoreOnStart();
+
+        PlayerIsFinished();
 
     }
 
@@ -64,41 +66,93 @@ public class HighScoreManager : MonoBehaviour
     {
         mayFillInName = false;
         currentPlayerData = GetPlayerData();
+        LevelDataStruct highScoreFile = CreateNewHighScore();
+        highScoreFile._highScores = FillInTestOldHighScores();
+        oldHighScore = highScoreFile._highScores;
 
-        string path = GetPath();
-        LevelDataStruct? highScoreFile = LoadList(path);
 
-        if (highScoreFile == null)
+        List<Vector4> allScores = new List<Vector4>();
+
+        Debug.Log("===== all Scores =====");
+        // fill in list with all scores
+        foreach (PlayerDataStruct playerDataStruct in oldHighScore)
         {
-            highScoreFile = CreateNewHighScore();
-            //highScoreFile.Value._highScores.Add(currentPlayerData);
-
-            oldHighScore = highScoreFile.Value._highScores;
-            //sortedScores = new List<float> { currentPlayerData._time };
-            //MayFillInName = true;
-
+            allScores.Add(playerDataStruct._scrore);
+            Debug.Log("player name : " + playerDataStruct._name);
         }
-        else
+
+        // get scores with the same grade
+
+        List<Vector4> scoreswithSameGrade = new List<Vector4>();
+        foreach (Vector4 score in allScores)
         {
-            oldHighScore = highScoreFile.Value._highScores;
-            List<float> grades = SortNewHighScoreOnGrade(oldHighScore, currentPlayerData);
-            mayFillInName = isPlayerOnScoreboard(grades, currentPlayerData); // ga eruit als de speler niet on the board mag
-
-
-            if (CheckIfScoreIsSameGrade(grades))
-            {
-                // sortListOnTime;
-                // if time is the same
-                // sort list on Accuray
-            }
-            else
-            {
-                // create new highscoreboard
-            }
-
-            //sortedScores = SortNewScoreNew(highScoreFile.Value._highScores, currentPlayerData);
-            //MayFillInName = CheckIfPlayerMayFillInName(sortedScores, currentPlayerData);
+            if (score.x != currentPlayerData._scrore.x) continue;
+            scoreswithSameGrade.Add(score);
         }
+
+
+        //check scores and get names
+        Debug.Log("===== Same Scores =====");
+        foreach (PlayerDataStruct playerDataStruct in oldHighScore)
+        {
+            for (int i = 0; i < scoreswithSameGrade.Count; i++)
+            {
+                if (playerDataStruct._scrore.x != scoreswithSameGrade[i].x) continue;
+                Debug.Log(playerDataStruct._name + " : " + playerDataStruct._scrore);
+            }
+        }
+        scoreswithSameGrade.Add(currentPlayerData._scrore);
+        Debug.Log(currentPlayerData._name + " : " + currentPlayerData._scrore);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //string path = GetPath();
+        //LevelDataStruct? highScoreFile = LoadList(path);
+
+        //if (highScoreFile == null)
+        //{
+        //    //highScoreFile.Value._highScores.Add(currentPlayerData);
+        //    highScoreFile = CreateNewHighScore();
+
+        //    oldHighScore = highScoreFile.Value._highScores;
+        //    //sortedScores = new List<float> { currentPlayerData._time };
+        //    //MayFillInName = true;
+
+        //}
+        //else
+        //{
+        //    oldHighScore = highScoreFile.Value._highScores;
+        //    List<float> grades = SortNewHighScoreOnGrade(oldHighScore, currentPlayerData);
+        //    mayFillInName = isPlayerOnScoreboard(grades, currentPlayerData); // ga eruit als de speler niet on the board mag
+
+        //    List<Vector4> allScores = new List<Vector4>();
+
+        //    foreach(PlayerDataStruct playerDataStruct in oldHighScore)
+        //    {
+        //        allScores.Add(playerDataStruct._scrore);
+        //    }
+
+        //    List<float> scoreswithSameGrade = new List<float>();
+
+
+
+
+
+        //    //sortedScores = SortNewScoreNew(highScoreFile.Value._highScores, currentPlayerData);
+        //    //MayFillInName = CheckIfPlayerMayFillInName(sortedScores, currentPlayerData);
+        //}
 
 
 
@@ -112,12 +166,238 @@ public class HighScoreManager : MonoBehaviour
         }
     }
 
+    private void CalculateScore(Vector4 playerData, List<Vector4> allScores)
+    {
+        Debug.Log("===============");
+        Debug.Log("Sorting Grade");
+
+        List<Vector4> sameGradeList = new List<Vector4>();
+        List<Vector4> higherGradeList = new List<Vector4>();
+        List<Vector4> lowerGradeList = new List<Vector4>();
+
+
+        List<Vector4> sameTimeList = new List<Vector4>();
+        List<Vector4> higherTimeList = new List<Vector4>();
+        List<Vector4> lowerTimeList = new List<Vector4>();
+
+
+        List<Vector4> sameHitList = new List<Vector4>();
+        List<Vector4> higherHitList = new List<Vector4>();
+        List<Vector4> lowerHitList = new List<Vector4>();
+
+        List<Vector4> sameAccuracyList = new List<Vector4>();
+        List<Vector4> higherAccuracyList = new List<Vector4>();
+        List<Vector4> lowerAccuracyList = new List<Vector4>();
+
+        DateTime startTime = DateTime.Now;
+
+
+        // check for same Grade 
+        for (int i = 0; i < allScores.Count; i++)
+        {
+            if (allScores[i].x == playerData.x)
+            {
+                sameGradeList.Add(allScores[i]);
+            }
+            else if (allScores[i].x > playerData.x)
+            {
+                higherGradeList.Add(allScores[i]);
+            }
+            else if (allScores[i].x < playerData.x)
+            {
+                lowerGradeList.Add(allScores[i]);
+            }
+        }
+
+        // check for time 
+        for (int i = 0; i < sameGradeList.Count; i++)
+        {
+            if (allScores[i].y == playerData.y)
+            {
+                sameTimeList.Add(sameGradeList[i]);
+            }
+            else if (allScores[i].y > playerData.y)
+            {
+                higherTimeList.Add(sameGradeList[i]);
+            }
+            else if (allScores[i].y < playerData.y)
+            {
+                lowerTimeList.Add(sameGradeList[i]);
+            }
+        }
+        // check for hits
+        for (int i = 0; i < sameTimeList.Count; i++)
+        {
+            if (allScores[i].z == playerData.z)
+            {
+                sameHitList.Add(sameTimeList[i]);
+            }
+            else if (allScores[i].z > playerData.z)
+            {
+                higherHitList.Add(sameTimeList[i]);
+            }
+            else if (allScores[i].z < playerData.z)
+            {
+                lowerHitList.Add(sameTimeList[i]);
+            }
+        }
+        // check for accucracy
+        for (int i = 0; i < sameHitList.Count; i++)
+        {
+            if (allScores[i].w == playerData.w)
+            {
+                sameAccuracyList.Add(sameHitList[i]);
+            }
+            else if (allScores[i].w > playerData.w)
+            {
+                higherAccuracyList.Add(sameHitList[i]);
+            }
+            else if (allScores[i].w < playerData.w)
+            {
+                lowerAccuracyList.Add(sameHitList[i]);
+            }
+        }
+
+        DateTime endTime = DateTime.Now;
+        TimeSpan timePast = endTime - startTime;
+        Debug.Log(String.Format("Time Spent: {0} Milliseconds", timePast.TotalMilliseconds));
+    }
+
+    //private void CalculateScore(Vector4 playerData, List<Vector4> sameGrades)
+    //{
+    //    Debug.Log("===============");
+    //    Debug.Log("Sorting Grade");
+
+    //    List<Vector4> sortedList = new List<Vector4>();
+    //    List<Vector4> unsortedList = sameGrades;
+    //    List<Vector4> checkAllUnsorted = new List<Vector4>();
+
+    //    DateTime startTime = DateTime.Now;
+    //    Vector4 currentHighistScore = sameGrades[0];
+
+    //    while (unsortedList.Count != 0)
+    //    {
+
+    //        // check for same Grade 
+    //        for (int i = 0; i < unsortedList.Count; i++)
+    //        {
+    //            // check for time 
+    //            for (int j = 0; i < unsortedList.Count; j++)
+    //            {
+    //                // check for hits
+    //                for (int k = 0; k < unsortedList.Count; k++)
+    //                {
+    //                    // check for accucracy
+    //                    for (int  l = 0; l < unsortedList.Count; l++)
+    //                    {
+
+    //                    }
+    //                }
+    //            }
+
+
+    //            Debug.Log("Newest highest score : " + unsortedList[i]);
+    //            sortedList.Add(unsortedList[i]);
+    //            unsortedList.Remove(unsortedList[i]);
+
+    //            break;
+    //        }
+    //    }
+
+    //    DateTime endTime = DateTime.Now;
+    //    TimeSpan timePast = endTime - startTime;
+    //    Debug.Log(String.Format("Time Spent: {0} Milliseconds", timePast.TotalMilliseconds));
+    //}
+
+
+    //private void CalculateScore(Vector4 playerData, List<Vector4> sameGrades)
+    //{
+    //    Debug.Log("===============");
+    //    Debug.Log("Sorting Grade");
+
+    //    List<Vector4> sortedList = new List<Vector4>();
+    //    List<Vector4> unsortedList = sameGrades;
+    //    List<Vector4> checkAllUnsorted = new List<Vector4>();
+
+    //    DateTime startTime = DateTime.Now;
+    //    Vector4 currentHighistScore = sameGrades[0];
+
+    //    while (unsortedList.Count != 0)
+    //    {
+    //        for (int i = 0; i < unsortedList.Count; i++)
+    //        {
+    //            bool isReallyTheHighest = false;
+    //            for (int j = 0; i < checkAllUnsorted.Count; j++)
+    //            {
+    //                if (CheckIfTheRequirementsAreMet(unsortedList[i].y, currentHighistScore.y, true) == false) continue;
+    //                Debug.Log("time is good");
+    //                isReallyTheHighest = false;
+    //                if (CheckIfTheRequirementsAreMet(unsortedList[i].z, currentHighistScore.z, false) == false) continue;
+    //                Debug.Log("hits are good");
+    //                isReallyTheHighest = false;
+    //                if (CheckIfTheRequirementsAreMet(unsortedList[i].w, currentHighistScore.w, false) == false) continue;
+    //                Debug.Log("accuracy is good");
+    //                isReallyTheHighest = true;
+    //            }
+
+
+    //            Debug.Log("Newest highest score : " + unsortedList[i]);
+    //            sortedList.Add(unsortedList[i]);
+    //            unsortedList.Remove(unsortedList[i]);
+
+    //            break;
+    //        }
+    //    }
+
+    //    DateTime endTime = DateTime.Now;
+    //    TimeSpan timePast = endTime - startTime;
+    //    Debug.Log(String.Format("Time Spent: {0} Milliseconds", timePast.TotalMilliseconds));
+    //}
+
+    private bool CheckIfTheRequirementsAreMet(float playerscore, float requiredScore, bool reverse)
+    {
+        // reverse moet true zijn wanneer de playerdata kleiner moet zijn dan je requirements
+        if (reverse == true)
+        {
+            if (playerscore >= requiredScore) return false;
+            return true;
+        }
+        else
+        {
+            if (playerscore < requiredScore) return false;
+            return true;
+
+        }
+    }
+
+    private List<PlayerDataStruct> FillInTestOldHighScores()
+    {
+        List<PlayerDataStruct> list = new List<PlayerDataStruct>();
+        // 1 50 2 90
+        PlayerDataStruct score1 = new PlayerDataStruct { rank = 1, _name = "score1", _scrore = new Vector4(0, 40, 4, 95) };
+        PlayerDataStruct score2 = new PlayerDataStruct { rank = 1, _name = "score2", _scrore = new Vector4(1, 50, 4, 90) };
+        PlayerDataStruct score3 = new PlayerDataStruct { rank = 1, _name = "score3", _scrore = new Vector4(1, 40, 3, 95) };
+        PlayerDataStruct score4 = new PlayerDataStruct { rank = 1, _name = "score4", _scrore = new Vector4(1, 40, 3, 90) };
+        PlayerDataStruct score6 = new PlayerDataStruct { rank = 1, _name = "score5", _scrore = new Vector4(1, 40, 2, 90) };
+        PlayerDataStruct score5 = new PlayerDataStruct { rank = 1, _name = "score6", _scrore = new Vector4(1, 30, 4, 95) };
+
+
+        list.Add(score1);
+        list.Add(score2);
+        list.Add(score3);
+        list.Add(score4);
+        list.Add(score5);
+        list.Add(score6);
+
+        return list;
+    }
+
     private void CalulcateNewHighScore(List<PlayerDataStruct> oldHighscoreData)
     {
-        List<Vector4> scores = new List<Vector4>();  
+        List<Vector4> scores = new List<Vector4>();
 
 
-        for(int i = 0; i < maxHighScores; i++)
+        for (int i = 0; i < maxHighScores; i++)
         {
         }
     }
@@ -220,8 +500,8 @@ public class HighScoreManager : MonoBehaviour
         Vector4 newData = getPlayerData.GetData();
         Debug.Log(newData);
         PlayerDataStruct playerData = new PlayerDataStruct();
-        playerData._name = Name;
-        playerData._time = levelManager.PlayerGameStopWatch.currentTime;
+        playerData._name = "test player";
+        //playerData._time = levelManager.PlayerGameStopWatch.currentTime;
         playerData._scrore = newData;
 
         return playerData;
