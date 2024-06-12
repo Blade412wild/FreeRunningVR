@@ -324,7 +324,7 @@ public class HighScoreManager : MonoBehaviour
         }
 
         //List<PlayerDataStruct> newHighScore = LinkScoreWithPlayerData(oldHighScore, sortedScores, currentPlayerData);
-        //OnHighScoreDataIsDone?.Invoke(newHighScore);
+        OnHighScoreDataIsDone?.Invoke(newHighScore);
         OnRestartLevel?.Invoke();
         string path = GetPath();
         SaveList(path, newHighScore);
