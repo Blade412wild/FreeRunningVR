@@ -69,7 +69,7 @@ public class HighScoreManager : MonoBehaviour
         mayFillInName = false;
         counterPlayer++;
         currentPlayerData = GetPlayerData();
-        currentPlayerData._scrore.y += counterPlayer;
+        //currentPlayerData._scrore.y += counterPlayer;
         currentPlayerData._name = defaultPlayerName;
         //LevelDataStruct highScoreFile = CreateNewHighScore();
         //highScoreFile._highScores = FillInTestOldHighScores();
@@ -324,12 +324,10 @@ public class HighScoreManager : MonoBehaviour
         }
 
         //List<PlayerDataStruct> newHighScore = LinkScoreWithPlayerData(oldHighScore, sortedScores, currentPlayerData);
-        //oldHighScore = newHighScore;
         //OnHighScoreDataIsDone?.Invoke(newHighScore);
         OnRestartLevel?.Invoke();
         string path = GetPath();
         SaveList(path, newHighScore);
-        //oldHighScore = newHighScore;
     }
 
 

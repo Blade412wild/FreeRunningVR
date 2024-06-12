@@ -17889,6 +17889,7 @@ MonoBehaviour:
   pistolManager: {fileID: 1257322984}
   respawnManager: {fileID: 1374508655}
   levelManager: {fileID: 1448705109}
+  highScoreManager: {fileID: 1431128219}
   activeTargets:
   - {fileID: 992466960}
   - {fileID: 1824829905}
@@ -20317,7 +20318,7 @@ Transform:
   m_GameObject: {fileID: 1275579446}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -319.56, y: -29.53, z: 17.1}
+  m_LocalPosition: {x: -34.5, y: 0.085, z: -4.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25281,6 +25282,7 @@ MonoBehaviour:
   pistolManager: {fileID: 1257322984}
   respawnManager: {fileID: 0}
   levelManager: {fileID: 0}
+  highScoreManager: {fileID: 0}
   activeTargets:
   - {fileID: 0}
   - {fileID: 0}

@@ -9,7 +9,7 @@ public class PistolManager : MonoBehaviour
     public event Action<Target, Vector3> OnPistolHasHitTarget;
 
     [SerializeField] private GameManager gameManager;
-    [SerializeField] private float radius = 0.2f;
+    [SerializeField] private float radius = 1.0f;
     [SerializeField] private float height = 0.4f;
     [SerializeField] private float heightOffset = 0.3f;
     private PlayerData playerData;

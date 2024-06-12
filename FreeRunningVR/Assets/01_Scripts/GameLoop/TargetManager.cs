@@ -13,33 +13,39 @@ public class TargetManager : MonoBehaviour
     [SerializeField] private PistolManager pistolManager;
     [SerializeField] private RespawnManagerQuick respawnManager;
     [SerializeField] private LevelManager levelManager;
+    [SerializeField] private HighScoreManager highScoreManager;
     [SerializeField] private List<Target> activeTargets;
     [SerializeField] private List<Target> deactiveTargets;
     [SerializeField] private Target targetPrefab;
 
-
     [SerializeField] private TextMeshProUGUI targetUI;
     private List<float> scores = new List<float>();
-    private List<Target> beginTargets = new List<Target>();
+    private List<TargetTransform> beginTargets = new List<TargetTransform>();
     private List<Target> activeTargetsToBeRemoved = new List<Target>();
     private List<Target> deactiveTargetsToBeRemoved = new List<Target>();
+    private List<Vector3> targetTransformValues;
+    private List<List<Vector3>> targetTransform;
     
 
     // Start is called before the first frame update
     void Start()
     {
         SetBeginningTargets();
-        levelManager.OnEndLevel += RespawnTargets;
+        highScoreManager.OnRestartLevel += RespawnTargets;
         respawnManager.OnPlayerEnterdCheckPoint += UpdateDeactiveTargetList;
         //beginTargets = activeTargets;
         SetEvents();
+        RespawnTargets();   
     }
 
     private void SetBeginningTargets()
     {
         foreach(Target target in activeTargets)
         {
-            beginTargets.Add(target);
+            TargetTransform targetTrans = new TargetTransform(target.transform.position, target.transform.rotation);
+
+            beginTargets.Add(targetTrans);
+
         }
     }
 
@@ -55,6 +61,7 @@ public class TargetManager : MonoBehaviour
         foreach(Target target in activeTargetsToBeRemoved)
         {
             activeTargets.Remove(target);
+            Destroy(target.gameObject);
         }
 
         activeTargetsToBeRemoved.Clear();
@@ -68,14 +75,15 @@ public class TargetManager : MonoBehaviour
         foreach (Target target in deactiveTargetsToBeRemoved)
         {
             deactiveTargets.Remove(target);
+            Destroy(target.gameObject);
         }
 
         deactiveTargetsToBeRemoved.Clear();
 
 
-        foreach (Target target in beginTargets)
+        foreach (TargetTransform targetTrans in beginTargets)
         {
-            Target newTarget = Instantiate(targetPrefab, target.transform.position, target.transform.rotation);
+            Target newTarget = Instantiate(targetPrefab, targetTrans.position, targetTrans.rotation);
             activeTargets.Add(newTarget);
             newTarget.OnAnimtionIsDone += RemoveTarget;
         }
