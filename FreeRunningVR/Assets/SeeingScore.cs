@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
-public class InsertingName : MonoBehaviour
+public class SeeingScore : MonoBehaviour
 {
     [SerializeField] private HighScoreManager highScoreManager;
     [SerializeField] private GameManager gameManager;
@@ -16,11 +14,11 @@ public class InsertingName : MonoBehaviour
 
     private void Start()
     {
-        highScoreManager.OnInsertName += BeginInsertingName;
+        highScoreManager.OnSeeingScore += BeginInsertingName;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         //InputManager.Instance.playerInputActions.Walking.Enable();
         //InputManager.Instance.playerInputActions.Walking.SetLaptop.performed += SetKeyBoardPos;
-        Keyboard.OnInsertedName += DestroyComputer;
+        Keyboard.OnCloseLaptop += DestroyComputer;
     }
 
     private void Update()

@@ -11,6 +11,7 @@ public class HighScoreManager : MonoBehaviour
     public event Action<List<PlayerDataStruct>> OnHighScoreDataIsDone;
     public event Action OnRestartLevel;
     public event Action OnInsertName;
+    public event Action OnSeeingScore;
     public LevelManager levelManager;
     public bool save = false;
 
@@ -93,12 +94,19 @@ public class HighScoreManager : MonoBehaviour
 
             newHighScore = SortScore(currentPlayerData, oldHighScore);
 
-            while (newHighScore.Count > maxHighScores)
+            //while (newHighScore.Count > maxHighScores)
+            //{
+            //    newHighScore.Remove(newHighScore[newHighScore.Count - 1]);
+            //}
+
+            float removeCounter = newHighScore.Count - maxHighScores;
+
+            for (int i = 0; i < removeCounter ; i++)
             {
                 newHighScore.Remove(newHighScore[newHighScore.Count - 1]);
             }
 
-            foreach(PlayerDataStruct playerDataStruct in newHighScore)
+            foreach (PlayerDataStruct playerDataStruct in newHighScore)
             {
                 if (playerDataStruct._name != defaultPlayerName) continue;
                 mayFillInName = true; break;
@@ -107,7 +115,7 @@ public class HighScoreManager : MonoBehaviour
             Debug.Log("list count : " + newHighScore.Count);
 
         }
-
+        mayFillInName = false;
 
         if (mayFillInName)
         {
@@ -115,6 +123,7 @@ public class HighScoreManager : MonoBehaviour
         }
         else
         {
+            OnSeeingScore?.Invoke();
             OnRestartLevel?.Invoke();
         }
     }
@@ -317,7 +326,7 @@ public class HighScoreManager : MonoBehaviour
 
         currentPlayerData._name = typedName;
 
-        for(int i = newHighScore.Count -1; i >= 0; i--)
+        for (int i = newHighScore.Count - 1; i >= 0; i--)
         {
             if (newHighScore[i]._name != defaultPlayerName) continue;
             newHighScore[i] = currentPlayerData;

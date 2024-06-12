@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 public class Keyboard : MonoBehaviour
 {
     public static event Action<Keyboard> OnInsertedName;
+    public static event Action<Keyboard> OnCloseLaptop;
+
 
     public TMP_InputField inputField;
     public GameObject normalButtons;
@@ -55,6 +57,11 @@ public class Keyboard : MonoBehaviour
     {
         TypedName = inputField.text;
         OnInsertedName?.Invoke(this);
+    }
+
+    public void CloseLaptop()
+    {
+        OnCloseLaptop?.Invoke(this);
     }
 
 
