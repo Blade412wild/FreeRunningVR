@@ -14,7 +14,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private FinishLevel finishLevel;
     [SerializeField] private StartLevel startLevel;
     [SerializeField] private Transform player;
-    [SerializeField] private Transform beginPos;
+    [SerializeField] private Transform tutorialBeginPoint;
+    [SerializeField] private Transform StartRoomSpawnPoint;
+
     [SerializeField] private float finishTimerDuration = 5.0f;
 
     private PlayerData playerData;
@@ -67,14 +69,14 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        test = Instantiate(playerPrefab, beginPos.position, Quaternion.identity);
+        test = Instantiate(playerPrefab, tutorialBeginPoint.position, Quaternion.identity);
         player = playerData.playerGameObjects.orientation.parent.parent;
         //SetPlayerPos(beginPos.position);
     }
 
     private void SetPlayerBackToHome()
     {
-        SetPlayerPos(beginPos.position);
+        SetPlayerPos(StartRoomSpawnPoint.position);
         //gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(FreezeMovement));
     }
 
