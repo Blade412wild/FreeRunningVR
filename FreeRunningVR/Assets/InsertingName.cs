@@ -10,13 +10,13 @@ public class InsertingName : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject KeyBoardPrefab;
     [SerializeField] private bool MayUpdate = false;
-    private Keyboard keyboard;
+    private GameObject keyBoard;
 
     private PlayerData playerData;
 
     private void Start()
     {
-        highScoreManager.OnInsertName += BeginInsertingName;
+        highScoreManager.OnInsertName += CreatingComputer;
         playerData = gameManager.ObjectData.Read<PlayerData>("playerData");
         //InputManager.Instance.playerInputActions.Walking.Enable();
         //InputManager.Instance.playerInputActions.Walking.SetLaptop.performed += SetKeyBoardPos;
@@ -29,9 +29,14 @@ public class InsertingName : MonoBehaviour
         //SetKeyBoardPos();
         MayUpdate = false;
     }
-    private void BeginInsertingName()
+    private void CreatingComputer(Vector4 score)
     {
         SetKeyBoardPos();
+
+        if (keyBoard.TryGetComponent(out ComputerUIUpdate computerUIUpdate))
+        {
+            computerUIUpdate.UpdateHighScoreUI(score);
+        }
     }
 
     private void SetKeyBoardPos()
@@ -41,7 +46,7 @@ public class InsertingName : MonoBehaviour
         Transform orientation = playerData.playerGameObjects.orientation;
         Vector3 dir = orientation.forward;
         //Vector3 Position = new Vector3(orientation.position.x, height - 0.5f, orientation.position.z);
-        GameObject keyBoard = Instantiate(KeyBoardPrefab, orientation);
+        keyBoard = Instantiate(KeyBoardPrefab, orientation);
         keyBoard.transform.localPosition = new Vector3(0, -0.5f, 0.4f);
         float directionY = orientation.rotation.eulerAngles.y;
         Quaternion target = Quaternion.Euler(0, directionY, 0);

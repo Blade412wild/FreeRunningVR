@@ -25,7 +25,7 @@ public class TargetManager : MonoBehaviour
     private List<Target> deactiveTargetsToBeRemoved = new List<Target>();
     private List<Vector3> targetTransformValues;
     private List<List<Vector3>> targetTransform;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +35,12 @@ public class TargetManager : MonoBehaviour
         respawnManager.OnPlayerEnterdCheckPoint += UpdateDeactiveTargetList;
         //beginTargets = activeTargets;
         SetEvents();
-        RespawnTargets();   
+        RespawnTargets();
     }
 
     private void SetBeginningTargets()
     {
-        foreach(Target target in activeTargets)
+        foreach (Target target in activeTargets)
         {
             TargetTransform targetTrans = new TargetTransform(target.transform.position, target.transform.rotation);
 
@@ -52,13 +52,13 @@ public class TargetManager : MonoBehaviour
     private void RespawnTargets()
     {
         // emptying activeTargets
-        foreach(Target target in activeTargets)
+        foreach (Target target in activeTargets)
         {
             target.OnAnimtionIsDone -= RemoveTarget;
             activeTargetsToBeRemoved.Add(target);
         }
 
-        foreach(Target target in activeTargetsToBeRemoved)
+        foreach (Target target in activeTargetsToBeRemoved)
         {
             activeTargets.Remove(target);
             Destroy(target.gameObject);
@@ -165,7 +165,16 @@ public class TargetManager : MonoBehaviour
 
     public float SendAccuracy()
     {
-        float avarage = Calculations.calculateAvarage(scores);
+        float avarage;
+        if (scores.Count != 0)
+        {
+            avarage = Calculations.calculateAvarage(scores);
+        }
+        else
+        {
+            avarage = 0.0f;
+        }
+
         return avarage;
     }
 

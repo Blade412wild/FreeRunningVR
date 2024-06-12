@@ -10,8 +10,8 @@ public class HighScoreManager : MonoBehaviour
 {
     public event Action<List<PlayerDataStruct>> OnHighScoreDataIsDone;
     public event Action OnRestartLevel;
-    public event Action OnInsertName;
-    public event Action OnSeeingScore;
+    public event Action<Vector4> OnInsertName;
+    public event Action<Vector4> OnSeeingScore;
     public LevelManager levelManager;
     public bool save = false;
 
@@ -119,11 +119,11 @@ public class HighScoreManager : MonoBehaviour
 
         if (mayFillInName)
         {
-            OnInsertName?.Invoke();
+            OnInsertName?.Invoke(currentPlayerData._scrore);
         }
         else
         {
-            OnSeeingScore?.Invoke();
+            OnSeeingScore?.Invoke(currentPlayerData._scrore);
             OnRestartLevel?.Invoke();
         }
     }
