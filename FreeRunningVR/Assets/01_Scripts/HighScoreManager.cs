@@ -115,7 +115,6 @@ public class HighScoreManager : MonoBehaviour
             Debug.Log("list count : " + newHighScore.Count);
 
         }
-        mayFillInName = false;
 
         if (mayFillInName)
         {

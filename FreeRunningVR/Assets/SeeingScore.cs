@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class SeeingScore : MonoBehaviour
 {
-    public enum ComputerType {GoodEnough, NotGoodEnough };
-
-    [SerializeField] private ComputerType type;
     [SerializeField] private HighScoreManager highScoreManager;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject KeyBoardPrefab;
@@ -59,5 +56,6 @@ public class SeeingScore : MonoBehaviour
     private void DestroyComputer(Keyboard keyboard)
     {
         Destroy(keyboard.transform.parent.gameObject);
+        gameManager.PlayerStateHandler.stateMachine.SwitchState(typeof(WalkingState));
     }
 }

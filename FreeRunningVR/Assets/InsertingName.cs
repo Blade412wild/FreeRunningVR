@@ -11,6 +11,7 @@ public class InsertingName : MonoBehaviour
     [SerializeField] private GameObject KeyBoardPrefab;
     [SerializeField] private bool MayUpdate = false;
     private GameObject keyBoard;
+    private int counter = 0;
 
     private PlayerData playerData;
 
@@ -29,6 +30,7 @@ public class InsertingName : MonoBehaviour
         //SetKeyBoardPos();
         MayUpdate = false;
     }
+
     private void CreatingComputer(Vector4 score)
     {
         SetKeyBoardPos();

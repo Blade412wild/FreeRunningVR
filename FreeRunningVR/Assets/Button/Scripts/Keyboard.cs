@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Keyboard : MonoBehaviour
 {
@@ -14,14 +15,27 @@ public class Keyboard : MonoBehaviour
     public TMP_InputField inputField;
     public GameObject normalButtons;
     public GameObject capsButtons;
+    [SerializeField] private GameObject ScoreUI;
     [SerializeField] private float maxNameLenght;
     public string TypedName { get; private set; }
     private bool caps = false;
 
+    private int counter = 0;
+
     public void InstertChar(string c)
     {
-        if (inputField.text.Length >= maxNameLenght) return;
+
+        if (inputField.text.Length >= maxNameLenght && inputField != null) return;
         inputField.text += c;
+    }
+
+    public void CloseScoreUI()
+    {
+        if (counter == 0)
+        {
+            ScoreUI.SetActive(false);
+            counter++;
+        }
     }
 
     public void DeleteChar()
@@ -55,6 +69,7 @@ public class Keyboard : MonoBehaviour
 
     public void InsertName()
     {
+        if (counter == 0) return;
         TypedName = inputField.text;
         OnInsertedName?.Invoke(this);
     }

@@ -3491,7 +3491,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press space to Continue
+  m_text: Press Insert to Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -27413,6 +27413,7 @@ MonoBehaviour:
   inputField: {fileID: 8939394263063156840}
   normalButtons: {fileID: 1204512110465641743}
   capsButtons: {fileID: 6583585979350620215}
+  ScoreUI: {fileID: 0}
   maxNameLenght: 10
 --- !u!1 &5337151566026745652
 GameObject:
