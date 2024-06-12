@@ -28,7 +28,6 @@ public class GetPlayerData
        // playerData.z = targetManager.SendHitObjects();
         //playerData.w = targetManager.SendAccuracy();
         //playerData.x = CalculateScore(playerData);
-
         playerData.y = 40 + counter;
         playerData.z = 3;
         playerData.w = 99;
