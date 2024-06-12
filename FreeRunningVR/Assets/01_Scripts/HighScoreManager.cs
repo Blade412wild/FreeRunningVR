@@ -120,6 +120,12 @@ public class HighScoreManager : MonoBehaviour
                 newHighScore.Remove(newHighScore[newHighScore.Count - 1]);
             }
 
+            foreach(PlayerDataStruct playerDataStruct in newHighScore)
+            {
+                if (playerDataStruct._name != defaultPlayerName) continue;
+                mayFillInName = true; break;
+            }
+
             /////////////////////////////////////////////////////
             ///deze moet weg en ik moet niet de lijst sorteren op vector4s
             //Debug.Log("===== Sorted List =====");
