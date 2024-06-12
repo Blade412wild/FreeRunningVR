@@ -66,7 +66,9 @@ public class HighScoreManager : MonoBehaviour
     private void PlayerIsFinished()
     {
         mayFillInName = false;
+        counterPlayer++;
         currentPlayerData = GetPlayerData();
+        currentPlayerData._scrore.y += counterPlayer;
         //LevelDataStruct highScoreFile = CreateNewHighScore();
         //highScoreFile._highScores = FillInTestOldHighScores();
         //oldHighScore = highScoreFile._highScores;
@@ -100,6 +102,8 @@ public class HighScoreManager : MonoBehaviour
                 Debug.Log("player name : " + playerDataStruct._name);
             }
 
+            ////
+            /// verander dit naar een lijst van playerDataStructs, zo verlies je geen refrences en is de lijst gelijk gesorteerd
             List<Vector4> sortedList = SortScore(currentPlayerData._scrore, allScores);
 
             while (sortedList.Count > maxHighScores)
@@ -107,23 +111,26 @@ public class HighScoreManager : MonoBehaviour
                 sortedList.Remove(sortedList[sortedList.Count - 1]);
             }
 
-
+            /////////////////////////////////////////////////////
+            ///deze moet weg en ik moet niet de lijst sorteren op vector4s
             Debug.Log("===== Sorted List =====");
             foreach (Vector4 score in sortedList)
             {
+                bool isplayetAdded = false;
                 for (int i = 0; i < allScoresAndPlayer.Count; i++)
                 {
                     if (score != allScoresAndPlayer[i]._scrore) continue;
                     Debug.Log(allScoresAndPlayer[i]._name + " : " + allScoresAndPlayer[i]._scrore);
 
-                    if (i < maxHighScores)
-                    {
-                        newHighScore.Add(allScoresAndPlayer[i]);
-                    }
-
-                    if (score == currentPlayerData._scrore && i < maxHighScores)
+                    if (score == currentPlayerData._scrore && i < maxHighScores && isplayetAdded != true)
                     {
                         mayFillInName = true;
+                        isplayetAdded = true;
+                        newHighScore.Add(allScoresAndPlayer[i]);
+                    }
+                    else if(score != currentPlayerData._scrore && i < maxHighScores)
+                    {
+                        newHighScore.Add(allScoresAndPlayer[i]);
                     }
                 }
             }
