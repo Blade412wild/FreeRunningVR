@@ -39,7 +39,7 @@ public class HighScoreManager : MonoBehaviour
         Keyboard.OnInsertedName += FinalizeHighScore;
 
         getPlayerData = new GetPlayerData(highscoreRequirements, levelManager, targetManager);
-        //LoadHighScoreOnStart();
+        LoadHighScoreOnStart();
 
 
     }
